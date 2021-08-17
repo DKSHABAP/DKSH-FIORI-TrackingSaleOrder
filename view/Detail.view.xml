@@ -1,0 +1,210 @@
+<mvc:View controllerName="com.incture.cherywork.MASTERDETAILSTemplate.controller.Detail" xmlns="sap.m" xmlns:semantic="sap.f.semantic"
+	xmlns:footerbar="sap.ushell.ui.footerbar" xmlns:t="sap.suite.ui.commons" xmlns:mvc="sap.ui.core.mvc" xmlns:rich="sap.ui.richtexteditor"
+	xmlns:u="sap.ui.table" xmlns:core="sap.ui.core" xmlns:comm="sap.suite.ui.commons" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form">
+	<Page id="detailPage" showNavButton="{device>/system/phone}" navButtonPress="onNavBackMaster" enableScrolling="true" title=""
+		class="sapUiSizeCompact">
+		<!--Button for full screen-->
+		<headerContent>
+			<ToggleButton icon="sap-icon://full-screen" press="onFullscreen" tooltip="{i18n>fullScreentooltip}"
+				visible="{path:'device>/system/phone',formatter:'.formatter.basedDeviceToggeleShow'}" id="ID_BTN_FULL_SCR"/>
+		</headerContent>
+		<content>
+			<!--Header details-->
+			<Table id="ID_OBJ_HDR" fixedLayout="false" inset="false" visible="true">
+				<columns>
+					<Column minScreenWidth="Tablet" demandPopin="true" width="70%" popinDisplay="Inline"/>
+					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left" width="30%" popinDisplay="Inline"/>
+				</columns>
+				<ColumnListItem>
+					<VBox>
+						<HBox>
+							<Label design="Bold" text="{i18n>referenceNumberDetPagHdr}"/>
+							<Text text="{/SalesNo}" class="sapUiTinyMarginBegin"/>
+						</HBox>
+						<HBox>
+							<Label design="Bold" text="{i18n>custNameDetPagHdr}" tooltip="{i18n>custNameTooltipAll}"/>
+							<Text text="{parts:[{path:'/CustName'},{path:'/CustId'}],formatter:'.formatter.f4ValueBind'}" class="sapUiTinyMarginBegin"/>
+						</HBox>
+					</VBox>
+					<VBox>
+						<HBox>
+							<Label design="Bold" text="{i18n>statusDetPagHdr}"/>
+							<Text text="{path:'/Status',formatter:'.formatter.statusdforDetailPage'}" class="sapUiTinyMarginBegin"/>
+						</HBox>
+						<HBox>
+							<Label design="Bold" text="{i18n>createdOnDetPagHdr}"/>
+							<Text text="{/CreatedDateTime}" class="sapUiTinyMarginBegin"/>
+						</HBox>
+					</VBox>
+				</ColumnListItem>
+			</Table>
+			<IconTabBar id="ID_TRCA_ICON_TAB" expandable="false" expanded="true" select="handleIconTabSelect">
+				<items>
+					<!--for Tracking Details-->
+					<IconTabFilter key="TrackKey" text="{i18n>trackingDetailsIconTab}" tooltip="{i18n>trackingDetailsIconTab}">
+						<t:Timeline axisOrientation="Vertical" showFilterBar="false" id="idTimeline" enableBackendFilter="false" enableDoubleSided="false"
+							growingThreshold="0" sortOldestFirst="true" content="{StatusModelSet>/results}" enableScroll="false">
+							<t:content>
+								<t:TimelineItem visible="{StatusModelSet>VisibleField}" userNameClicked="onSelectItemTimeline"
+									userNameClickable="{StatusModelSet>Clickable}" userName="{StatusModelSet>HeadingTitle}"
+									icon="{parts:[{path:'StatusModelSet>Status'},{path:'StatusModelSet>LevelCurrent'}],formatter:'.formatter.StatusHandleIcon'}"
+									status="{StatusModelSet>ValueState}">
+									<t:embeddedControl>
+										<List showSeparators="None">
+											<items>
+												<CustomListItem>
+													<VBox>
+														<Label text="{i18n>statusDetPagHdr} {path:'StatusModelSet>Status',formatter:'.formatter.statusdforDetailPage'}" design="Bold"></Label>
+														<Text text="{StatusModelSet>Dates}"/>
+													</VBox>
+												</CustomListItem>
+											</items>
+										</List>
+									</t:embeddedControl>
+								</t:TimelineItem>
+							</t:content>
+						</t:Timeline>
+					</IconTabFilter>
+					<!--for document details-->
+					<IconTabFilter key="DocumentKey" text="{i18n>documentDetailsIconTab}" tooltip="{i18n>documentDetailsIconTab}">
+						<Table alternateRowColors="true" showSeparators="None" id="ID_TREE2" class="sapUiSizeCompact" items="{DocumListSet>/results}" inset="false"
+							fixedLayout="false">
+							<columns>
+								<Column demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline">
+									<Label text="{i18n>deliveryOrderDocTab}" design="Bold"/>
+								</Column>
+								<Column demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline">
+									<Label text="{i18n>billingDocTab}" design="Bold"/>
+								</Column>
+								<Column demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline">
+									<Label text="{i18n>shipmentDocTab}" design="Bold"/>
+								</Column>
+								<Column demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline">
+									<Label text="{i18n>PODDocTab}" tooltip="{i18n>podTooltip}" design="Bold"/>
+								</Column>
+							</columns>
+							<items>
+								<ColumnListItem>
+									<ObjectStatus text="{DocumListSet>DeliveryBoth}" visible="{path:'DocumListSet>DeliveryNoTemp',formatter:'.formatter.deleteDuplicateRowVal'}"
+										state="{DocumListSet>State}"/>
+									<ObjectStatus text="{DocumListSet>BillingDocBoth}"
+										visible="{path:'DocumListSet>BillingDocNoTemp',formatter:'.formatter.deleteDuplicateRowVal'}" state="{DocumListSet>State}"/>
+									<ObjectStatus text="{DocumListSet>ShipNoBoth}" visible="{path:'DocumListSet>ShipNoTemp',formatter:'.formatter.deleteDuplicateRowVal'}"
+										state="{DocumListSet>State}"/>
+									<!--<ObjectStatus text="{DocumListSet>PodRejCodeBoth}"-->
+									<!--	visible="{path:'DocumListSet>PodRejCodeTemp',formatter:'.formatter.deleteDuplicateRowVal'}" state="{DocumListSet>State}"/>-->
+									<ObjectStatus text="{DocumListSet>PodRejCodeBoth}" state="{DocumListSet>State}"/>
+								</ColumnListItem>
+							</items>
+						</Table>
+					</IconTabFilter>
+					<!--for order list item-->
+					<IconTabFilter key="OrderListKey" text="{i18n>orderItemsIconTab}" tooltip="{i18n>orderItemsIconTab}">
+						<OverflowToolbar>
+							<Label
+								text="{i18n>subTotalOrdList} {parts:[{path:'hdrOrdListSet>/SubTotal'},{path:'hdrOrdListSet>/Currency'}],formatter:'.formatter.addCommas'}"
+								design="Bold"></Label>
+							<ToolbarSpacer></ToolbarSpacer>
+							<ObjectStatus text="{i18n>totalItemsOrdList} {hdrOrdListSet>/TotalItms}" state="Success"></ObjectStatus>
+						</OverflowToolbar>
+						<VBox class="sapUiSizeCompact" items="{OrderListSet>/results}" id="ID_VBOX_ORD_LIST">
+							<Panel expandable="true" class="sapUiSizeCompact" expanded="{OrderListSet>Expanded}" expand="onExpand">
+								<customData>
+									<!--<core:CustomData key="blurItemLevel" value="{OrderListSet>Blur}" writeToDom="true"></core:CustomData>-->
+									<core:CustomData key="blurItemLevel" value="{OrderListSet>Blur}" writeToDom="true"></core:CustomData>
+								</customData>
+								<headerToolbar>
+									<Toolbar>
+										<Label text="{path:'OrderListSet>ItemDesc',formatter:'.formatter.sameValueReturn'}" wrapping="true"></Label>
+									</Toolbar>
+								</headerToolbar>
+								<f:SimpleForm minWidth="1024" layout="ResponsiveGridLayout" maxContainerCols="2" editable="false" labelSpanL="6" labelSpanM="6"
+									labelSpanS="4" emptySpanL="1" emptySpanM="1" emptySpanS="1" columnsL="2" columnsM="2">
+									<f:content>
+										<core:Title/>
+										<Label text="{OrderListSet>Currency}" design="Bold"/>
+										<Text text="{parts:[{path:'OrderListSet>UnitPrice'},{path:''}],formatter:'.formatter.addCommas'}"/>
+										<Label text="{i18n>SKUOrdList}" design="Bold"/>
+										<Text text="{OrderListSet>Material}"/>
+										<Label text="{i18n>UOMOrdList}" tooltip="{i18n>uomTooltip}" design="Bold"/>
+										<Text text="{OrderListSet>SalesUom}"/>
+										<Label text="{i18n>itemCategoryOrdList}" design="Bold"/>
+										<Text text="{parts:[{path:'OrderListSet>ItemCategoryDesc'},{path:'OrderListSet>ItemCategory'}],formatter:'.formatter.f4ValueBind'}"/>
+										<Label text="{i18n>reason}" design="Bold"/>
+										<Text text="{parts:[{path:'OrderListSet>RejDesc'},{path:'OrderListSet>RejCode'}],formatter:'.formatter.f4ValueBind'}"></Text>
+										<core:Title/>
+										<Label text="{i18n>grossOrdList}" design="Bold"/>
+										<Text text="{parts:[{path:'OrderListSet>SOGross'},{path:''}],formatter:'.formatter.addCommas'}"/>
+										<Label text="{i18n>discountOrdList}" design="Bold"/>
+										<Text text="{parts:[{path:'OrderListSet>Discount'},{path:''}],formatter:'.formatter.addCommas'}"/>
+										<Label text="{i18n>taxOrdList}" design="Bold"/>
+										<Text text="{parts:[{path:'OrderListSet>TaxAmount'},{path:''}],formatter:'.formatter.addCommas'}"/>
+										<Label text="{i18n>quantity}" design="Bold"/>
+										<Text text="{parts:[{path:'OrderListSet>OrderQty'},{path:''}],formatter:'.formatter.addCommas'}"
+											tooltip="{parts:[{path:'OrderListSet>OrderQty'},{path:''}],formatter:'.formatter.addCommas'}"/>
+										<Label text="{i18n>amtAfterDeduction}" design="Bold"/>
+										<Text text="{parts:[{path:'OrderListSet>SONv2'},{path:''}],formatter:'.formatter.addCommas'}"
+											tooltip="{parts:[{path:'OrderListSet>SONv2'},{path:''}],formatter:'.formatter.addCommas'}"/>
+									</f:content>
+								</f:SimpleForm>
+							</Panel>
+						</VBox>
+					</IconTabFilter>
+					<!--for summary-->
+					<IconTabFilter key="SummyListKey" text="{i18n>summaryIconTab}" tooltip="{i18n>summaryIconTab}">
+						<f:SimpleForm minWidth="1024" title="" layout="ResponsiveGridLayout" maxContainerCols="2" editable="false" labelSpanL="5" labelSpanM="5"
+							labelSpanS="4" emptySpanL="0" emptySpanM="0" columnsL="2" columnsM="2" id="ID_SIM_SUMM_ORD">
+							<f:content>
+								<core:Title/>
+								<Label text="{i18n>PONoSumm}" tooltip="{i18n>pONotooltip}" design="Bold"></Label>
+								<Text text="{/PONo}"/>
+								<Label text="{i18n>paymentTermSumm}" design="Bold"/>
+								<Text text="{parts:[{path:'/PayTermDesc'},{path:'/PayTerm'}],formatter:'.formatter.f4ValueBind'}"/>
+								<Label text="{i18n>TxnNoSumm}" tooltip="{i18n>txnNoTooltip}" design="Bold"/>
+								<Text text="{/SalesNo}"/>
+								<Label text="{i18n>totalOrderQtySumm}" tooltip="{i18n>totalOrderQtyTooltip}" design="Bold"/>
+								<Text text="{parts:[{path:'/OrderQty'},{path:'/CurrencyRmv'}],formatter:'.formatter.addCommas'}"/>
+								<Label text="{i18n>totalFOCQty}" tooltip="{i18n>totalFOCQtyTooltip}" design="Bold"/>
+								<Text text="{parts:[{path:'/TotalFOCQty'},{path:'/CurrencyRmv'}],formatter:'.formatter.addCommas'}"/>
+								<Label text="{i18n>totalAmountSumm}" design="Bold"/>
+								<Text text="{parts:[{path:'/SOGross'},{path:'/Currency'}],formatter:'.formatter.addCommas'}"/>
+								<Label text="{i18n>totalDiscountDiDoSumm}" design="Bold"/>
+								<Text text="{parts:[{path:'/TotDiscount'},{path:'/Currency'}],formatter:'.formatter.addCommas'}"/>
+								<Label text="{i18n>netAmountSumm}" design="Bold"/>
+								<Text text="{parts:[{path:'/NetAmt'},{path:'/Currency'}],formatter:'.formatter.addCommas'}"/>
+								<Label text="{i18n>taxAmountSumm}" design="Bold"/>
+								<Text text="{parts:[{path:'/TaxAmount'},{path:'/Currency'}],formatter:'.formatter.addCommas'}"/>
+								<Label text="{i18n>orderTotalSumm}" design="Bold"/>
+								<Text text="{parts:[{path:'/OrderTotal'},{path:'/Currency'}],formatter:'.formatter.addCommas'}"/>
+								<core:Title/>
+								<Label text="{i18n>remarksSumm}" design="Bold">
+									<layoutData>
+										<l:GridData span="L5 M5 S12"/>
+									</layoutData>
+								</Label>
+								<TextArea value="" editable="false"></TextArea>
+								<Label text="{i18n>shipingInstructionSumm}" design="Bold">
+									<layoutData>
+										<l:GridData span="L5 M5 S12"/>
+									</layoutData>
+								</Label>
+								<TextArea value="" editable="false" rows="4"/>
+								<Label text="{i18n>deliveryAddressSumm}" design="Bold">
+									<layoutData>
+										<l:GridData span="L5 M5 S12"/>
+									</layoutData>
+								</Label>
+								<TextArea value="{/DelAddress}" tooltip="{/DelAddress}" editable="false" rows="4"/>
+							</f:content>
+						</f:SimpleForm>
+					</IconTabFilter>
+				</items>
+			</IconTabBar>
+		</content>
+		<footer>
+			<Toolbar id="ID_FOOTER_DET">
+				<ToolbarSpacer/>
+			</Toolbar>
+		</footer>
+	</Page>
+</mvc:View>
