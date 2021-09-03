@@ -1,6 +1,8 @@
-<mvc:View controllerName="com.incture.cherywork.MASTERDETAILSTemplate.controller.Detail" xmlns="sap.m" xmlns:semantic="sap.f.semantic"
-	xmlns:footerbar="sap.ushell.ui.footerbar" xmlns:t="sap.suite.ui.commons" xmlns:mvc="sap.ui.core.mvc" xmlns:rich="sap.ui.richtexteditor"
-	xmlns:u="sap.ui.table" xmlns:core="sap.ui.core" xmlns:comm="sap.suite.ui.commons" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form">
+<mvc:View controllerName="dksh.connectclient.tracksaleorder.controller.Detail" xmlns="sap.m"
+	xmlns:semantic="sap.f.semantic" xmlns:footerbar="sap.ushell.ui.footerbar" xmlns:t="sap.suite.ui.commons" xmlns:mvc="sap.ui.core.mvc"
+	xmlns:rich="sap.ui.richtexteditor" xmlns:u="sap.ui.table" xmlns:core="sap.ui.core" xmlns:comm="sap.suite.ui.commons" xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form">
+	<!--<html:iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WG969CM" height="0" width="0" style="display:none; visibility:hidden"></html:iframe>-->
 	<Page id="detailPage" showNavButton="{device>/system/phone}" navButtonPress="onNavBackMaster" enableScrolling="true" title=""
 		class="sapUiSizeCompact">
 		<!--Button for full screen-->

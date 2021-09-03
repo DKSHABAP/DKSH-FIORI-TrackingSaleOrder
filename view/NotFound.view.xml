@@ -1,5 +1,5 @@
 <mvc:View
-	controllerName="com.incture.cherywork.MASTERDETAILSTemplate.controller.NotFound"
+	controllerName="dksh.connectclient.tracksaleorder.controller.NotFound"
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc">
 

@@ -1,5 +1,6 @@
-<mvc:View controllerName="com.incture.cherywork.MASTERDETAILSTemplate.controller.Master" xmlns="sap.m" xmlns:semantic="sap.f.semantic"
-	xmlns:mvc="sap.ui.core.mvc" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:footerbar="sap.ushell.ui.footerbar">
+<mvc:View controllerName="dksh.connectclient.tracksaleorder.controller.Master" xmlns="sap.m" xmlns:semantic="sap.f.semantic"
+	xmlns:mvc="sap.ui.core.mvc" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:footerbar="sap.ushell.ui.footerbar" xmlns:html="http://www.w3.org/1999/xhtml">
+	<html:iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WG969CM" height="0" width="0" style="display:none; visibility:hidden"></html:iframe>
 	<Page id="ID_MAST_PAGE" class="sapUiSizeCompact" showNavButton="true" navButtonPress="handleBack" title="">
 		<subHeader>
 			<Bar>

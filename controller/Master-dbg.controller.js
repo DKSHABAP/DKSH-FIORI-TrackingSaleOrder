@@ -7,13 +7,15 @@ sap.ui.define([
 	"sap/ui/model/FilterOperator",
 	"sap/m/GroupHeaderListItem",
 	"sap/ui/Device",
+	"sap/m/MessageToast",
 	"sap/ui/core/Fragment",
 	"../model/formatter",
 	"sap/ui/core/format/DateFormat"
-], function (BaseController, JSONModel, History, Filter, Sorter, FilterOperator, GroupHeaderListItem, Device, Fragment, formatter,
+], function (BaseController, JSONModel, History, Filter, Sorter, FilterOperator, GroupHeaderListItem, Device, MessageToast, Fragment,
+	formatter,
 	DateFormat) {
 	"use strict";
-	return BaseController.extend("com.incture.cherywork.MASTERDETAILSTemplate.controller.Master", {
+	return BaseController.extend("dksh.connectclient.tracksaleorder.controller.Master", {
 		formatter: formatter,
 		onInit: function () {
 			this.getRouter().getRoute("master").attachPatternMatched(this._onObjectMatched, this);
@@ -46,46 +48,83 @@ sap.ui.define([
 			var that = this;
 			this.getView().byId("ID_SERCH_FLD").setValue("");
 			var busyDialog = new sap.m.BusyDialog();
-			busyDialog.open();
+			// busyDialog.open();
 			//read user with details
 			var oUserDetailModel = new sap.ui.model.json.JSONModel();
 			oUserDetailModel.loadData("/userapi/attributes", null, true);
 			oUserDetailModel.attachRequestCompleted(function (oEvent) {
 				var logUser = oEvent.getSource().getData().userId;
 				//	var logUser = "P000024";
-				var sUrl = "/IDPService/service/scim/Users/" + logUser;
+				// var sUrl = "/IDPService/service/scim/Users/" + logUser;
+				// var oModel = new sap.ui.model.json.JSONModel();
+				// oModel.loadData(sUrl, true, "GET", false, false);
+				// oModel.attachRequestCompleted(function (data) {
+
 				var oModel = new sap.ui.model.json.JSONModel();
-				oModel.loadData(sUrl, true, "GET", false, false);
+				that.getView().setModel(oModel, "oModel");
+				var busyDialog = new sap.m.BusyDialog();
+				busyDialog.open();
+				oModel.loadData("/DKSHJavaService/userDetails/findAllRightsForUserInDomain/" + logUser + "&cc", null, true);
 				oModel.attachRequestCompleted(function (data) {
+
 					if (oEvent.getParameter("success")) {
-						var custAttribute = data.getSource().getData()["urn:sap:cloud:scim:schemas:extension:custom:2.0:User"];
+						var custAttribute = data.getSource().getData();
 
-						if (custAttribute !== undefined) {
-							//for all maintain or not
-							if (custAttribute.attributes[0] === undefined || custAttribute.attributes[1] === undefined || custAttribute.attributes[2] ===
-								undefined || custAttribute.attributes[3] === undefined || custAttribute.attributes[4] === undefined || custAttribute.attributes[
-									5] === undefined) {
+						if (custAttribute) {
+							if (custAttribute.message) {
+								that.allAccess = false;
 
-								// that.errorMsg(that.i18nModel.getProperty("authorizationNotMainatainForThisUser"));
-								// that.handleBack();
-								// return;
+								if (custAttribute.ATR01 !== null) {
+									var salesOrg = custAttribute.ATR01;
+								}
+								if (custAttribute.ATR02 !== null) {
+									var distrChannel = custAttribute.ATR02;
+								}
+								if (custAttribute.ATR03 !== null) {
+									var division = custAttribute.ATR03;
+								}
+								if (custAttribute.ATR04 !== null) {
+									var matGrp = custAttribute.ATR04;
+								}
+								if (custAttribute.ATR05 !== null) {
+									var matGrp4 = custAttribute.ATR05;
+								}
+								if (custAttribute.ATR06 !== null) {
+									var custCode = custAttribute.ATR06;
+								}
+								if (custAttribute.ATR07 !== null) {
+									var material = custAttribute.ATR07;
+								}
+								if (ind || that.allAccess === false) {
+									MessageToast.show(that.i18nModel.getProperty("NoDataAccess"));
+
+								}
+								return;
 							} else {
-								for (var i = 0; i < custAttribute.attributes.length; i++) {
-									if (custAttribute.attributes[i].name === "customAttribute1") {
-										var salesOrg = custAttribute.attributes[i].value;
-									} else if (custAttribute.attributes[i].name === "customAttribute2") {
-										var distrChannel = custAttribute.attributes[i].value;
-									} else if (custAttribute.attributes[i].name === "customAttribute3") {
-										var division = custAttribute.attributes[i].value;
-									} else if (custAttribute.attributes[i].name === "customAttribute4") {
-										var matGrp = custAttribute.attributes[i].value;
-									} else if (custAttribute.attributes[i].name === "customAttribute5") {
-										var matGrp4 = custAttribute.attributes[i].value;
-									} else if (custAttribute.attributes[i].name === "customAttribute6") {
-										var custCode = custAttribute.attributes[i].value;
-									}
+								if (custAttribute.ATR01 !== null) {
+									var salesOrg = custAttribute.ATR01;
+								}
+								if (custAttribute.ATR02 !== null) {
+									var distrChannel = custAttribute.ATR02;
+								}
+								if (custAttribute.ATR03 !== null) {
+									var division = custAttribute.ATR03;
+								}
+								if (custAttribute.ATR04 !== null) {
+									var matGrp = custAttribute.ATR04;
+								}
+								if (custAttribute.ATR05 !== null) {
+									var matGrp4 = custAttribute.ATR05;
+								}
+								if (custAttribute.ATR06 !== null) {
+									var custCode = custAttribute.ATR06;
+								}
+								if (custAttribute.ATR07 !== null) {
+									var material = custAttribute.ATR07;
 								}
 							}
+							// }
+							// }
 							// var matGrp4 = custAttribute.attributes[5].value;
 							// var matGrp = custAttribute.attributes[4].value;
 							// var salesOrg = custAttribute.attributes[0].value;
@@ -97,9 +136,10 @@ sap.ui.define([
 							that.ItemLevelAuthoCheck = [];
 							that.ItemLevelAuthoCheck.push(matGrp);
 							that.ItemLevelAuthoCheck.push(matGrp4);
+							that.ItemLevelAuthoCheck.push(material);
 
 							//for Customer 
-							if (custCode.trim() !== "" && custCode.trim() !== "*" && custCode !== undefined) {
+							if (custCode !== undefined && custCode.trim() !== "" && custCode.trim() !== "*") {
 								if (filterData !== "") {
 									filterData = filterData + " and CustCodeAttribute eq '" + custCode + "'";
 
@@ -109,7 +149,7 @@ sap.ui.define([
 							}
 
 							//for Sales Organization
-							if (salesOrg.trim() !== "" && salesOrg.trim() !== "*" && salesOrg !== undefined) {
+							if (salesOrg !== undefined && salesOrg.trim() !== "" && salesOrg.trim() !== "*") {
 								if (filterData !== "") {
 									filterData = filterData + " and SalesOrgAttribute eq '" + salesOrg + "'";
 
@@ -119,7 +159,7 @@ sap.ui.define([
 							}
 
 							//for Distribution Channel
-							if (distrChannel.trim() !== "" && distrChannel.trim() !== "*" && distrChannel !== undefined) {
+							if (distrChannel !== undefined && distrChannel.trim() !== "" && distrChannel.trim() !== "*") {
 								if (filterData !== "") {
 									filterData = filterData + " and DistChanlAttribute eq '" + distrChannel + "'";
 
@@ -129,7 +169,7 @@ sap.ui.define([
 							}
 
 							//for division
-							if (division.trim() !== "" && division.trim() !== "*" && division !== undefined) {
+							if (division !== undefined && division.trim() !== "" && division.trim() !== "*") {
 								if (filterData !== "") {
 									filterData = filterData + " and DivisionAttribution eq '" + division + "'";
 
@@ -139,7 +179,7 @@ sap.ui.define([
 							}
 
 							//for materialGrp
-							if (matGrp.trim() !== "" && matGrp.trim() !== "*" && matGrp !== undefined) {
+							if (matGrp !== undefined && matGrp.trim() !== "" && matGrp.trim() !== "*") {
 								if (filterData !== "") {
 									filterData = filterData + " and MaterialGrp eq '" + matGrp + "'";
 
@@ -148,8 +188,18 @@ sap.ui.define([
 								}
 							}
 
+							//for material
+							if (material !== undefined && material.trim() !== "" && material.trim() !== "*") {
+								if (filterData !== "") {
+									filterData = filterData + " and MatCodeAttribute eq '" + material + "'";
+
+								} else {
+									filterData = "MatCodeAttribute eq '" + material + "'";
+								}
+							}
+
 							//for materialGrp4
-							if (matGrp4.trim() !== "" && matGrp4.trim() !== "*" && matGrp4 !== undefined) {
+							if (matGrp4 !== undefined && matGrp4.trim() !== "" && matGrp4.trim() !== "*") {
 								if (filterData !== "") {
 									filterData = filterData + " and MaterialGrp4 eq '" + matGrp4 + "'";
 
@@ -218,24 +268,20 @@ sap.ui.define([
 
 						} else {
 							busyDialog.close();
-							// that.errorMsg(that.i18nModel.getProperty("authorizationNotMainatainForThisUser"));
-							// that.handleBack();
 						}
 					} else {
-						busyDialog.close();
-						that.errorMsg(that.i18nModel.getProperty("errorInRetrievingAllUsersDetails"));
-						that.handleBack();
+						MessageToast.show(that.i18nModel.getProperty("NoDataAccess"));
 					}
 				});
 				oModel.attachRequestFailed(function (error) {
 					busyDialog.close();
-					that.errorMsg(that.i18nModel.getProperty("errorInRetrievingAllUsersDetails"));
-					that.handleBack();
+					// that.errorMsg(that.i18nModel.getProperty("errorInRetrievingAllUsersDetails"));
+					// that.handleBack();
 				});
 
 			});
 			oUserDetailModel.attachRequestFailed(function (oEvent) {
-				busyDialog.close();
+				// busyDialog.close();
 				sap.m.MessageBox.error(oEvent.getSource().getData().message);
 			});
 		},
@@ -262,6 +308,7 @@ sap.ui.define([
 			ReqNo = parseInt(ReqNo);
 			selectedObj["MaterialGrp"] = this.ItemLevelAuthoCheck[0];
 			selectedObj["MaterialGrp4"] = this.ItemLevelAuthoCheck[1];
+			selectedObj["MatCodeAttribute"] = this.ItemLevelAuthoCheck[2];
 			sap.ui.getCore().setModel(selectedObj, "MasterModelSelData");
 			ReqNo = ReqNo + "@" + selectedObj.SalesNo;
 			var router = sap.ui.core.UIComponent.getRouterFor(this);
@@ -278,6 +325,7 @@ sap.ui.define([
 			ReqNo = parseInt(ReqNo);
 			selectedObj["MaterialGrp"] = this.ItemLevelAuthoCheck[0];
 			selectedObj["MaterialGrp4"] = this.ItemLevelAuthoCheck[1];
+			selectedObj["MatCodeAttribute"] = this.ItemLevelAuthoCheck[2];
 			sap.ui.getCore().setModel(selectedObj, "MasterModelSelData");
 			ReqNo = ReqNo + "@" + selectedObj.SalesNo;
 			var router = sap.ui.core.UIComponent.getRouterFor(this);
@@ -352,6 +400,7 @@ sap.ui.define([
 					reqNo = parseInt(reqNo);
 					selectedObj["MaterialGrp"] = this.ItemLevelAuthoCheck[0];
 					selectedObj["MaterialGrp4"] = this.ItemLevelAuthoCheck[1];
+					selectedObj["MatCodeAttribute"] = this.ItemLevelAuthoCheck[2];
 					sap.ui.getCore().setModel(selectedObj, "MasterModelSelData");
 					reqNo = reqNo + "@" + selectedObj.SalesNo;
 					var router1 = sap.ui.core.UIComponent.getRouterFor(this);
@@ -367,7 +416,7 @@ sap.ui.define([
 			var that = this;
 			var dataTemp = "";
 			if (!this.searchMasterFrag) {
-				this.searchMasterFrag = sap.ui.xmlfragment("com.incture.cherywork.MASTERDETAILSTemplate.Fragments.SearchMaster", that);
+				this.searchMasterFrag = sap.ui.xmlfragment("dksh.connectclient.tracksaleorder.Fragments.SearchMaster", that);
 				this.getView().addDependent(this.searchMasterFrag);
 				var objeFilter = {
 					SalesOrder: "",

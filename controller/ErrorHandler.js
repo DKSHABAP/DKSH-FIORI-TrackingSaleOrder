@@ -4,14 +4,14 @@ sap.ui.define([
 ], function (UI5Object, MessageBox) {
 	"use strict";
 
-	return UI5Object.extend("com.incture.cherywork.MASTERDETAILSTemplate.controller.ErrorHandler", {
+	return UI5Object.extend("dksh.connectclient.tracksaleorder.controller.ErrorHandler", {
 
 		/**
 		 * Handles application errors by automatically attaching to the model events and displaying errors when needed.
 		 * @class
 		 * @param {sap.ui.core.UIComponent} oComponent reference to the app's component
 		 * @public
-		 * @alias com.incture.cherywork.MASTERDETAILSTemplate.controller.ErrorHandler
+		 * @alias dksh.connectclient.tracksaleorder.controller.ErrorHandler
 		 */
 		constructor : function (oComponent) {
 			this._oResourceBundle = oComponent.getModel("i18n").getResourceBundle();
