@@ -4,7 +4,7 @@ sap.ui.define([
 ], function (BaseController, JSONModel) {
 	"use strict";
 
-	return BaseController.extend("com.incture.cherywork.MASTERDETAILSTemplate.controller.App", {
+	return BaseController.extend("dksh.connectclient.tracksaleorder.controller.App", {
 
 		onInit : function () {
 			var oViewModel,

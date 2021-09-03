@@ -1,5 +1,5 @@
 <mvc:View
-	controllerName="com.incture.cherywork.MASTERDETAILSTemplate.controller.App"
+	controllerName="dksh.connectclient.tracksaleorder.controller.App"
 	displayBlock="true"
 	height="100%"
 	xmlns="sap.m"

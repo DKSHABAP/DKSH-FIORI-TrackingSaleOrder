@@ -74,7 +74,69 @@ sap.ui.define([], function () {
 		// 		return "";
 		// 	}
 		// },
-
+		// [+] Start - STRY0012250: Add ETA Status
+		/*		loadTMSService: function (url, method, soapRequest, sRegionId, OrderNo) {*/
+		loadTMSService: function (url, method, sRegionId, OrderNo) {
+			var soapRequest =
+				"<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:tran=\"http://www.roadnet.com/RTS/TransportationSuite/TransportationWebService\">" +
+				"<soapenv:Header/> \n" +
+				"<soapenv:Body> \n" +
+				"<tran:RetrieveStopsByCriteria> \n" +
+				"<!--Optional:-->\n" +
+				"<tran:criteria> \n" +
+				"<!--Optional:-->\n" +
+				"<tran:regionID>" + sRegionId + "</tran:regionID>\n" +
+				"<tran:orderNumber>" + OrderNo + "</tran:orderNumber>\n" +
+				"</tran:criteria> \n" +
+				"<!--Optional:-->\n" +
+				"<tran:options> \n" +
+				"<tran:timeZoneOptions> \n" +
+				"<tran:embeddedInTimestamp>true</tran:embeddedInTimestamp> \n" +
+				"<tran:optionType>tzoLocalTimeZone</tran:optionType> \n" +
+				"<tran:timeZone>tmzNone</tran:timeZone> \n" +
+				"</tran:timeZoneOptions> \n" +
+				"</tran:options> \n" +
+				"</tran:RetrieveStopsByCriteria> \n" +
+				"</soapenv:Body>\n" +
+				"</soapenv:Envelope>";
+			return $.ajax({
+				url: url,
+				type: method,
+				data: soapRequest,
+				dataType: "xml",
+				async: true,
+				contentType: "text/xml; charset=\"utf-8\""
+			});
+		},
+		xmlToJson: function (sXml) {
+			function parse(node, j) {
+				var nodeName = node.nodeName.replace(/^.+:/, '').toLowerCase();
+				var cur = null;
+				var text = $(node).contents().filter(function (x) {
+					return this.nodeType === 3;
+				});
+				if (text[0] && text[0].nodeValue.trim()) {
+					cur = text[0].nodeValue;
+				} else {
+					cur = {};
+					$.each(node.attributes, function () {
+						if (this.name.indexOf('xmlns:') !== 0) {
+							cur[this.name.replace(/^.+:/, '')] = this.value;
+						}
+					});
+					$.each(node.children, function () {
+						parse(this, cur);
+					});
+				}
+				j[nodeName] = cur;
+			}
+			var roots = $(sXml);
+			var root = roots[roots.length - 1];
+			var json = {};
+			parse(root, json);
+			return json;
+		},
+		// [+] End - STRY0012250: Add ETA Status
 		setBlur: function () {},
 
 		//status handle Master List
@@ -206,15 +268,15 @@ sap.ui.define([], function () {
 							.getDateInstance({
 								pattern: "dd.MM.yyyy  HH:mm:ss"
 							});
-					if((date.trim().substr(4, 2) - 1).toString().length === 1 && date.trim().substr(4, 2) < 9){
-						var month = "0"+(date.trim().substr(4, 2)).toString();
-					}
-					else{
-						var month = (date.trim().substr(4, 2)).toString();
-					}
-						var date = date.trim().substr(0, 4)+"-"+(date.trim().substr(4, 2)).toString()+"-"+date.trim().substr(6, 2)+"T"+time.trim().substr(
-							0,
-							2)+":"+ time.trim().substr(2, 2)+":"+time.trim().substr(4, 2)+".00+08:00";
+						if ((date.trim().substr(4, 2) - 1).toString().length === 1 && date.trim().substr(4, 2) < 9) {
+							var month = "0" + (date.trim().substr(4, 2)).toString();
+						} else {
+							var month = (date.trim().substr(4, 2)).toString();
+						}
+						var date = date.trim().substr(0, 4) + "-" + (date.trim().substr(4, 2)).toString() + "-" + date.trim().substr(6, 2) + "T" + time.trim()
+							.substr(
+								0,
+								2) + ":" + time.trim().substr(2, 2) + ":" + time.trim().substr(4, 2) + ".00+08:00";
 						var oDate1 = new Date(date);
 						// oDate1.setHours(oDate1.getHours() + 8);
 						return oDateFormat.format(oDate1);

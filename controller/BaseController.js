@@ -4,7 +4,7 @@ sap.ui.define([
 ], function (Controller, History) {
 	"use strict";
 
-	return Controller.extend("com.incture.cherywork.MASTERDETAILSTemplate.controller.BaseController", {
+	return Controller.extend("dksh.connectclient.tracksaleorder.controller.BaseController", {
 		/**
 		 * Convenience method for accessing the router in every controller of the application.
 		 * @public

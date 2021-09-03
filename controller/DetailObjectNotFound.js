@@ -3,5 +3,5 @@ sap.ui.define([
 ], function (BaseController) {
 	"use strict";
 
-	return BaseController.extend("com.incture.cherywork.MASTERDETAILSTemplate.controller.DetailObjectNotFound", {});
+	return BaseController.extend("dksh.connectclient.tracksaleorder.controller.DetailObjectNotFound", {});
 });

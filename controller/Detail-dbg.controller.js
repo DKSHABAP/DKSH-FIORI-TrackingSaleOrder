@@ -6,7 +6,7 @@ sap.ui.define([
 	"sap/ui/core/format/DateFormat"
 ], function (BaseController, JSONModel, formatter, mobileLibrary, DateFormat) {
 	"use strict";
-	return BaseController.extend("com.incture.cherywork.MASTERDETAILSTemplate.controller.Detail", {
+	return BaseController.extend("dksh.connectclient.tracksaleorder.controller.Detail", {
 
 		formatter: formatter,
 		//on init
@@ -49,6 +49,10 @@ sap.ui.define([
 			if (masterModel.MaterialGrp4.trim() !== "*" && masterModel.MaterialGrp4.trim() !== "") {
 				url = url + " and MaterialGrp4 eq '" + masterModel.MaterialGrp4 + "'";
 			}
+			if (masterModel.MatCodeAttribute.trim() !== "*" && masterModel.MatCodeAttribute.trim() !== "") {
+				url = url + " and MatCodeAttribute eq '" + masterModel.MatCodeAttribute + "'";
+			}
+			// selectedObj["MatCodeAttribute"] = this.ItemLevelAuthoCheck[2];
 			url = url + "&$expand=NAV_MASTTOHEADER,NAV_MASTTOITEM";
 
 			var that = this;
@@ -152,7 +156,7 @@ sap.ui.define([
 								DocList[h].DeliveryNoTemp = DocList[h].DeliveryNo;
 								DocList[h].BillingDocNoTemp = DocList[h].BillingDocNo;
 								DocList[h].ShipNoTemp = DocList[h].ShipNo;
-								DocList[h].PodRejCodeTemp = DocList[h].PodRejCode
+								DocList[h].PodRejCodeTemp = DocList[h].PodRejCode;
 								arrAfterRemoveDup.push(DocList[h]);
 							} else {
 								DocList[h].DeliveryNoTemp = "";
@@ -438,6 +442,11 @@ sap.ui.define([
 				"CustomerRejectTime": ""
 			}];
 
+			// [+] Start - STRY0012250: Add ETA Status
+			this.oDataTMSService = [];
+			this.initFinalOrderingDil = "";
+			this.etaDate = "";
+			// [+] End - STRY0012250: Add ETA Status
 			if (OData.NAV_MASTTOITEM.results !== undefined) {
 
 				for (var i = 0; i < OData.NAV_MASTTOITEM.results.length; i++) {
@@ -455,7 +464,7 @@ sap.ui.define([
 							if (maxVal !== finalValueArr[0].SDBlockDate) {
 								finalValueArr[0].SDBlockDate = parseInt(OData.NAV_MASTTOITEM.results[i].ShedLineDelBDate);
 								finalValueArr[0].SDBlockTime = parseInt(OData.NAV_MASTTOITEM.results[i].ShedLinedelReDate);
-							} else if( maxVal === parseInt(OData.NAV_MASTTOITEM.results[i].ShedLineDelBDate)){
+							} else if (maxVal === parseInt(OData.NAV_MASTTOITEM.results[i].ShedLineDelBDate)) {
 								var maxTime = Math.max(finalValueArr[0].SDBlockTime, parseInt(OData.NAV_MASTTOITEM.results[i].ShedLinedelReDate));
 								if (maxTime !== finalValueArr[0].SDBlockTime) {
 									finalValueArr[0].SDBlockTime = parseInt(OData.NAV_MASTTOITEM.results[i].ShedLinedelReDate);
@@ -478,16 +487,19 @@ sap.ui.define([
 					if (OData.NAV_MASTTOITEM.results[i].ShedLinedelRelDate !== "") {
 						if (finalValueArr[0].SDReleaseDate === "") {
 							finalValueArr[0].SDReleaseDate = parseInt(OData.NAV_MASTTOITEM.results[i].ShedLinedelRelDate);
-							finalValueArr[0].SDReleaseTime = parseInt(OData.NAV_MASTTOITEM.results[i].ShedLineRelTime);
+							finalValueArr[0].SDReleaseTime = OData.NAV_MASTTOITEM.results[i].ShedLineRelTime;
+							//parseInt(OData.NAV_MASTTOITEM.results[i].ShedLineRelTime);
 						} else {
 							var maxVal = Math.max(finalValueArr[0].SDReleaseDate, parseInt(OData.NAV_MASTTOITEM.results[i].ShedLinedelRelDate));
 							if (maxVal !== finalValueArr[0].SDReleaseDate) {
 								finalValueArr[0].SDReleaseDate = parseInt(OData.NAV_MASTTOITEM.results[i].ShedLinedelRelDate);
-								finalValueArr[0].SDReleaseTime = parseInt(OData.NAV_MASTTOITEM.results[i].ShedLineRelTime);
-							} else if(maxVal === parseInt(OData.NAV_MASTTOITEM.results[i].ShedLinedelRelDate)){
+								finalValueArr[0].SDReleaseTime = OData.NAV_MASTTOITEM.results[i].ShedLineRelTime;
+								//parseInt(OData.NAV_MASTTOITEM.results[i].ShedLineRelTime);
+							} else if (maxVal === parseInt(OData.NAV_MASTTOITEM.results[i].ShedLinedelRelDate)) {
 								var maxTime = Math.max(finalValueArr[0].SDReleaseTime, parseInt(OData.NAV_MASTTOITEM.results[i].ShedLineRelTime));
 								if (maxTime !== finalValueArr[0].SDReleaseTime) {
-									finalValueArr[0].SDReleaseTime = parseInt(OData.NAV_MASTTOITEM.results[i].ShedLineRelTime);
+									finalValueArr[0].SDReleaseTime = OData.NAV_MASTTOITEM.results[i].ShedLineRelTime;
+									//parseInt(OData.NAV_MASTTOITEM.results[i].ShedLineRelTime);
 								}
 							}
 						}
@@ -505,17 +517,19 @@ sap.ui.define([
 					if (OData.NAV_MASTTOITEM.results[i].DoDate !== "") {
 						if (finalValueArr[0].DODate === "") {
 							finalValueArr[0].DODate = parseInt(OData.NAV_MASTTOITEM.results[i].DoDate);
-							finalValueArr[0].DOTime = parseInt(OData.NAV_MASTTOITEM.results[i].DoTime);
-
+							finalValueArr[0].DOTime = OData.NAV_MASTTOITEM.results[i].DoTime;
+							//parseInt(OData.NAV_MASTTOITEM.results[i].DoTime);
 						} else {
 							var maxVal = Math.max(finalValueArr[0].DODate, parseInt(OData.NAV_MASTTOITEM.results[i].DoDate));
 							if (maxVal !== finalValueArr[0].DODate) {
 								finalValueArr[0].DODate = parseInt(OData.NAV_MASTTOITEM.results[i].DoDate);
-								finalValueArr[0].DOTime = parseInt(OData.NAV_MASTTOITEM.results[i].DoTime);
-							} else if(maxVal === parseInt(OData.NAV_MASTTOITEM.results[i].DoDate)){
+								finalValueArr[0].DOTime = OData.NAV_MASTTOITEM.results[i].DoTime;
+								//parseInt(OData.NAV_MASTTOITEM.results[i].DoTime);
+							} else if (maxVal === parseInt(OData.NAV_MASTTOITEM.results[i].DoDate)) {
 								var maxTime = Math.max(finalValueArr[0].DOTime, parseInt(OData.NAV_MASTTOITEM.results[i].DoTime));
 								if (maxTime !== finalValueArr[0].DOTime) {
-									finalValueArr[0].DOTime = parseInt(OData.NAV_MASTTOITEM.results[i].DoTime);
+									finalValueArr[0].DOTime = OData.NAV_MASTTOITEM.results[i].DoTime;
+									//parseInt(OData.NAV_MASTTOITEM.results[i].DoTime);
 								}
 							}
 						}
@@ -533,16 +547,19 @@ sap.ui.define([
 					if (OData.NAV_MASTTOITEM.results[i].PgiDate !== "") {
 						if (finalValueArr[0].PGIDate === "") {
 							finalValueArr[0].PGIDate = parseInt(OData.NAV_MASTTOITEM.results[i].PgiDate);
-							finalValueArr[0].PGITime = parseInt(OData.NAV_MASTTOITEM.results[i].PgiTime);
+							finalValueArr[0].PGITime = OData.NAV_MASTTOITEM.results[i].PgiTime;
+							//parseInt(OData.NAV_MASTTOITEM.results[i].PgiTime);
 						} else {
 							var maxVal = Math.max(finalValueArr[0].PGIDate, parseInt(OData.NAV_MASTTOITEM.results[i].PgiDate));
 							if (maxVal !== finalValueArr[0].PGIDate) {
 								finalValueArr[0].PGIDate = parseInt(OData.NAV_MASTTOITEM.results[i].PgiDate);
-								finalValueArr[0].PGITime = parseInt(OData.NAV_MASTTOITEM.results[i].PgiTime);
-							} else if(maxVal === parseInt(OData.NAV_MASTTOITEM.results[i].PgiDate)){
+								finalValueArr[0].PGITime = OData.NAV_MASTTOITEM.results[i].PgiTime;
+								//parseInt(OData.NAV_MASTTOITEM.results[i].PgiTime);
+							} else if (maxVal === parseInt(OData.NAV_MASTTOITEM.results[i].PgiDate)) {
 								var maxTime = Math.max(finalValueArr[0].PGITime, parseInt(OData.NAV_MASTTOITEM.results[i].PgiTime));
 								if (maxTime !== finalValueArr[0].PGITime) {
-									finalValueArr[0].PGITime = parseInt(OData.NAV_MASTTOITEM.results[i].PgiTime);
+									finalValueArr[0].PGITime = OData.NAV_MASTTOITEM.results[i].PgiTime;
+									//parseInt(OData.NAV_MASTTOITEM.results[i].PgiTime);
 								}
 							}
 						}
@@ -564,17 +581,19 @@ sap.ui.define([
 					if (OData.NAV_MASTTOITEM.results[i].InvCreDate !== "") {
 						if (finalValueArr[0].InvoiceDate === "") {
 							finalValueArr[0].InvoiceDate = parseInt(OData.NAV_MASTTOITEM.results[i].InvCreDate);
-							finalValueArr[0].InvoiceTime = parseInt(OData.NAV_MASTTOITEM.results[i].InvCreTime);
-
+							finalValueArr[0].InvoiceTime = OData.NAV_MASTTOITEM.results[i].InvCreTime;
+							//parseInt(OData.NAV_MASTTOITEM.results[i].InvCreTime);
 						} else {
 							var maxVal = Math.max(finalValueArr[0].InvoiceDate, parseInt(OData.NAV_MASTTOITEM.results[i].InvCreDate));
 							if (maxVal !== finalValueArr[0].InvoiceDate) {
 								finalValueArr[0].InvoiceDate = parseInt(OData.NAV_MASTTOITEM.results[i].InvCreDate);
-								finalValueArr[0].InvoiceTime = parseInt(OData.NAV_MASTTOITEM.results[i].InvCreTime);
-							} else if(maxVal === parseInt(OData.NAV_MASTTOITEM.results[i].InvCreDate)){
+								finalValueArr[0].InvoiceTime = OData.NAV_MASTTOITEM.results[i].InvCreTime;
+								//parseInt(OData.NAV_MASTTOITEM.results[i].InvCreTime);
+							} else if (maxVal === parseInt(OData.NAV_MASTTOITEM.results[i].InvCreDate)) {
 								var maxTime = Math.max(finalValueArr[0].InvoiceTime, parseInt(OData.NAV_MASTTOITEM.results[i].InvCreTime));
 								if (maxTime !== finalValueArr[0].InvoiceTime) {
-									finalValueArr[0].InvoiceTime = parseInt(OData.NAV_MASTTOITEM.results[i].InvCreTime);
+									finalValueArr[0].InvoiceTime = OData.NAV_MASTTOITEM.results[i].InvCreTime;
+									//parseInt(OData.NAV_MASTTOITEM.results[i].InvCreTime);
 								}
 							}
 						}
@@ -600,16 +619,19 @@ sap.ui.define([
 					if (OData.NAV_MASTTOITEM.results[i].PackDate !== "") {
 						if (finalValueArr[0].DispatchDate === "") {
 							finalValueArr[0].DispatchDate = parseInt(OData.NAV_MASTTOITEM.results[i].PackDate);
-							finalValueArr[0].DispatchTime = parseInt(OData.NAV_MASTTOITEM.results[i].PackTime);
+							finalValueArr[0].DispatchTime = OData.NAV_MASTTOITEM.results[i].PackTime;
+							//parseInt(OData.NAV_MASTTOITEM.results[i].PackTime);
 						} else {
 							var maxVal = Math.max(finalValueArr[0].DispatchDate, parseInt(OData.NAV_MASTTOITEM.results[i].PackDate));
 							if (maxVal !== finalValueArr[0].DispatchDate) {
 								finalValueArr[0].DispatchDate = parseInt(OData.NAV_MASTTOITEM.results[i].PackDate);
-								finalValueArr[0].DispatchTime = parseInt(OData.NAV_MASTTOITEM.results[i].PackTime);
-							} else if(maxVal === parseInt(OData.NAV_MASTTOITEM.results[i].PackDate)){
+								finalValueArr[0].DispatchTime = OData.NAV_MASTTOITEM.results[i].PackTime;
+								//parseInt(OData.NAV_MASTTOITEM.results[i].PackTime);
+							} else if (maxVal === parseInt(OData.NAV_MASTTOITEM.results[i].PackDate)) {
 								var maxTime = Math.max(finalValueArr[0].DispatchTime, parseInt(OData.NAV_MASTTOITEM.results[i].PackTime));
 								if (maxTime !== finalValueArr[0].DispatchTime) {
-									finalValueArr[0].DispatchTime = parseInt(OData.NAV_MASTTOITEM.results[i].PackTime);
+									finalValueArr[0].DispatchTime = OData.NAV_MASTTOITEM.results[i].PackTime;
+									//parseInt(OData.NAV_MASTTOITEM.results[i].PackTime);
 								}
 							}
 						}
@@ -632,16 +654,19 @@ sap.ui.define([
 					if (OData.NAV_MASTTOITEM.results[i].ShipCreDate !== "") {
 						if (finalValueArr[0].ShipmentDate === "") {
 							finalValueArr[0].ShipmentDate = parseInt(OData.NAV_MASTTOITEM.results[i].ShipCreDate);
-							finalValueArr[0].ShipmentTime = parseInt(OData.NAV_MASTTOITEM.results[i].ShipCreTime);
+							finalValueArr[0].ShipmentTime = OData.NAV_MASTTOITEM.results[i].ShipCreTime;
+							// parseInt(OData.NAV_MASTTOITEM.results[i].ShipCreTime);
 						} else {
 							var maxVal = Math.max(finalValueArr[0].ShipmentDate, parseInt(OData.NAV_MASTTOITEM.results[i].ShipCreDate));
 							if (maxVal !== finalValueArr[0].ShipmentDate) {
 								finalValueArr[0].ShipmentDate = parseInt(OData.NAV_MASTTOITEM.results[i].ShipCreDate);
-								finalValueArr[0].ShipmentTime = parseInt(OData.NAV_MASTTOITEM.results[i].ShipCreTime);
-							} else if(maxVal === parseInt(OData.NAV_MASTTOITEM.results[i].ShipCreDate)){
+								finalValueArr[0].ShipmentTime = OData.NAV_MASTTOITEM.results[i].ShipCreTime;
+								//parseInt(OData.NAV_MASTTOITEM.results[i].ShipCreTime);
+							} else if (maxVal === parseInt(OData.NAV_MASTTOITEM.results[i].ShipCreDate)) {
 								var maxTime = Math.max(finalValueArr[0].ShipmentTime, parseInt(OData.NAV_MASTTOITEM.results[i].ShipCreTime));
 								if (maxTime !== finalValueArr[0].ShipmentTime) {
-									finalValueArr[0].ShipmentTime = parseInt(OData.NAV_MASTTOITEM.results[i].ShipCreTime);
+									finalValueArr[0].ShipmentTime = OData.NAV_MASTTOITEM.results[i].ShipCreTime;
+									//parseInt(OData.NAV_MASTTOITEM.results[i].ShipCreTime);
 								}
 							}
 						}
@@ -663,16 +688,19 @@ sap.ui.define([
 					if (OData.NAV_MASTTOITEM.results[i].PodDate !== "") {
 						if (finalValueArr[0].CustomerReceiptDate === "") {
 							finalValueArr[0].CustomerReceiptDate = parseInt(OData.NAV_MASTTOITEM.results[i].PodDate);
-							finalValueArr[0].CustomerReceiptTime = parseInt(OData.NAV_MASTTOITEM.results[i].PodTime);
+							finalValueArr[0].CustomerReceiptTime = OData.NAV_MASTTOITEM.results[i].PodTime;
+							//parseInt(OData.NAV_MASTTOITEM.results[i].PodTime);
 						} else {
 							var maxVal = Math.max(finalValueArr[0].CustomerReceiptDate, parseInt(OData.NAV_MASTTOITEM.results[i].PodDate));
 							if (maxVal !== finalValueArr[0].CustomerReceiptDate) {
 								finalValueArr[0].CustomerReceiptDate = parseInt(OData.NAV_MASTTOITEM.results[i].PodDate);
-								finalValueArr[0].CustomerReceiptTime = parseInt(OData.NAV_MASTTOITEM.results[i].PodTime);
-							} else if(maxVal === parseInt(OData.NAV_MASTTOITEM.results[i].PodDate)){
+								finalValueArr[0].CustomerReceiptTime = OData.NAV_MASTTOITEM.results[i].PodTime;
+								//parseInt(OData.NAV_MASTTOITEM.results[i].PodTime);
+							} else if (maxVal === parseInt(OData.NAV_MASTTOITEM.results[i].PodDate)) {
 								var maxTime = Math.max(finalValueArr[0].CustomerReceiptTime, parseInt(OData.NAV_MASTTOITEM.results[i].PodTime));
 								if (maxTime !== finalValueArr[0].CustomerReceiptTime) {
-									finalValueArr[0].CustomerReceiptTime = parseInt(OData.NAV_MASTTOITEM.results[i].PodTime);
+									finalValueArr[0].CustomerReceiptTime = OData.NAV_MASTTOITEM.results[i].PodTime;
+									//parseInt(OData.NAV_MASTTOITEM.results[i].PodTime);
 								}
 							}
 						}
@@ -700,10 +728,11 @@ sap.ui.define([
 							if (maxVal !== finalValueArr[0].CustomerRejectDate) {
 								finalValueArr[0].CustomerRejectDate = parseInt(OData.NAV_MASTTOITEM.results[i].PodRejDate);
 								finalValueArr[0].CustomerRejectTime = OData.NAV_MASTTOITEM.results[i].PodRejTime;
-							} else if(maxVal === parseInt(OData.NAV_MASTTOITEM.results[i].PodRejDate)){
+							} else if (maxVal === parseInt(OData.NAV_MASTTOITEM.results[i].PodRejDate)) {
 								var maxTime = Math.max(finalValueArr[0].CustomerRejectTime, parseInt(OData.NAV_MASTTOITEM.results[i].PodRejTime));
 								if (maxTime !== finalValueArr[0].CustomerRejectTime) {
-									finalValueArr[0].CustomerRejectTime = parseInt(OData.NAV_MASTTOITEM.results[i].PodRejTime);
+									finalValueArr[0].CustomerRejectTime = OData.NAV_MASTTOITEM.results[i].PodRejTime;
+									//parseInt(OData.NAV_MASTTOITEM.results[i].PodRejTime);
 								}
 							}
 						}
@@ -784,20 +813,20 @@ sap.ui.define([
 						finalOrdering = "Invoice Date: " + Invoice;
 					}
 				}
-				var Dispatch = formatter.stringDateTimeConvert(finalValueArr[0].DispatchDate.toString(), finalValueArr[0].DispatchTime.toString());
-				if (Dispatch !== "" && Dispatch !== undefined && Dispatch !== null) {
-					if (finalOrderingDil !== "") {
-						finalOrderingDil = finalOrderingDil + "\n Dispatch Date: " + Dispatch;
-					} else {
-						finalOrderingDil = "Dispatch Date: " + Dispatch;
-					}
-				}
+				/*				var Dispatch = formatter.stringDateTimeConvert(finalValueArr[0].DispatchDate.toString(), finalValueArr[0].DispatchTime.toString());
+								if (Dispatch !== "" && Dispatch !== undefined && Dispatch !== null) {
+									if (finalOrderingDil !== "") {
+										finalOrderingDil = finalOrderingDil + "\n Dispatch Date: " + Dispatch;
+									} else {
+										finalOrderingDil = "Dispatch Date: " + Dispatch;
+									}
+								}*/
 				var Shipment = formatter.stringDateTimeConvert(finalValueArr[0].ShipmentDate.toString(), finalValueArr[0].ShipmentTime.toString());
 				if (Shipment !== "" && Shipment !== undefined && Shipment !== null) {
 					if (finalOrderingDil !== "") {
-						finalOrderingDil = finalOrderingDil + "\n Shipment Date: " + Shipment;
+						finalOrderingDil = finalOrderingDil + "\n Dispatch/Shipment Date: " + Shipment;
 					} else {
-						finalOrderingDil = "Shipment Date: " + Shipment;
+						finalOrderingDil = "Dispatch/Shipment Date: " + Shipment;
 					}
 				}
 				var CustomerReceipt = formatter.stringDateTimeConvert(finalValueArr[0].CustomerReceiptDate.toString(), finalValueArr[0].CustomerReceiptTime

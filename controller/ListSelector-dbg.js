@@ -4,14 +4,14 @@ sap.ui.define([
 ], function (BaseObject, Log) {
 	"use strict";
 
-	return BaseObject.extend("com.incture.cherywork.MASTERDETAILSTemplate.controller.ListSelector", {
+	return BaseObject.extend("dksh.connectclient.tracksaleorder.controller.ListSelector", {
 
 		/**
 		 * Provides a convenience API for selecting list items. All the functions will wait until the initial load of the a List passed to the instance by the setBoundMasterList
 		 * function.
 		 * @class
 		 * @public
-		 * @alias com.incture.cherywork.MASTERDETAILSTemplate.controller.ListSelector
+		 * @alias dksh.connectclient.tracksaleorder.controller.ListSelector
 		 */
 
 		constructor : function () {

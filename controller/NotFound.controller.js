@@ -3,7 +3,7 @@ sap.ui.define([
 ], function (BaseController) {
 	"use strict";
 
-	return BaseController.extend("com.incture.cherywork.MASTERDETAILSTemplate.controller.NotFound", {
+	return BaseController.extend("dksh.connectclient.tracksaleorder.controller.NotFound", {
 
 		onInit: function () {
 			this.getRouter().getTarget("notFound").attachDisplay(this._onNotFoundDisplayed, this);

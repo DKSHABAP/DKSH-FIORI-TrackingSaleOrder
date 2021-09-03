@@ -206,15 +206,15 @@ sap.ui.define([], function () {
 							.getDateInstance({
 								pattern: "dd.MM.yyyy  HH:mm:ss"
 							});
-					if((date.trim().substr(4, 2) - 1).toString().length === 1 && date.trim().substr(4, 2) < 9){
-						var month = "0"+(date.trim().substr(4, 2)).toString();
-					}
-					else{
-						var month = (date.trim().substr(4, 2)).toString();
-					}
-						var date = date.trim().substr(0, 4)+"-"+(date.trim().substr(4, 2)).toString()+"-"+date.trim().substr(6, 2)+"T"+time.trim().substr(
-							0,
-							2)+":"+ time.trim().substr(2, 2)+":"+time.trim().substr(4, 2)+".00+08:00";
+						if ((date.trim().substr(4, 2) - 1).toString().length === 1 && date.trim().substr(4, 2) < 9) {
+							var month = "0" + (date.trim().substr(4, 2)).toString();
+						} else {
+							var month = (date.trim().substr(4, 2)).toString();
+						}
+						var date = date.trim().substr(0, 4) + "-" + (date.trim().substr(4, 2)).toString() + "-" + date.trim().substr(6, 2) + "T" + time.trim()
+							.substr(
+								0,
+								2) + ":" + time.trim().substr(2, 2) + ":" + time.trim().substr(4, 2) + ".00+08:00";
 						var oDate1 = new Date(date);
 						// oDate1.setHours(oDate1.getHours() + 8);
 						return oDateFormat.format(oDate1);
