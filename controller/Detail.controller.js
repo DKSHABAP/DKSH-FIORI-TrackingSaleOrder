@@ -234,8 +234,14 @@ sap.ui.define([
 					var SONv2 = 0;
 					var TaxAmount = 0;
 					var lengthOfTotalItems = 0;
+					// [+] Start - STRY0012251: Blur Out Summary
+					//var lastIdx = 0;
+					var blurFlag = "";
+					// [+] End   - STRY0012251: Blur Out Summary
+
 					if (oData.results[0].NAV_MASTTOITEM.results !== undefined) {
 						lengthOfTotalItems = oData.results[0].NAV_MASTTOITEM.results.length;
+						//lastIdx = lengthOfTotalItems - 1;
 						for (var i = 0; i < oData.results[0].NAV_MASTTOITEM.results.length; i++) {
 							var currObj = oData.results[0].NAV_MASTTOITEM.results[i];
 							if (currObj.ItemCategory === "ZFOC" || currObj.ItemCategory === "ZKRC" || currObj.ItemCategory === "ZKRF" || currObj.ItemCategory ===
@@ -248,6 +254,12 @@ sap.ui.define([
 							SOGross = SOGross + parseFloat(currObj.SOGross ? currObj.SOGross.replace(",", "") : "0");
 							SONv2 = SONv2 + parseFloat(currObj.SONv2 ? currObj.SONv2.replace(",", "") : "0");
 							TaxAmount = TaxAmount + parseFloat(currObj.TaxAmount ? currObj.TaxAmount.replace(",", "") : "0");
+							// [+] Start - STRY0012251: Blur Out Summary
+							// if (currObj.Blur === "B" && i === lastIdx) {
+							if (currObj.Blur === "B" ) {
+								blurFlag = "B";	
+								}
+							// [+] End - STRY0012251: Blur Out Summary
 						}
 					}
 
@@ -265,22 +277,27 @@ sap.ui.define([
 						Currency = oData.results[0].NAV_MASTTOHEADER.results[0].Currency;
 						DelAddress = oData.results[0].NAV_MASTTOHEADER.results[0].DelAddress;
 					}
-					var objOrdSummary = {
-						"SalesNo": SoNo,
-						"PONo": PONo,
-						"PayTerm": PayTerm,
-						"PayTermDesc": PayTermDesc,
-						"OrderQty": ordQty.toFixed(3),
-						"TotalFOCQty": totalFOCQty.toFixed(3),
-						"SOGross": SOGross.toFixed(2),
-						"TotDiscount": (SOGross - SONv2).toFixed(2),
-						"NetAmt": SONv2.toFixed(2),
-						"TaxAmount": TaxAmount.toFixed(2),
-						"OrderTotal": (SONv2 + TaxAmount).toFixed(2),
-						"Currency": Currency,
-						"Remarks": "",
-						"DelAddress": DelAddress
-					};
+
+						var objOrdSummary = {
+							"SalesNo": SoNo,
+							"PONo": PONo,
+							"PayTerm": PayTerm,
+							"PayTermDesc": PayTermDesc,
+							"OrderQty": ordQty.toFixed(3),
+							"TotalFOCQty": totalFOCQty.toFixed(3),
+							"SOGross": SOGross.toFixed(2),
+							"TotDiscount": (SOGross - SONv2).toFixed(2),
+							"NetAmt": SONv2.toFixed(2),
+							"TaxAmount": TaxAmount.toFixed(2),
+							"OrderTotal": (SONv2 + TaxAmount).toFixed(2),
+							"Currency": Currency,
+							"Remarks": "",
+							"DelAddress": DelAddress,
+							// // [+] Start - STRY0012251: Blur Out Summary
+							 "Blur": blurFlag
+							// // [+] End - STRY0012251: Blur Out Summary
+						};
+
 					var summModel = new sap.ui.model.json.JSONModel(objOrdSummary);
 					that.getView().byId("ID_SIM_SUMM_ORD").setModel(summModel);
 

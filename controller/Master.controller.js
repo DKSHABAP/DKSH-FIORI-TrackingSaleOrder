@@ -35,9 +35,10 @@ sap.ui.define([
 			}
 		},
 
+
 		//master data read
 		readMasterListData: function (filterData, ind) {
-			//need to remove code
+		   //need to remove code
 			if (filterData === "") {
 				var today = new Date();
 				var startDate = formatter.DateConversion(new Date(today.getFullYear(), today.getMonth(), today.getDate()));

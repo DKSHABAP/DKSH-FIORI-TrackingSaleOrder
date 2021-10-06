@@ -482,6 +482,22 @@ sap.ui.define([], function () {
 			}
 		},
 
+		blurValue: function (e) {
+			if (e === "B") {
+				return true;
+			} else {
+				return false;
+			}
+		},
+
+		blurNValue: function (e) {
+			if (e !== "B") {
+				return true;
+			} else {
+				return false;
+			}
+		},
+
 		//date convert sent ECC
 		DateConversion: function (oDate) {
 			if (oDate) {
@@ -493,6 +509,6 @@ sap.ui.define([], function () {
 			} else {
 				return null;
 			}
-		},
+		}
 	};
 });

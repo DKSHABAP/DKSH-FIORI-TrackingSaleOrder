@@ -78,6 +78,14 @@ color:#AB1032!important;
 	font-size: 1rem!important;
 }
 
+
+.blurText {
+    filter: blur(5px);
+    /*color: transparent;*/
+    /*text-shadow: 0PX 0 5px rgb(79 76 76 / 50%);*/
+    /*text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);*/
+}
+
 /*for blur vbox*/
 [data-blurItemLevel="B"] {
     -webkit-filter: blur(8px);

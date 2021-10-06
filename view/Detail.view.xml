@@ -1,7 +1,6 @@
-<mvc:View controllerName="dksh.connectclient.tracksaleorder.controller.Detail" xmlns="sap.m"
-	xmlns:semantic="sap.f.semantic" xmlns:footerbar="sap.ushell.ui.footerbar" xmlns:t="sap.suite.ui.commons" xmlns:mvc="sap.ui.core.mvc"
-	xmlns:rich="sap.ui.richtexteditor" xmlns:u="sap.ui.table" xmlns:core="sap.ui.core" xmlns:comm="sap.suite.ui.commons" xmlns:l="sap.ui.layout"
-	xmlns:f="sap.ui.layout.form">
+<mvc:View controllerName="dksh.connectclient.tracksaleorder.controller.Detail" xmlns="sap.m" xmlns:semantic="sap.f.semantic"
+	xmlns:footerbar="sap.ushell.ui.footerbar" xmlns:t="sap.suite.ui.commons" xmlns:mvc="sap.ui.core.mvc" xmlns:rich="sap.ui.richtexteditor"
+	xmlns:u="sap.ui.table" xmlns:core="sap.ui.core" xmlns:comm="sap.suite.ui.commons" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form">
 	<!--<html:iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WG969CM" height="0" width="0" style="display:none; visibility:hidden"></html:iframe>-->
 	<Page id="detailPage" showNavButton="{device>/system/phone}" navButtonPress="onNavBackMaster" enableScrolling="true" title=""
 		class="sapUiSizeCompact">
@@ -165,19 +164,49 @@
 								<Label text="{i18n>TxnNoSumm}" tooltip="{i18n>txnNoTooltip}" design="Bold"/>
 								<Text text="{/SalesNo}"/>
 								<Label text="{i18n>totalOrderQtySumm}" tooltip="{i18n>totalOrderQtyTooltip}" design="Bold"/>
-								<Text text="{parts:[{path:'/OrderQty'},{path:'/CurrencyRmv'}],formatter:'.formatter.addCommas'}"/>
+								<!-- [+] Start - modification block STRY0012251: Blur Out Summary-->
+								<HBox>
+								<Text text="{parts:[{path:'/OrderQty'},{path:'/CurrencyRmv'}],formatter:'.formatter.addCommas'}"
+								visible="{path:'/Blur',formatter:'.formatter.blurNValue'}"/>
+								<Label text="1234.56(789)" design="Bold" class="blurText" visible="{path:'/Blur',formatter:'.formatter.blurValue'}"/>
+								</HBox>
 								<Label text="{i18n>totalFOCQty}" tooltip="{i18n>totalFOCQtyTooltip}" design="Bold"/>
-								<Text text="{parts:[{path:'/TotalFOCQty'},{path:'/CurrencyRmv'}],formatter:'.formatter.addCommas'}"/>
+								<HBox>
+								<Text text="{parts:[{path:'/TotalFOCQty'},{path:'/CurrencyRmv'}],formatter:'.formatter.addCommas'}"
+								 visible="{path:'/Blur',formatter:'.formatter.blurNValue'}"/>
+								<Label text="1234.56(789)" design="Bold" class="blurText" visible="{path:'/Blur',formatter:'.formatter.blurValue'}"/>
+								</HBox>
 								<Label text="{i18n>totalAmountSumm}" design="Bold"/>
-								<Text text="{parts:[{path:'/SOGross'},{path:'/Currency'}],formatter:'.formatter.addCommas'}"/>
+								<HBox>
+								<Text text="{parts:[{path:'/SOGross'},{path:'/Currency'}],formatter:'.formatter.addCommas'}"
+								visible="{path:'/Blur',formatter:'.formatter.blurNValue'}"/>
+								<Label text="1234.56(789)" design="Bold" class="blurText" visible="{path:'/Blur',formatter:'.formatter.blurValue'}"/>
+								</HBox>
 								<Label text="{i18n>totalDiscountDiDoSumm}" design="Bold"/>
-								<Text text="{parts:[{path:'/TotDiscount'},{path:'/Currency'}],formatter:'.formatter.addCommas'}"/>
+								<HBox> 
+								<Text text="{parts:[{path:'/TotDiscount'},{path:'/Currency'}],formatter:'.formatter.addCommas'}" 
+								visible="{path:'/Blur',formatter:'.formatter.blurNValue'}"/>
+								<Label text="1234.56(789)" design="Bold" class="blurText" visible="{path:'/Blur',formatter:'.formatter.blurValue'}"/>
+								</HBox>
 								<Label text="{i18n>netAmountSumm}" design="Bold"/>
-								<Text text="{parts:[{path:'/NetAmt'},{path:'/Currency'}],formatter:'.formatter.addCommas'}"/>
+								<HBox>
+								<Text text="{parts:[{path:'/NetAmt'},{path:'/Currency'}],formatter:'.formatter.addCommas'}"
+								visible="{path:'/Blur',formatter:'.formatter.blurNValue'}"/>
+								<Label text="1234.56(789)" design="Bold" class="blurText" visible="{path:'/Blur',formatter:'.formatter.blurValue'}"/>
+								</HBox>
 								<Label text="{i18n>taxAmountSumm}" design="Bold"/>
-								<Text text="{parts:[{path:'/TaxAmount'},{path:'/Currency'}],formatter:'.formatter.addCommas'}"/>
+								<HBox>
+								<Text text="{parts:[{path:'/TaxAmount'},{path:'/Currency'}],formatter:'.formatter.addCommas'}"
+								visible="{path:'/Blur',formatter:'.formatter.blurNValue'}"/>
+								<Label text="1234.56(789)" design="Bold" class="blurText" visible="{path:'/Blur',formatter:'.formatter.blurValue'}"/>
+								</HBox>
 								<Label text="{i18n>orderTotalSumm}" design="Bold"/>
-								<Text text="{parts:[{path:'/OrderTotal'},{path:'/Currency'}],formatter:'.formatter.addCommas'}"/>
+								<HBox>
+								<Text text="{parts:[{path:'/OrderTotal'},{path:'/Currency'}],formatter:'.formatter.addCommas'}"
+								visible="{path:'/Blur',formatter:'.formatter.blurNValue'}"/>
+								<Label text="1234.56(789)" design="Bold" class="blurText" visible="{path:'/Blur',formatter:'.formatter.blurValue'}"/>
+								</HBox>
+								 <!--[+] End - modification block STRY0012251: Blur Out Summary-->
 								<core:Title/>
 								<Label text="{i18n>remarksSumm}" design="Bold">
 									<layoutData>
