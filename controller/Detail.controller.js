@@ -101,7 +101,10 @@ sap.ui.define([
 							if (pointingObj.PodRejDate === "" && dateTimePOdNo === "") {
 								podNoTemp = "";
 							} else if (pointingObj.PodRejDate !== "" && dateTimePOdNo === "") {
-								podNoTemp = "Rejected on:" + " " + dateTimeRejPOdNo;
+								// [+] Begin Modification - STRY0013561 POD Reject Reason
+								// podNoTemp = "Rejected on:" + " " + dateTimeRejPOdNo;
+									podNoTemp = pointingObj.PodrejRsn + " " + dateTimeRejPOdNo;
+								// [+] End Modification - STRY0013561 POD Reject Reason
 							} else if (dateTimePOdNo !== "" && pointingObj.PodRejDate === "") {
 								podNoTemp = "Accepted on:" + " " + dateTimePOdNo;
 							}
@@ -255,7 +258,6 @@ sap.ui.define([
 							SONv2 = SONv2 + parseFloat(currObj.SONv2 ? currObj.SONv2.replace(",", "") : "0");
 							TaxAmount = TaxAmount + parseFloat(currObj.TaxAmount ? currObj.TaxAmount.replace(",", "") : "0");
 							// [+] Start - STRY0012251: Blur Out Summary
-							// if (currObj.Blur === "B" && i === lastIdx) {
 							if (currObj.Blur === "B" ) {
 								blurFlag = "B";	
 								}
