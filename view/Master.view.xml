@@ -16,11 +16,13 @@
 							<core:Icon size="2rem" src="{path:'MasterListSet>Status',formatter:'.formatter.StatusHandleIcon'}" color="{path:'MasterListSet>Status',formatter:'.formatter.masterListIconColorHandle'}" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom"/>
 							<VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
 								<Label text="{path:'MasterListSet>Status',formatter:'.formatter.statusdforDetailPage'}" design="Bold"/>
-								<HBox><Label text="{MasterListSet>SalesNo} " design="Bold"/>
+								<HBox>
+									<Label text="{MasterListSet>SalesNo} " design="Bold"/>
 								<!-- [+]  Deleted - modification block STRY0012251: Blur Out Summary <Text text="({MasterListSet>Currency} {parts:[{path:'MasterListSet>Amount'},{path:''}],formatter:'.formatter.addCommas'}) "  class="sapUiTinyMarginBegin"/>-->
 								<!--[+]  Start - modification block STRY0012251: Blur Out Summary--> 
-								<Text text="({MasterListSet>Currency} {parts:[{path:'MasterListSet>Amount'},{path:''}],formatter:'.formatter.addCommas'}) " class="sapUiTinyMarginBegin" visible="{path:'MasterListSet/Blur',formatter:'.formatter.blurNValue'}"/>
-								<Label text="1234.56(789)" design="Bold" class="blurText" visible="{path:'MasterListSet>Blur',formatter:'.formatter.blurValue'}"/>
+								<Text text="({MasterListSet>Currency} {parts:[{path:'MasterListSet>Amount'},{path:''}],formatter:'.formatter.addCommas'}) " 
+								class="sapUiTinyMarginBegin" visible="{path:'MasterListSet>Blur',formatter:'.formatter.blurNValue'}"/>
+								<Label xmlns="sap.m" text="1234.56(789)" design="Bold" class="blurText" visible="{path:'MasterListSet>Blur',formatter:'.formatter.blurValue'}"/> 
 								<!--[+]  End - modification block STRY0012251: Blur Out Summary--> 
 								</HBox>
 								<Text text="{i18n>poNumberMasterList} {MasterListSet&gt;PONo}"/>
