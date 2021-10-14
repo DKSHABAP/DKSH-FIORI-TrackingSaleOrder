@@ -102,8 +102,12 @@ sap.ui.define([
 								podNoTemp = "";
 							} else if (pointingObj.PodRejDate !== "" && dateTimePOdNo === "") {
 								// [+] Begin Modification - STRY0013561 POD Reject Reason
-								// podNoTemp = "Rejected on:" + " " + dateTimeRejPOdNo;
+								if (pointingObj.PodrejRsn !== "") {
 									podNoTemp = pointingObj.PodrejRsn + " " + dateTimeRejPOdNo;
+								} else {
+									podNoTemp = "Rejected on:" + " " + dateTimeRejPOdNo;
+								}
+								
 								// [+] End Modification - STRY0013561 POD Reject Reason
 							} else if (dateTimePOdNo !== "" && pointingObj.PodRejDate === "") {
 								podNoTemp = "Accepted on:" + " " + dateTimePOdNo;
@@ -258,9 +262,9 @@ sap.ui.define([
 							SONv2 = SONv2 + parseFloat(currObj.SONv2 ? currObj.SONv2.replace(",", "") : "0");
 							TaxAmount = TaxAmount + parseFloat(currObj.TaxAmount ? currObj.TaxAmount.replace(",", "") : "0");
 							// [+] Start - STRY0012251: Blur Out Summary
-							if (currObj.Blur === "B" ) {
-								blurFlag = "B";	
-								}
+							if (currObj.Blur === "B") {
+								blurFlag = "B";
+							}
 							// [+] End - STRY0012251: Blur Out Summary
 						}
 					}
@@ -280,25 +284,25 @@ sap.ui.define([
 						DelAddress = oData.results[0].NAV_MASTTOHEADER.results[0].DelAddress;
 					}
 
-						var objOrdSummary = {
-							"SalesNo": SoNo,
-							"PONo": PONo,
-							"PayTerm": PayTerm,
-							"PayTermDesc": PayTermDesc,
-							"OrderQty": ordQty.toFixed(3),
-							"TotalFOCQty": totalFOCQty.toFixed(3),
-							"SOGross": SOGross.toFixed(2),
-							"TotDiscount": (SOGross - SONv2).toFixed(2),
-							"NetAmt": SONv2.toFixed(2),
-							"TaxAmount": TaxAmount.toFixed(2),
-							"OrderTotal": (SONv2 + TaxAmount).toFixed(2),
-							"Currency": Currency,
-							"Remarks": "",
-							"DelAddress": DelAddress,
-							// // [+] Start - STRY0012251: Blur Out Summary
-							 "Blur": blurFlag
+					var objOrdSummary = {
+						"SalesNo": SoNo,
+						"PONo": PONo,
+						"PayTerm": PayTerm,
+						"PayTermDesc": PayTermDesc,
+						"OrderQty": ordQty.toFixed(3),
+						"TotalFOCQty": totalFOCQty.toFixed(3),
+						"SOGross": SOGross.toFixed(2),
+						"TotDiscount": (SOGross - SONv2).toFixed(2),
+						"NetAmt": SONv2.toFixed(2),
+						"TaxAmount": TaxAmount.toFixed(2),
+						"OrderTotal": (SONv2 + TaxAmount).toFixed(2),
+						"Currency": Currency,
+						"Remarks": "",
+						"DelAddress": DelAddress,
+						// // [+] Start - STRY0012251: Blur Out Summary
+						"Blur": blurFlag
 							// // [+] End - STRY0012251: Blur Out Summary
-						};
+					};
 
 					var summModel = new sap.ui.model.json.JSONModel(objOrdSummary);
 					that.getView().byId("ID_SIM_SUMM_ORD").setModel(summModel);
