@@ -107,7 +107,7 @@ sap.ui.define([
 								} else {
 									podNoTemp = "Rejected on:" + " " + dateTimeRejPOdNo;
 								}
-								
+
 								// [+] End Modification - STRY0013561 POD Reject Reason
 							} else if (dateTimePOdNo !== "" && pointingObj.PodRejDate === "") {
 								podNoTemp = "Accepted on:" + " " + dateTimePOdNo;
@@ -156,7 +156,6 @@ sap.ui.define([
 									}
 
 								}
-
 							}
 							//if new delivery number
 							if (countdup === 0) {
@@ -787,10 +786,13 @@ sap.ui.define([
 							var oData = this.formatter.xmlToJson.call(this, res.responseText).envelope.body.retrievestopsbycriteriaresponse.stops;
 
 							// Compare eta date and get latest eta date
-							this.oDataTMSService.push(oData);
-							if (!oData.projectedarrival) {
+							// if (!oData && !oData.projectedarrival) {
+							// 	return;
+							// }
+							if (!oData) {
 								return;
 							}
+							this.oDataTMSService.push(oData);
 							if (!this.etaDate) {
 								this.etaDate = oData.projectedarrival;
 							}
@@ -825,6 +827,7 @@ sap.ui.define([
 							// Need to enhance
 							oStatusModel.setProperty("/results/2/Dates", sOrderingDetailDate);
 							busyDialog.close();
+
 						}.bind(this)).fail(function (data, res) {
 							busyDialog.close();
 						}.bind(this));
