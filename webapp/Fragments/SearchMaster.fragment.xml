@@ -15,24 +15,29 @@
 				<f:content>
 					<core:Title/>
 					<Label text="{i18n>salesOrderFrag}" design="Bold"/>
-					<Input tooltip="{/SalesOrder}" value="{/SalesOrder}" placeholder="{i18n>enter} {i18n>salesOrderFrag}" maxLength="10" liveChange="onLiveChangeSalesOrderFilter"></Input>
+					<Input tooltip="{/SalesOrder}" value="{/SalesOrder}" placeholder="{i18n>enter} {i18n>salesOrderFrag}" maxLength="10"
+						liveChange="onLiveChangeSalesOrderFilter"></Input>
 					<Label text="{i18n>customerIdFrag}" design="Bold"/>
-					<Input value="{/CustomerNo}"  tooltip="{/CustomerNo}" placeholder="{i18n>enter} {i18n>customerIdFrag}" maxLength="10" liveChange="onLiveChangeCustIdFilter"></Input>
+					<Input value="{/CustomerNo}" tooltip="{/CustomerNo}" placeholder="{i18n>enter} {i18n>customerIdFrag}" maxLength="10"
+						liveChange="onLiveChangeCustIdFilter"></Input>
 					<Label text="{i18n>statusFrag}" design="Bold"/>
-					<MultiComboBox placeholder="{i18n>select} {i18n>statusFrag}" selectedKeys="{/SelStatus}">
-						<core:Item text="{i18n>salesOrderCreatedStatusSales}" key="O"></core:Item>
-						<core:Item text="{i18n>customerCancellationStatusSales}" key="X"/>
-						<core:Item text="{i18n>orderInProcessStatusSales}" key="K"/>
-						<core:Item text="{i18n>orderOnHoldStatusSales}" key="W"/>
-						<core:Item text="{i18n>partialOrderInProcessStatusSales}" key="B"/>
-						<core:Item text="{i18n>sDConditionBlockStatusSales}" key="Q"/>
-						<core:Item text="{i18n>deliveryInTransitStatusSales}" key="S"/>
-						<core:Item text="{i18n>customerConfirmedReceiptStatusSales}" key="D"/>
-						<core:Item text="{i18n>customerConfirmRejectionStatusSales}" key="R"/>
-						<core:Item text="{i18n>customerConfirmReceipRejectionStatusSales}" key="M"/>
+					<!--<MultiComboBox placeholder="{i18n>select} {i18n>statusFrag}" selectedKeys="{/SelStatus}">-->
+					<!--	<core:Item text="{i18n>salesOrderCreatedStatusSales}" key="O"></core:Item>-->
+					<!--	<core:Item text="{i18n>customerCancellationStatusSales}" key="X"/>-->
+					<!--	<core:Item text="{i18n>orderInProcessStatusSales}" key="K"/>-->
+					<!--	<core:Item text="{i18n>orderOnHoldStatusSales}" key="W"/>-->
+					<!--	<core:Item text="{i18n>partialOrderInProcessStatusSales}" key="B"/>-->
+					<!--	<core:Item text="{i18n>sDConditionBlockStatusSales}" key="Q"/>-->
+					<!--	<core:Item text="{i18n>deliveryInTransitStatusSales}" key="S"/>-->
+					<!--	<core:Item text="{i18n>customerConfirmedReceiptStatusSales}" key="D"/>-->
+					<!--	<core:Item text="{i18n>customerConfirmRejectionStatusSales}" key="R"/>-->
+					<!--	<core:Item text="{i18n>customerConfirmReceipRejectionStatusSales}" key="M"/>-->
+					<!--</MultiComboBox>-->
+					<MultiComboBox items="{path: 'TrackingODataModel>/getStatusSet'}" placeholder="{i18n>select} {i18n>statusFrag}" selectedKeys="{/SelStatus}">
+						<core:Item text="{TrackingODataModel>status}" key="{TrackingODataModel>key}"></core:Item>
 					</MultiComboBox>
-						<Label text="{i18n>dateRangeFrag}" design="Bold"/>
-						<DateRangeSelection displayFormat="dd.MM.yyyy" dateValue="{/StartDate}" secondDateValue="{/EndDate}" change="onChangeDateRange"></DateRangeSelection>
+					<Label text="{i18n>dateRangeFrag}" design="Bold"/>
+					<DateRangeSelection displayFormat="dd.MM.yyyy" dateValue="{/StartDate}" secondDateValue="{/EndDate}" change="onChangeDateRange"></DateRangeSelection>
 				</f:content>
 			</f:SimpleForm>
 		</content>

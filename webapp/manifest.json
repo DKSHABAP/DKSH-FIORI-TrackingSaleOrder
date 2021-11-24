@@ -20,10 +20,10 @@
 				}
 			},
 			"ZDKSH_TRACK_SALES_ORDER_SRV": {
-				"uri": "/DKSHODataService/sap/opu/odata/sap/ZDKSH_TRACK_SALES_ORDER_SRV/",
+				"uri": "/sap/opu/odata/sap/ZDKSH_TRACK_SALES_ORDER_SRV/",
 				"type": "OData",
 				"settings": {
-					"localUri": "localService/ZDKSH_TRACK_SALES_ORDER_SRV/metadata.xml"
+					"localUri": "localService/metadata.xml"
 				}
 			}
 		},
@@ -87,7 +87,7 @@
 				"settings": {
 					"defaultOperationMode": "Server",
 					"defaultBindingMode": "OneWay",
-					"defaultCountMode": "Request",
+					"defaultCountMode": "None",
 					"useBatch": false
 				},
 				"dataSource": "ZDKSH_TRACK_SALES_ORDER_SRV",
@@ -157,7 +157,8 @@
 					"controlAggregation": "detailPages"
 				}
 			}
-		}
+		},
+		"flexEnabled": true
 	},
 	"sap.platform.hcp": {
 		"uri": "",

@@ -1,77 +1,97 @@
 {
-	"routes": [{
-		"path": "/resources",
-		"target": {
-			"type": "service",
-			"name": "sapui5",
-			"entryPath": "/resources"
-		},
-		"description": "SAPUI5 Resources"
-	}, {
-		"path": "/test-resources",
-		"target": {
-			"type": "service",
-			"name": "sapui5",
-			"entryPath": "/test-resources"
-		},
-		"description": "SAPUI5 Test Resources"
-	}, {
-		"path": "/resources",
-		"target": {
-			"type": "service",
-			"name": "sapui5",
-			"entryPath": "/resources"
-		},
-		"description": "SAPUI5 Resources"
-	}, {
-		"path": "/test-resources",
-		"target": {
-			"type": "service",
-			"name": "sapui5",
-			"entryPath": "/test-resources"
-		},
-		"description": "SAPUI5 Test Resources"
-	}, {
-		"path": "/northwind",
-		"target": {
-			"type": "destination",
-			"name": "northwind"
-		},
-		"description": "Northwind oData Services"
-	}, {
-		"path": "/DKSHODataService",
-		"target": {
-			"type": "destination",
-			"name": "DKSHODataServiceQA"
-		},
-		"description": "OData Service for DKSH"
-	}, {
-		"path": "/userapi",
-		"target": {
-			"type": "service",
-			"name": "userapi"
-		}
-	}, {
-		"path": "/IDPService",
-		"target": {
-			"type": "destination",
-			"name": "IDPService"
-		}
-	}, {
-		"path": "/DKSHJavaService",
-		"target": {
-			"type": "destination",
-			"name": "DKSHJavaServiceAppToSSO2"
-		},
-		"description": "DKSH Java Services"
-	}, {
-		"path": "/TMSWebService",
-		"target": {
-			"type": "destination",
-			"name": "TMSWebService"
-		},
-		"description": "TMS Web Service"
-	}],
-	"welcomeFile": "/test/flpSandbox.html",
-	"sendWelcomeFileRedirect": true
+  "routes": [
+    {
+      "path": "/resources",
+      "target": {
+        "type": "service",
+        "name": "sapui5",
+        "entryPath": "/resources"
+      },
+      "description": "SAPUI5 Resources"
+    },
+    {
+      "path": "/test-resources",
+      "target": {
+        "type": "service",
+        "name": "sapui5",
+        "entryPath": "/test-resources"
+      },
+      "description": "SAPUI5 Test Resources"
+    },
+    {
+      "path": "/resources",
+      "target": {
+        "type": "service",
+        "name": "sapui5",
+        "entryPath": "/resources"
+      },
+      "description": "SAPUI5 Resources"
+    },
+    {
+      "path": "/test-resources",
+      "target": {
+        "type": "service",
+        "name": "sapui5",
+        "entryPath": "/test-resources"
+      },
+      "description": "SAPUI5 Test Resources"
+    },
+    {
+      "path": "/northwind",
+      "target": {
+        "type": "destination",
+        "name": "northwind"
+      },
+      "description": "Northwind oData Services"
+    },
+    {
+      "path": "/DKSHODataService",
+      "target": {
+        "type": "destination",
+        "name": "DKSHODataServiceQA"
+      },
+      "description": "OData Service for DKSH"
+    },
+    {
+      "path": "/userapi",
+      "target": {
+        "type": "service",
+        "name": "userapi"
+      }
+    },
+    {
+      "path": "/IDPService",
+      "target": {
+        "type": "destination",
+        "name": "IDPService"
+      }
+    },
+    {
+      "path": "/DKSHJavaService",
+      "target": {
+        "type": "destination",
+        "name": "DKSHJavaServiceAppToSSO2"
+      },
+      "description": "DKSH Java Services"
+    },
+    {
+      "path": "/TMSWebService",
+      "target": {
+        "type": "destination",
+        "name": "TMSWebService"
+      },
+      "description": "TMS Web Service"
+    },
+    {
+      "path": "/sap/opu/odata",
+      "target": {
+        "type": "destination",
+        "name": "DKSHODataService",
+        "entryPath": "/sap/opu/odata"
+      },
+      "description": "OData Service for DKSH"
+    }
+  ],
+  "welcomeFile": "/test/flpSandbox.html",
+  "sendWelcomeFileRedirect": true
 }

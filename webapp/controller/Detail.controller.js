@@ -920,18 +920,18 @@ sap.ui.define([
 					.toString());
 				if (CustomerReceipt !== "" && CustomerReceipt !== undefined && CustomerReceipt !== null) {
 					if (finalCustConfrm !== "") {
-						finalCustConfrm = finalCustConfrm + "\n Customer Receipt Date: " + CustomerReceipt;
+						finalCustConfrm = finalCustConfrm + "\n Receipt Date: " + CustomerReceipt;
 					} else {
-						finalCustConfrm = "Customer Receipt Date: " + CustomerReceipt;
+						finalCustConfrm = "Receipt Date: " + CustomerReceipt;
 					}
 				}
 				var CustomerReject = formatter.stringDateTimeConvert(finalValueArr[0].CustomerRejectDate.toString(), finalValueArr[0].CustomerRejectTime
 					.toString());
 				if (CustomerReject !== "" && CustomerReject !== undefined && CustomerReject !== null) {
 					if (finalCustConfrm !== "") {
-						finalCustConfrm = finalCustConfrm + "\n Customer Reject Date: " + CustomerReject;
+						finalCustConfrm = finalCustConfrm + "\n Reject Date: " + CustomerReject;
 					} else {
-						finalCustConfrm = "Customer Reject Date: " + CustomerReject;
+						finalCustConfrm = "Reject Date: " + CustomerReject;
 					}
 				}
 
@@ -1151,9 +1151,9 @@ sap.ui.define([
 		// 		var custConRecptDate = formatter.stringDateTimeConvert(OData.NAV_MASTTOITEM.results[0].PodDate, OData.NAV_MASTTOITEM.results[0].PodTime);
 		// 		if (custConRecptDate !== "" && custConRecptDate !== undefined && custConRecptDate !== null) {
 		// 			if (finalCustConfrm !== "") {
-		// 				finalCustConfrm = finalCustConfrm + "\n Customer Receipt Date: " + custConRecptDate;
+		// 				finalCustConfrm = finalCustConfrm + "\n Receipt Date: " + custConRecptDate;
 		// 			} else {
-		// 				finalCustConfrm = "Customer Receipt Date: " + custConRecptDate;
+		// 				finalCustConfrm = "Receipt Date: " + custConRecptDate;
 		// 			}
 		// 		}
 
@@ -1162,9 +1162,9 @@ sap.ui.define([
 		// 			.PodRejTime);
 		// 		if (custConRejectDate !== "" && custConRejectDate !== undefined && custConRejectDate !== null) {
 		// 			if (finalCustConfrm !== "") {
-		// 				finalCustConfrm = finalCustConfrm + "\n Customer Reject Date: " + custConRejectDate;
+		// 				finalCustConfrm = finalCustConfrm + "\n Reject Date: " + custConRejectDate;
 		// 			} else {
-		// 				finalCustConfrm = "Customer Reject Date: " + custConRejectDate;
+		// 				finalCustConfrm = "Reject Date: " + custConRejectDate;
 		// 			}
 		// 		}
 
