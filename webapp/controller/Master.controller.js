@@ -43,8 +43,8 @@ sap.ui.define([
 				var startDate = formatter.DateConversion(new Date(today.getFullYear(), today.getMonth(), today.getDate()));
 				var endDate = formatter.DateConversion(new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7));
 				filterData = "$filter=CreatedDate le datetime'" + startDate + "' and CreatedDate ge datetime'" + endDate + "'";
-				// filterData = "$filter=CreatedDate le datetime'" + "2020-08-15T00:00:00" + "' and CreatedDate ge datetime'" + "2020-08-08T00:00:00" +
-				"'";
+				// filterData = "$filter=CreatedDate le datetime'" + "2021-08-15T00:00:00" + "' and CreatedDate ge datetime'" + "2020-01-08T00:00:00" +
+				// 	"'";
 			}
 
 			var that = this;
