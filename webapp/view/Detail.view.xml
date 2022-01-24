@@ -166,47 +166,51 @@
 								<Label text="{i18n>totalOrderQtySumm}" tooltip="{i18n>totalOrderQtyTooltip}" design="Bold"/>
 								<!-- [+] Start - modification block STRY0012251: Blur Out Summary-->
 								<HBox>
-								<Text text="{parts:[{path:'/OrderQty'},{path:'/CurrencyRmv'}],formatter:'.formatter.addCommas'}"
-								visible="{path:'/Blur',formatter:'.formatter.blurNValue'}"/>
-								<Label text="1234.56(789)" design="Bold" class="blurText" visible="{path:'/Blur',formatter:'.formatter.blurValue'}"/>
+									<Text text="{parts:[{path:'/OrderQty'},{path:'/CurrencyRmv'}],formatter:'.formatter.addCommas'}"
+										visible="{path:'/Blur',formatter:'.formatter.blurNValue'}"/>
+									<Label text="1234.56(789)" design="Bold" class="blurText" visible="{path:'/Blur',formatter:'.formatter.blurValue'}"/>
 								</HBox>
 								<Label text="{i18n>totalFOCQty}" tooltip="{i18n>totalFOCQtyTooltip}" design="Bold"/>
 								<HBox>
-								<Text text="{parts:[{path:'/TotalFOCQty'},{path:'/CurrencyRmv'}],formatter:'.formatter.addCommas'}"
-								 visible="{path:'/Blur',formatter:'.formatter.blurNValue'}"/>
-								<Label text="1234.56(789)" design="Bold" class="blurText" visible="{path:'/Blur',formatter:'.formatter.blurValue'}"/>
+									<Text text="{parts:[{path:'/TotalFOCQty'},{path:'/CurrencyRmv'}],formatter:'.formatter.addCommas'}"
+										visible="{path:'/Blur',formatter:'.formatter.blurNValue'}"/>
+									<Label text="1234.56(789)" design="Bold" class="blurText" visible="{path:'/Blur',formatter:'.formatter.blurValue'}"/>
 								</HBox>
 								<Label text="{i18n>totalAmountSumm}" design="Bold"/>
 								<HBox>
-								<Text text="{parts:[{path:'/SOGross'},{path:'/Currency'}],formatter:'.formatter.addCommas'}"
-								visible="{path:'/Blur',formatter:'.formatter.blurNValue'}"/>
-								<Label text="1234.56(789)" design="Bold" class="blurText" visible="{path:'/Blur',formatter:'.formatter.blurValue'}"/>
+									<Text text="{parts:[{path:'/SOGross'},{path:'/Currency'}],formatter:'.formatter.addCommas'}"
+										visible="{path:'/Blur',formatter:'.formatter.blurNValue'}"/>
+									<Label text="1234.56(789)" design="Bold" class="blurText" visible="{path:'/Blur',formatter:'.formatter.blurValue'}"/>
 								</HBox>
 								<Label text="{i18n>totalDiscountDiDoSumm}" design="Bold"/>
-								<HBox> 
-								<Text text="{parts:[{path:'/TotDiscount'},{path:'/Currency'}],formatter:'.formatter.addCommas'}" 
-								visible="{path:'/Blur',formatter:'.formatter.blurNValue'}"/>
-								<Label text="1234.56(789)" design="Bold" class="blurText" visible="{path:'/Blur',formatter:'.formatter.blurValue'}"/>
+								<HBox>
+									<Text text="{parts:[{path:'/TotDiscount'},{path:'/Currency'}],formatter:'.formatter.addCommas'}"
+										visible="{path:'/Blur',formatter:'.formatter.blurNValue'}"/>
+									<Label text="1234.56(789)" design="Bold" class="blurText" visible="{path:'/Blur',formatter:'.formatter.blurValue'}"/>
 								</HBox>
 								<Label text="{i18n>netAmountSumm}" design="Bold"/>
 								<HBox>
-								<Text text="{parts:[{path:'/NetAmt'},{path:'/Currency'}],formatter:'.formatter.addCommas'}"
-								visible="{path:'/Blur',formatter:'.formatter.blurNValue'}"/>
-								<Label text="1234.56(789)" design="Bold" class="blurText" visible="{path:'/Blur',formatter:'.formatter.blurValue'}"/>
+									<Text text="{parts:[{path:'/NetAmt'},{path:'/Currency'}],formatter:'.formatter.addCommas'}"
+										visible="{path:'/Blur',formatter:'.formatter.blurNValue'}"/>
+									<Label text="1234.56(789)" design="Bold" class="blurText" visible="{path:'/Blur',formatter:'.formatter.blurValue'}"/>
 								</HBox>
 								<Label text="{i18n>taxAmountSumm}" design="Bold"/>
 								<HBox>
-								<Text text="{parts:[{path:'/TaxAmount'},{path:'/Currency'}],formatter:'.formatter.addCommas'}"
-								visible="{path:'/Blur',formatter:'.formatter.blurNValue'}"/>
-								<Label text="1234.56(789)" design="Bold" class="blurText" visible="{path:'/Blur',formatter:'.formatter.blurValue'}"/>
+									<Text text="{parts:[{path:'/TaxAmount'},{path:'/Currency'}],formatter:'.formatter.addCommas'}"
+										visible="{path:'/Blur',formatter:'.formatter.blurNValue'}"/>
+									<Label text="1234.56(789)" design="Bold" class="blurText" visible="{path:'/Blur',formatter:'.formatter.blurValue'}"/>
 								</HBox>
 								<Label text="{i18n>orderTotalSumm}" design="Bold"/>
 								<HBox>
-								<Text text="{parts:[{path:'/OrderTotal'},{path:'/Currency'}],formatter:'.formatter.addCommas'}"
-								visible="{path:'/Blur',formatter:'.formatter.blurNValue'}"/>
-								<Label text="1234.56(789)" design="Bold" class="blurText" visible="{path:'/Blur',formatter:'.formatter.blurValue'}"/>
+									<Text text="{parts:[{path:'/OrderTotal'},{path:'/Currency'}],formatter:'.formatter.addCommas'}"
+										visible="{path:'/Blur',formatter:'.formatter.blurNValue'}"/>
+									<Label text="1234.56(789)" design="Bold" class="blurText" visible="{path:'/Blur',formatter:'.formatter.blurValue'}"/>
 								</HBox>
-								 <!--[+] End - modification block STRY0012251: Blur Out Summary-->
+								<!--[+] End - modification block STRY0012251: Blur Out Summary-->
+								<!--[+] Start - modification block STRY0015012: DMS No-->
+								<Label text="{i18n>DMSNo}" tooltip="{i18n>dmsNotooltip}" design="Bold"></Label>
+								<Text text="{/DMSNo}"/>
+								<!--[+] End - modification block STRY0015012: DMS No-->
 								<core:Title/>
 								<Label text="{i18n>remarksSumm}" design="Bold">
 									<layoutData>

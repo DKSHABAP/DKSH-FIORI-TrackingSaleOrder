@@ -2,24 +2,27 @@
 	<Dialog class="sapUiSizeCompact">
 		<customHeader>
 			<Bar>
-				<contentLeft></contentLeft>
+				<contentLeft/>
 				<contentMiddle>
 					<Label text="{i18n>filterFragTitle}" design="Bold"/>
 				</contentMiddle>
-				<contentRight></contentRight>
+				<contentRight/>
 			</Bar>
 		</customHeader>
 		<content>
-			<f:SimpleForm minWidth="1024" layout="ResponsiveGridLayout" maxContainerCols="2" editable="true" labelSpanL="3" labelSpanM="3"
-				emptySpanL="1" emptySpanM="1" columnsL="1" columnsM="1" class="sapUiSizeCompact simplFormPaddCls">
+			<f:SimpleForm minWidth="1024" layout="ResponsiveGridLayout" maxContainerCols="2" editable="true" labelSpanL="3" labelSpanM="3" emptySpanL="1" emptySpanM="1" columnsL="1" columnsM="1" class="sapUiSizeCompact simplFormPaddCls">
 				<f:content>
 					<core:Title/>
 					<Label text="{i18n>salesOrderFrag}" design="Bold"/>
-					<Input tooltip="{/SalesOrder}" value="{/SalesOrder}" placeholder="{i18n>enter} {i18n>salesOrderFrag}" maxLength="10"
-						liveChange="onLiveChangeSalesOrderFilter"></Input>
+					<Input tooltip="{/SalesOrder}" value="{/SalesOrder}" placeholder="{i18n>enter} {i18n&gt;salesOrderFrag}" maxLength="10" liveChange="onLiveChangeSalesOrderFilter"/>
 					<Label text="{i18n>customerIdFrag}" design="Bold"/>
-					<Input value="{/CustomerNo}" tooltip="{/CustomerNo}" placeholder="{i18n>enter} {i18n>customerIdFrag}" maxLength="10"
-						liveChange="onLiveChangeCustIdFilter"></Input>
+					<Input value="{/CustomerNo}" tooltip="{/CustomerNo}" placeholder="{i18n>enter} {i18n&gt;customerIdFrag}" maxLength="10" liveChange="onLiveChangeCustIdFilter"/>
+					<!--[+] Start Modification STRY0015012 - DMS No-->
+					<Label text="{i18n>DMSNoFrag}" design="Bold"/>
+					<Input value="{/DMSNo}" tooltip="{/DMSNo}" placeholder="{i18n>enter} {i18n&gt;DMSNoFrag}" maxLength="35" liveChange="onLiveChangeDMSNoFilter"/>
+					<Label text="{i18n>InvoiceNo}" design="Bold"/>
+					<Input value="{/InvoiceNo}" tooltip="{/InvoiceNo}" placeholder="{i18n>enter} {i18n&gt;InvoiceNoFrag}" maxLength="13" liveChange="onLiveChangeInvoiceNoFilter"/>
+					<!--[+] End Modification STRY0015012 - DMS No-->
 					<Label text="{i18n>statusFrag}" design="Bold"/>
 					<!--<MultiComboBox placeholder="{i18n>select} {i18n>statusFrag}" selectedKeys="{/SelStatus}">-->
 					<!--	<core:Item text="{i18n>salesOrderCreatedStatusSales}" key="O"></core:Item>-->
@@ -33,11 +36,11 @@
 					<!--	<core:Item text="{i18n>customerConfirmRejectionStatusSales}" key="R"/>-->
 					<!--	<core:Item text="{i18n>customerConfirmReceipRejectionStatusSales}" key="M"/>-->
 					<!--</MultiComboBox>-->
-					<MultiComboBox items="{path: 'TrackingODataModel>/getStatusSet'}" placeholder="{i18n>select} {i18n>statusFrag}" selectedKeys="{/SelStatus}">
-						<core:Item text="{TrackingODataModel>status}" key="{TrackingODataModel>key}"></core:Item>
+					<MultiComboBox items="{path: 'TrackingODataModel>/getStatusSet'}" placeholder="{i18n>select} {i18n&gt;statusFrag}" selectedKeys="{/SelStatus}">
+						<core:Item text="{TrackingODataModel>status}" key="{TrackingODataModel>key}"/>
 					</MultiComboBox>
 					<Label text="{i18n>dateRangeFrag}" design="Bold"/>
-					<DateRangeSelection displayFormat="dd.MM.yyyy" dateValue="{/StartDate}" secondDateValue="{/EndDate}" change="onChangeDateRange"></DateRangeSelection>
+					<DateRangeSelection displayFormat="dd.MM.yyyy" dateValue="{/StartDate}" secondDateValue="{/EndDate}" change="onChangeDateRange"/>
 				</f:content>
 			</f:SimpleForm>
 		</content>

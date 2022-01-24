@@ -423,6 +423,10 @@ sap.ui.define([
 				var objeFilter = {
 					SalesOrder: "",
 					CustomerNo: "",
+					// [+] Start Modification- STRY0015013
+					DMSNo: "",
+					InvoiceNo: "",
+					// [+] End Modification- STRY0015013
 					SelStatus: undefined,
 					StartDate: null,
 					EndDate: null
@@ -450,6 +454,10 @@ sap.ui.define([
 			var objeFilter = {
 				SalesOrder: "",
 				CustomerNo: "",
+				// [+] Start Modification- STRY0015013
+				DMSNo: "",
+				InvoiceNo: "",
+				// [+] End Modification- STRY0015013
 				SelStatus: undefined,
 				StartDate: null,
 				EndDate: null
@@ -463,6 +471,7 @@ sap.ui.define([
 
 		//on apply filter on master list
 		handleOkReadSoFilter: function () {
+			debugger;
 			var filterString = "";
 			var selectObj = this.searchMasterFrag.getModel().getData();
 			if (selectObj.SalesOrder !== "" && selectObj.SalesOrder.trim() !== "") {
@@ -477,6 +486,48 @@ sap.ui.define([
 					filterString = "CustId eq '" + selectObj.CustomerNo + "'";
 				}
 			}
+
+			// [+] Start Modification- STRY0015013
+			if (selectObj.DMSNo !== "" && selectObj.DMSNo.trim() !== "") {
+				if (filterString !== "") {
+					filterString = filterString + " and Dmsno eq '" + selectObj.DMSNo + "'";
+				} else {
+					filterString = "Dmsno eq '" + selectObj.DMSNo + "'";
+				}
+
+				if (selectObj.StartDate === "" || selectObj.StartDate === null) {
+					var today = new Date();
+					var endDate = formatter.DateConversion(new Date(today.getFullYear(), today.getMonth(), today.getDate()));
+					var startDate = formatter.DateConversion(new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7));
+					if (filterString !== "") {
+						filterString = filterString + " and (CreatedDate le datetime'" + endDate + "' and CreatedDate ge datetime'" + startDate + "')";
+					} else {
+						filterString = "(CreatedDate le datetime'" + endDate + "' and CreatedDate ge datetime'" + startDate + "')";
+					}
+				}
+
+			}
+
+			if (selectObj.InvoiceNo !== "" && selectObj.InvoiceNo.trim() !== "") {
+				if (filterString !== "") {
+					filterString = filterString + " and Invno eq '" + selectObj.InvoiceNo + "'";
+				} else {
+					filterString = "Invno eq '" + selectObj.InvoiceNo + "'";
+				}
+				//	to push in date value for filter purpose
+				if (selectObj.StartDate === "" || selectObj.StartDate === null) {
+					var today = new Date();
+					var endDate = formatter.DateConversion(new Date(today.getFullYear(), today.getMonth(), today.getDate()));
+					var startDate = formatter.DateConversion(new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7));
+					if (filterString !== "") {
+						filterString = filterString + " and (CreatedDate le datetime'" + startDate + "' and CreatedDate ge datetime'" + endDate + "')";
+					} else {
+						filterString = "(CreatedDate le datetime'" + startDate + "' and CreatedDate ge datetime'" + endDate + "')";
+					}
+				}
+
+			}
+			// [+] End Modification- STRY0015013
 
 			//for Date Range
 			if (selectObj.StartDate !== "" && selectObj.StartDate !== null) {
@@ -543,6 +594,16 @@ sap.ui.define([
 
 		//on live Customer no live change
 		onLiveChangeCustIdFilter: function (oEvent) {
+			oEvent.getSource().setValue(oEvent.getParameters().value.trim());
+			oEvent.getSource().setTooltip(oEvent.getParameters().value.trim());
+		},
+
+		onLiveChangeDMSNoFilter: function (oEvent) {
+			oEvent.getSource().setValue(oEvent.getParameters().value.trim());
+			oEvent.getSource().setTooltip(oEvent.getParameters().value.trim());
+		},
+
+		onLiveChangeInvoiceNoFilter: function (oEvent) {
 			oEvent.getSource().setValue(oEvent.getParameters().value.trim());
 			oEvent.getSource().setTooltip(oEvent.getParameters().value.trim());
 		},
