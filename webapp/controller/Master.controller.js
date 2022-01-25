@@ -471,7 +471,6 @@ sap.ui.define([
 
 		//on apply filter on master list
 		handleOkReadSoFilter: function () {
-			debugger;
 			var filterString = "";
 			var selectObj = this.searchMasterFrag.getModel().getData();
 			if (selectObj.SalesOrder !== "" && selectObj.SalesOrder.trim() !== "") {

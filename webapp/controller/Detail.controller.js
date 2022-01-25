@@ -54,7 +54,6 @@ sap.ui.define([
 			}
 			// selectedObj["MatCodeAttribute"] = this.ItemLevelAuthoCheck[2];
 			url = url + "&$expand=NAV_MASTTOHEADER,NAV_MASTTOITEM";
-
 			var that = this;
 			var busyDialog = new sap.m.BusyDialog();
 			busyDialog.open();
@@ -274,6 +273,7 @@ sap.ui.define([
 					var PayTermDesc = "";
 					var Currency = "";
 					var DelAddress = "";
+					var DMSNo = "";
 					if (oData.results[0].NAV_MASTTOHEADER.results !== undefined) {
 						SoNo = oData.results[0].NAV_MASTTOHEADER.results[0].SalesNo;
 						PONo = oData.results[0].NAV_MASTTOHEADER.results[0].PONo;
@@ -281,6 +281,8 @@ sap.ui.define([
 						PayTermDesc = oData.results[0].NAV_MASTTOHEADER.results[0].PayTermDesc;
 						Currency = oData.results[0].NAV_MASTTOHEADER.results[0].Currency;
 						DelAddress = oData.results[0].NAV_MASTTOHEADER.results[0].DelAddress;
+						// [+]
+						DMSNo = oData.results[0].NAV_MASTTOHEADER.results[0].Bname;
 					}
 
 					var objOrdSummary = {
@@ -299,8 +301,9 @@ sap.ui.define([
 						"Remarks": "",
 						"DelAddress": DelAddress,
 						// // [+] Start - STRY0012251: Blur Out Summary
-						"Blur": blurFlag
+						"Blur": blurFlag,
 							// // [+] End - STRY0012251: Blur Out Summary
+						"DMSNo" : DMSNo
 					};
 
 					var summModel = new sap.ui.model.json.JSONModel(objOrdSummary);
