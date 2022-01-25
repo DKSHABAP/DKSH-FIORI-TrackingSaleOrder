@@ -273,7 +273,9 @@ sap.ui.define([
 					var PayTermDesc = "";
 					var Currency = "";
 					var DelAddress = "";
+					// [+]  START  - STRY0015012:modification for DMSNo 
 					var DMSNo = "";
+					// [+] END - STRY0015012: modification for DMSNo 
 					if (oData.results[0].NAV_MASTTOHEADER.results !== undefined) {
 						SoNo = oData.results[0].NAV_MASTTOHEADER.results[0].SalesNo;
 						PONo = oData.results[0].NAV_MASTTOHEADER.results[0].PONo;
@@ -281,8 +283,9 @@ sap.ui.define([
 						PayTermDesc = oData.results[0].NAV_MASTTOHEADER.results[0].PayTermDesc;
 						Currency = oData.results[0].NAV_MASTTOHEADER.results[0].Currency;
 						DelAddress = oData.results[0].NAV_MASTTOHEADER.results[0].DelAddress;
-						// [+]
+						// [+]  START - STRY0015012:Modification for DMSNo 
 						DMSNo = oData.results[0].NAV_MASTTOHEADER.results[0].Bname;
+						// [+] END - STRY0015012:  modification for DMSNo 
 					}
 
 					var objOrdSummary = {
@@ -302,8 +305,10 @@ sap.ui.define([
 						"DelAddress": DelAddress,
 						// // [+] Start - STRY0012251: Blur Out Summary
 						"Blur": blurFlag,
-							// // [+] End - STRY0012251: Blur Out Summary
-						"DMSNo" : DMSNo
+						// // [+] End - STRY0012251: Blur Out Summary
+						// [+] START - STRY0015012:  Modification for DMSNo 
+						"DMSNo": DMSNo
+							// [+] END - STRY0015012:  Modification for DMSNo 
 					};
 
 					var summModel = new sap.ui.model.json.JSONModel(objOrdSummary);
