@@ -22,7 +22,7 @@
 					<Input value="{/DMSNo}" tooltip="{/DMSNo}" placeholder="{i18n>enter} {i18n&gt;DMSNoFrag}" maxLength="35" liveChange="onLiveChangeDMSNoFilter"/>
 					<Label text="{i18n>InvoiceNo}" design="Bold"/>
 					<Input value="{/InvoiceNo}" tooltip="{/InvoiceNo}" placeholder="{i18n>enter} {i18n&gt;InvoiceNoFrag}" maxLength="13" liveChange="onLiveChangeInvoiceNoFilter"/>
-					<!--[+] End Modification STRY0015012 - DMS No Inv No-->
+					<!--[+] End Modification STRY0015012 - DMS No-->
 					<Label text="{i18n>statusFrag}" design="Bold"/>
 					<!--<MultiComboBox placeholder="{i18n>select} {i18n>statusFrag}" selectedKeys="{/SelStatus}">-->
 					<!--	<core:Item text="{i18n>salesOrderCreatedStatusSales}" key="O"></core:Item>-->
