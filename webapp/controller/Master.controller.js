@@ -20,6 +20,7 @@ sap.ui.define([
 		onInit: function () {
 			this.getRouter().getRoute("master").attachPatternMatched(this._onObjectMatched, this);
 		},
+		
 		_onObjectMatched: function (oEvent) {
 			if (oEvent.getParameter("name") === "master") {
 				if (sap.ui.Device.system.phone) {
