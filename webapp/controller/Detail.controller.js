@@ -257,7 +257,10 @@ sap.ui.define([
 								ordQty = ordQty + parseFloat(currObj.OrderQty ? currObj.OrderQty.replace(",", "") : "0");
 							}
 							SOGross = SOGross + parseFloat(currObj.SOGross ? currObj.SOGross.replace(",", "") : "0");
-							SONv2 = SONv2 + parseFloat(currObj.SONv2 ? currObj.SONv2.replace(",", "") : "0");
+							// [+] Start - TIC0774985: Net amount discrepancy
+							// SONv2 = SONv2 + parseFloat(currObj.SONv2 ? currObj.SONv2.replace(",", "") : "0");
+							SONv2 = SONv2 + ((currObj.SONv2) ? currObj.SONv2.replace(",", "").replace(/ /g, '').replace(/([\d\.]*)-/, '-$1') : 0);
+							// [+] End - TIC0774985
 							TaxAmount = TaxAmount + parseFloat(currObj.TaxAmount ? currObj.TaxAmount.replace(",", "") : "0");
 							// [+] Start - STRY0012251: Blur Out Summary
 							if (currObj.Blur === "B") {
