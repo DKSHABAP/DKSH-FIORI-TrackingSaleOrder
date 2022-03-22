@@ -243,7 +243,6 @@ sap.ui.define([
 					//var lastIdx = 0;
 					var blurFlag = "";
 					// [+] End   - STRY0012251: Blur Out Summary
-
 					if (oData.results[0].NAV_MASTTOITEM.results !== undefined) {
 						lengthOfTotalItems = oData.results[0].NAV_MASTTOITEM.results.length;
 						//lastIdx = lengthOfTotalItems - 1;
@@ -256,12 +255,17 @@ sap.ui.define([
 							} else {
 								ordQty = ordQty + parseFloat(currObj.OrderQty ? currObj.OrderQty.replace(",", "") : "0");
 							}
-							SOGross = SOGross + parseFloat(currObj.SOGross ? currObj.SOGross.replace(",", "") : "0");
 							// [+] Start - TIC0774985: Net amount discrepancy
+							// SOGross = SOGross + parseFloat(currObj.SOGross ? currObj.SOGross.replace(",", "") : "0");
+							SOGross = SOGross + parseFloat(currObj.SOGross ? currObj.SOGross.replace(",", "").replace(/ /g, '').replace(/([\d\.]*)-/,
+								'-$1') : 0);
 							// SONv2 = SONv2 + parseFloat(currObj.SONv2 ? currObj.SONv2.replace(",", "") : "0");
-							SONv2 = SONv2 + ((currObj.SONv2) ? currObj.SONv2.replace(",", "").replace(/ /g, '').replace(/([\d\.]*)-/, '-$1') : 0);
+							SONv2 = SONv2 + parseFloat((currObj.SONv2) ? currObj.SONv2.replace(",", "").replace(/ /g, '').replace(/([\d\.]*)-/, '-$1') :
+								0);
+							// TaxAmount = TaxAmount + parseFloat(currObj.TaxAmount ? currObj.TaxAmount.replace(",", "") : "0");
+							TaxAmount = TaxAmount + parseFloat(currObj.TaxAmount ? currObj.TaxAmount.replace(",", "").replace(/ /g, '').replace(
+								/([\d\.]*)-/, '-$1') : 0);
 							// [+] End - TIC0774985
-							TaxAmount = TaxAmount + parseFloat(currObj.TaxAmount ? currObj.TaxAmount.replace(",", "") : "0");
 							// [+] Start - STRY0012251: Blur Out Summary
 							if (currObj.Blur === "B") {
 								blurFlag = "B";
