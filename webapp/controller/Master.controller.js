@@ -19,8 +19,17 @@ sap.ui.define([
 		formatter: formatter,
 		onInit: function () {
 			this.getRouter().getRoute("master").attachPatternMatched(this._onObjectMatched, this);
+
+			// Start Modification STRY0017413 - Additional Filter Fields for Invoice Search
+			var uiStateModel = new JSONModel();
+			var uiStateData = {
+				visible: false
+			};
+			uiStateModel.setData(uiStateData);
+			this.getView().setModel(uiStateModel, "uiState");
+			// End  Modification STRY0017413 - Additional Filter Fields for Invoice Search
 		},
-		
+
 		_onObjectMatched: function (oEvent) {
 			if (oEvent.getParameter("name") === "master") {
 				if (sap.ui.Device.system.phone) {
@@ -428,6 +437,11 @@ sap.ui.define([
 					DMSNo: "",
 					InvoiceNo: "",
 					// [+] End Modification- STRY0015013
+					// [+] Start Modification- 	STRY0017413
+					SalesOrg: "",
+					DistChan: "",
+					Division: "",
+					// [+] Start Modification- 	STRY0017413
 					SelStatus: undefined,
 					StartDate: null,
 					EndDate: null
@@ -459,6 +473,11 @@ sap.ui.define([
 				DMSNo: "",
 				InvoiceNo: "",
 				// [+] End Modification- STRY0015013
+				// [+] Start Modification- 	STRY0017413
+				SalesOrg: "",
+				DistChan: "",
+				Division: "",
+				// [+] Start Modification- 	STRY0017413
 				SelStatus: undefined,
 				StartDate: null,
 				EndDate: null
@@ -470,8 +489,46 @@ sap.ui.define([
 			this.readMasterListData("", "F");
 		},
 
+		// //[+] Start Modification- STRY0015013
+		// _validateInput: function (oInput) {
+		// 	var sValueState = "None";
+		// 	var bValidationError = false;
+		// 	var oBinding = oInput.getBinding("value");
+
+		// 	try {
+		// 		oBinding.getType().validateValue(oInput.getValue());
+		// 	} catch (oException) {
+		// 		sValueState = "Error";
+		// 		bValidationError = true;
+		// 	}
+
+		// 	oInput.setValueState(sValueState);
+
+		// 	return bValidationError;
+		// },
+		// //  [+] End Modification- STRY0015013
+
 		//on apply filter on master list
 		handleOkReadSoFilter: function () {
+
+			// // // [+] Start Modification- STRY0015013
+			// // collect input controls
+			// var oView = this.getView(),
+			// 	aInputs = [
+			// 		oView.byId("idDivision"),
+			// 		oView.byId("idSalesOrg")
+			// 		oView.byId("idDistChan")
+			// 	],
+			// 	bValidationError = false;
+
+			// // Check that inputs are not empty.
+			// // Validation does not happen during data binding as this is only triggered by user actions.
+			// aInputs.forEach(function (oInput) {
+			// 	bValidationError = this._validateInput(oInput) || bValidationError;
+			// }, this);
+
+			// //  [+] End Modification- STRY0015013
+
 			var filterString = "";
 			var selectObj = this.searchMasterFrag.getModel().getData();
 			if (selectObj.SalesOrder !== "" && selectObj.SalesOrder.trim() !== "") {
@@ -509,11 +566,13 @@ sap.ui.define([
 			}
 
 			if (selectObj.InvoiceNo !== "" && selectObj.InvoiceNo.trim() !== "") {
+
 				if (filterString !== "") {
 					filterString = filterString + " and Invno eq '" + selectObj.InvoiceNo + "'";
 				} else {
 					filterString = "Invno eq '" + selectObj.InvoiceNo + "'";
 				}
+
 				//	to push in date value for filter purpose
 				if (selectObj.StartDate === "" || selectObj.StartDate === null) {
 					var today = new Date();
@@ -526,7 +585,19 @@ sap.ui.define([
 					}
 				}
 
+				if ((selectObj.InvoiceNo !== "") && (selectObj.SalesOrg === "" || selectObj.SalesOrg === null)) {
+					var msg = this.i18nModel.getProperty("enterValidDateRange");
+					sap.m.MessageToast.show(msg);
+				}
+
+				if (selectObj.SalesOrg !== "" || selectObj.SalesOrg !== null) {
+					filterString = filterString + " and SalesOrg eq '" + selectObj.SalesOrg + "'";
+				} else {
+					filterString = "SalesOrg eq '" + selectObj.SalesOrg + "'";
+
+				}
 			}
+
 			// [+] End Modification- STRY0015013
 
 			//for Date Range
@@ -594,6 +665,12 @@ sap.ui.define([
 
 		//on live Customer no live change
 		onLiveChangeCustIdFilter: function (oEvent) {
+			//	this.getView().byId("idSalesOrg").setVisible(true); 
+			oEvent.getSource().setValue(oEvent.getParameters().value.trim());
+			oEvent.getSource().setTooltip(oEvent.getParameters().value.trim());
+		},
+
+		onLiveChangeSalesOrgFilter: function (oEvent) {
 			oEvent.getSource().setValue(oEvent.getParameters().value.trim());
 			oEvent.getSource().setTooltip(oEvent.getParameters().value.trim());
 		},
@@ -604,6 +681,11 @@ sap.ui.define([
 		},
 
 		onLiveChangeInvoiceNoFilter: function (oEvent) {
+			var uiStateModel = this.getView().getModel("uiState");
+			var uiStateData = uiStateModel.getData();
+			uiStateData.visible = true;
+			uiStateModel.setData(uiStateData);
+
 			oEvent.getSource().setValue(oEvent.getParameters().value.trim());
 			oEvent.getSource().setTooltip(oEvent.getParameters().value.trim());
 		},
