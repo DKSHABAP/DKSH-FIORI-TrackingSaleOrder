@@ -18,7 +18,6 @@ sap.ui.define([
 	return BaseController.extend("dksh.connectclient.tracksaleorder.controller.Master", {
 		formatter: formatter,
 		onInit: function () {
-			this.getRouter().getRoute("master").attachPatternMatched(this._onObjectMatched, this);
 
 			// Start Modification STRY0017413 - Additional Filter Fields for Invoice Search
 			var uiStateModel = new JSONModel();
@@ -585,19 +584,36 @@ sap.ui.define([
 					}
 				}
 
-				if ((selectObj.InvoiceNo !== "") && (selectObj.SalesOrg === "" || selectObj.SalesOrg === null)) {
-					var msg = this.i18nModel.getProperty("enterValidDateRange");
-					sap.m.MessageToast.show(msg);
-				}
-
 				if (selectObj.SalesOrg !== "" || selectObj.SalesOrg !== null) {
 					filterString = filterString + " and SalesOrg eq '" + selectObj.SalesOrg + "'";
 				} else {
 					filterString = "SalesOrg eq '" + selectObj.SalesOrg + "'";
 
 				}
-			}
 
+				if (selectObj.DistChan !== "" || selectObj.DistChan !== null) {
+					filterString = filterString + " and DistChan eq '" + selectObj.DistChan + "'";
+				} else {
+					filterString = "DistChan eq '" + selectObj.DistChan + "'";
+
+				}
+
+				if (selectObj.Divison !== "" || selectObj.Divison !== null) {
+					filterString = filterString + " and Divison eq '" + selectObj.Divison + "'";
+				} else {
+					filterString = "Divison eq '" + selectObj.Divison + "'";
+
+				}
+
+				if ( ( selectObj.InvoiceNo !== "" ) && ( selectObj.SalesOrg === ""  ||
+				selectObj.DistChan === "" || 
+				selectObj.Division === "") ) {
+					var msg = this.i18nModel.getProperty("enterFilterSearch");
+					sap.m.MessageToast.show(msg);
+					return false;
+				}
+
+			}
 			// [+] End Modification- STRY0015013
 
 			//for Date Range

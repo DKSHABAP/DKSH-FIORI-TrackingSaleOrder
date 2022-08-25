@@ -19,7 +19,7 @@
 					<Input value="{/CustomerNo}" tooltip="{/CustomerNo}" placeholder="{i18n>enter} {i18n&gt;customerIdFrag}" maxLength="10" liveChange="onLiveChangeCustIdFilter"/>
 					<!--[+] Start Modification STRY0017413 - Additional Filter Fields for DMS-->
 					<Label text="{i18n>salesOrgFrag}" design="Bold"/>
-					<Input value="{/SalesOrg}" tooltip="{/SalesOrg}" placeholder="{i18n>enter} {i18n&gt;salesOrgFrag} {i18n>invoiceFilter}" maxLength="10" liveChange="onLiveChangeSalesOrgFilter" visible="{uiState>/visible}" id="idSalesOrg" valueState="Warning"/>
+					<Input value="{/SalesOrg}" tooltip="{/SalesOrg}" placeholder="{i18n>enter} {i18n&gt;salesOrgFrag} {i18n>invoiceFilter}" maxLength="10" liveChange="onLiveChangeSalesOrgFilter" visible="{uiState>/visible}" id="idSalesOrg"/>
 					<Label text="{i18n>distChanFrag}" design="Bold"/>
 					<Input value="{/DistChan}" tooltip="{/DistCha}" placeholder="{i18n>enter} {i18n&gt;distChanFrag} {i18n>invoiceFilter}" maxLength="10" liveChange="onLiveChangeDistChanFilter" visible="{uiState>/visible}" id="idDistChan"/>
 					<Label text="{i18n>divIdFrag}" design="Bold"/>
