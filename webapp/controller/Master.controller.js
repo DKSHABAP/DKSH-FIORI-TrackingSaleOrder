@@ -29,7 +29,6 @@ sap.ui.define([
 			// End  Modification STRY0017413 - Additional Filter Fields for Invoice Search
 		},
 
-
 		_onObjectMatched: function (oEvent) {
 			if (oEvent.getParameter("name") === "master") {
 				if (sap.ui.Device.system.phone) {
