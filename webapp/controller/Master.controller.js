@@ -26,7 +26,6 @@ sap.ui.define([
 			};
 			uiStateModel.setData(uiStateData);
 			this.getView().setModel(uiStateModel, "uiState");
-			
 			// End  Modification STRY0017413 - Additional Filter Fields for Invoice Search
 		},
 
