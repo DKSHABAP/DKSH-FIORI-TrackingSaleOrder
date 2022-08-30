@@ -19,6 +19,15 @@ sap.ui.define([
 		formatter: formatter,
 		onInit: function () {
 			this.getRouter().getRoute("master").attachPatternMatched(this._onObjectMatched, this);
+			
+			// Start Modification STRY0017413 - Additional Filter Fields for Invoice Search
+			// var uiStateModel = new JSONModel();
+			// var uiStateData = {
+			// 	visible: false
+			// };
+			// uiStateModel.setData(uiStateData);
+			// this.getView().setModel(uiStateModel, "uiState");
+			// End  Modification STRY0017413 - Additional Filter Fields for Invoice Search
 		},
 		
 		_onObjectMatched: function (oEvent) {
