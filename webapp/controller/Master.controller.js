@@ -598,10 +598,10 @@ sap.ui.define([
 
 				}
 
-				if (selectObj.Divison !== "" || selectObj.Divison !== null) {
-					filterString = filterString + " and Divison eq '" + selectObj.Divison + "'";
+				if (selectObj.Division !== "" || selectObj.Division !== null) {
+					filterString = filterString + " and Division eq '" + selectObj.Division + "'";
 				} else {
-					filterString = "Divison eq '" + selectObj.Divison + "'";
+					filterString = "Division eq '" + selectObj.Division + "'";
 
 				}
 
