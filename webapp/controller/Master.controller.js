@@ -486,9 +486,13 @@ sap.ui.define([
 			};
 			var frgModel = new sap.ui.model.json.JSONModel(objeFilter);
 			this.searchMasterFrag.setModel(frgModel);
-			var tmp = JSON.stringify(objeFilter);
-			this.tempDataFragment = JSON.parse(tmp);
-			this.readMasterListData("", "F");
+			
+			// STRY0017424 - DFCT0012601 (begin)
+			// Commented. When clear inputs no need to search the list and close dialog popup
+			// var tmp = JSON.stringify(objeFilter);
+			// this.tempDataFragment = JSON.parse(tmp);
+			// this.readMasterListData("", "F");
+			// STRY0017424 - DFCT0012601 (end)
 		},
 
 		// //[+] Start Modification- STRY0015013
