@@ -23,7 +23,7 @@
 					<Label text="{i18n>distChanFrag}" design="Bold"/>
 					<Input value="{/DistChan}" tooltip="{/DistCha}" placeholder="{i18n>enter} {i18n&gt;distChanFrag} {i18n>invoiceFilter}" maxLength="10" liveChange="onLiveChangeDistChanFilter" visible="{uiState>/visible}" id="idDistChan"/>
 					<Label text="{i18n>divIdFrag}" design="Bold"/>
-					<Input value="{/Division}" tooltip="{/Division}" placeholder="{i18n>enter} {i18n&gt;divIdFragFrag} {i18n>invoiceFilter}" maxLength="10" liveChange="onLiveChangeDivisionFilter" visible="{uiState>/visible}" id="idDivision"/>
+					<Input value="{/Division}" tooltip="{/Division}" placeholder="{i18n>enter} {i18n&gt;divIdFrag} {i18n>invoiceFilter}" maxLength="10" liveChange="onLiveChangeDivisionFilter" visible="{uiState>/visible}" id="idDivision"/>
 					<!--[+] End Modification STRY0017413 - Additional Filter Fields for DMS-->
 					<!--[+] Start Modification STRY0015012 - DMS No-->
 					<Label text="{i18n>DMSNoFrag}" design="Bold"/>
