@@ -31,6 +31,11 @@
 					<Label text="{i18n>InvoiceNoFrag}" design="Bold"/>
 					<Input value="{/InvoiceNo}" tooltip="{/InvoiceNo}" placeholder="{i18n>enter} {i18n&gt;InvoiceNoFrag}" maxLength="13" liveChange="onLiveChangeInvoiceNoFilter"/>
 					<!--[+] End Modification STRY0015012 - DMS No-->
+					<Label text="{i18n>MaterialGrpFrag}" design="Bold"/>
+					<Input value="{/MaterialGrp}" tooltip="{/MaterialGrp}" placeholder="{i18n>enter} {i18n&gt;MaterialGrpFrag}" maxLength="13" liveChange="onLiveChangeMaterialGrpFilter" visible="{MatGrpVisible>/visible}" id="idMaterialGrp" required="true"/>
+					
+					<Label text="{i18n>PONoFrag}" design="Bold"/>
+					<Input value="{/PONo}" tooltip="{/PONo}" placeholder="{i18n>enter} {i18n&gt;PONoFrag}" maxLength="13" liveChange="onLiveChangePONoFilter"/>
 					<Label text="{i18n>statusFrag}" design="Bold"/>
 					<!--<MultiComboBox placeholder="{i18n>select} {i18n>statusFrag}" selectedKeys="{/SelStatus}">-->
 					<!--	<core:Item text="{i18n>salesOrderCreatedStatusSales}" key="O"></core:Item>-->
