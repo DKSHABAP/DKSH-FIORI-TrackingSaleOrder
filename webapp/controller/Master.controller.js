@@ -587,7 +587,7 @@ sap.ui.define([
 					var endDate = formatter.DateConversion(new Date(today.getFullYear(), today.getMonth(), today.getDate()));
 					var startDate = formatter.DateConversion(new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7));
 					if (filterString !== "") {
-						filterString = filterString + " and (CreatedDate le datetime'" + startDate + "' and CreatedDate ge datetime'" + endDate + "')";
+						filterString = filterString + " and (CreatedDate le datetime'" + endDate + "' and CreatedDate ge datetime'" + startDate + "')";
 					} else {
 						filterString = "(CreatedDate le datetime'" + endDate + "' and CreatedDate ge datetime'" + startDate  + "')";
 					}
