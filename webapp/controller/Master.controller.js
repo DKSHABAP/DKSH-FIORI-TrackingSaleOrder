@@ -28,9 +28,16 @@ sap.ui.define([
 			this.getView().setModel(uiStateModel, "uiState");
 			
 			// End  Modification STRY0017413 - Additional Filter Fields for Invoice Search
-			
-		},
 
+			// Start Modification STRY0017627 - Additional Filter Material Group
+			var uiMatGrpModel = new JSONModel();
+			var uiMatGrpData = {
+				visible: false
+			};
+			uiMatGrpModel.setData(uiMatGrpData);
+			this.getView().setModel(uiMatGrpModel, "MatGrpVisible");
+			// End Modification STRY0017627 - Additional Filter Material Group
+		},
 
 		_onObjectMatched: function (oEvent) {
 			if (oEvent.getParameter("name") === "master") {
@@ -580,16 +587,16 @@ sap.ui.define([
 				}
 
 				//	to push in date value for filter purpose
-				if (selectObj.StartDate === "" || selectObj.StartDate === null) {
-					var today = new Date();
-					var endDate = formatter.DateConversion(new Date(today.getFullYear(), today.getMonth(), today.getDate()));
-					var startDate = formatter.DateConversion(new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7));
-					if (filterString !== "") {
-						filterString = filterString + " and (CreatedDate le datetime'" + startDate + "' and CreatedDate ge datetime'" + endDate + "')";
-					} else {
-						filterString = "(CreatedDate le datetime'" + startDate + "' and CreatedDate ge datetime'" + endDate + "')";
-					}
-				}
+				// if (selectObj.StartDate === "" || selectObj.StartDate === null) {
+				// 	var today = new Date();
+				// 	var endDate = formatter.DateConversion(new Date(today.getFullYear(), today.getMonth(), today.getDate()));
+				// 	var startDate = formatter.DateConversion(new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7));
+				// 	if (filterString !== "") {
+				// 		filterString = filterString + " and (CreatedDate le datetime'" + endDate + "' and CreatedDate ge datetime'" + startDate + "')";
+				// 	} else {
+				// 		filterString = "(CreatedDate le datetime'" + endDate + "' and CreatedDate ge datetime'" + startDate + "')";
+				// 	}
+				// }
 
 				if (selectObj.SalesOrg !== "" || selectObj.SalesOrg !== null) {
 					filterString = filterString + " and SalesOrg eq '" + selectObj.SalesOrg + "'";
@@ -612,9 +619,9 @@ sap.ui.define([
 
 				}
 
-				if ( ( selectObj.InvoiceNo !== "" ) && ( selectObj.SalesOrg === ""  ||
-				selectObj.DistChan === "" || 
-				selectObj.Division === "") ) {
+				if ((selectObj.InvoiceNo !== "") && (selectObj.SalesOrg === "" ||
+						selectObj.DistChan === "" ||
+						selectObj.Division === "")) {
 					var msg = this.i18nModel.getProperty("enterFilterSearch");
 					sap.m.MessageToast.show(msg);
 					return false;
@@ -622,6 +629,42 @@ sap.ui.define([
 
 			}
 			// [+] End Modification- STRY0015013
+
+			// [+] Start Modification- STRY0017627
+			//			PO Number
+			if (selectObj.PONo !== "" && selectObj.PONo !== undefined) {
+				if (filterString !== "") {
+					filterString = filterString + " and PONo eq '" + selectObj.PONo + "'";
+				} else {
+					filterString = "PONo eq '" + selectObj.PONo + "'";
+				}
+				// Material Group
+				if (selectObj.MaterialGrp !== "" && selectObj.MaterialGrp !== undefined) {
+					if (filterString !== "") {
+						filterString = filterString + " and MaterialGrp eq '" + selectObj.MaterialGrp + "'";
+					} else {
+						filterString = "MaterialGrp eq '" + selectObj.MaterialGrp + "'";
+					}
+				} else {
+					var msg = this.i18nModel.getProperty("enterPOSearch");
+					sap.m.MessageToast.show(msg);
+					return false;
+				}
+				
+				//				push in date for faster filter 
+				if (selectObj.StartDate === "" || selectObj.StartDate === null) {
+					var today = new Date();
+					var endDate = formatter.DateConversion(new Date(today.getFullYear(), today.getMonth(), today.getDate()));
+					var startDate = formatter.DateConversion(new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7));
+					if (filterString !== "") {
+						filterString = filterString + " and (CreatedDate le datetime'" + endDate + "' and CreatedDate ge datetime'" + startDate + "')";
+					} else {
+						filterString = "(CreatedDate le datetime'" + startDate + "' and CreatedDate ge datetime'" + endDate + "')";
+					}
+				}
+
+			}
+			// [+] End Modification- STRY0017627
 
 			//for Date Range
 			if (selectObj.StartDate !== "" && selectObj.StartDate !== null) {
@@ -708,6 +751,16 @@ sap.ui.define([
 			var uiStateData = uiStateModel.getData();
 			uiStateData.visible = true;
 			uiStateModel.setData(uiStateData);
+
+			oEvent.getSource().setValue(oEvent.getParameters().value.trim());
+			oEvent.getSource().setTooltip(oEvent.getParameters().value.trim());
+		},
+
+		onLiveChangePONoFilter: function (oEvent) {
+			var uiMatGrpModel = this.getView().getModel("MatGrpVisible");
+			var uiMatGrpData = uiMatGrpModel.getData();
+			uiMatGrpData.visible = true;
+			uiMatGrpModel.setData(uiMatGrpData);
 
 			oEvent.getSource().setValue(oEvent.getParameters().value.trim());
 			oEvent.getSource().setTooltip(oEvent.getParameters().value.trim());
