@@ -37,7 +37,7 @@ sap.ui.define([
 			this.getView().setModel(uiMatGrpModel, "MatGrpVisible");
 			// End Modification STRY0017627 - Additional Filter Material Group
 		},
-		
+
 		_onObjectMatched: function (oEvent) {
 			if (oEvent.getParameter("name") === "master") {
 				if (sap.ui.Device.system.phone) {
@@ -582,16 +582,16 @@ sap.ui.define([
 				}
 
 				//	to push in date value for filter purpose
-				if (selectObj.StartDate === "" || selectObj.StartDate === null) {
-					var today = new Date();
-					var endDate = formatter.DateConversion(new Date(today.getFullYear(), today.getMonth(), today.getDate()));
-					var startDate = formatter.DateConversion(new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7));
-					if (filterString !== "") {
-						filterString = filterString + " and (CreatedDate le datetime'" + endDate + "' and CreatedDate ge datetime'" + startDate + "')";
-					} else {
-						filterString = "(CreatedDate le datetime'" + endDate + "' and CreatedDate ge datetime'" + startDate  + "')";
-					}
-				}
+				// if (selectObj.StartDate === "" || selectObj.StartDate === null) {
+				// 	var today = new Date();
+				// 	var endDate = formatter.DateConversion(new Date(today.getFullYear(), today.getMonth(), today.getDate()));
+				// 	var startDate = formatter.DateConversion(new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7));
+				// 	if (filterString !== "") {
+				// 		filterString = filterString + " and (CreatedDate le datetime'" + endDate + "' and CreatedDate ge datetime'" + startDate + "')";
+				// 	} else {
+				// 		filterString = "(CreatedDate le datetime'" + endDate + "' and CreatedDate ge datetime'" + startDate + "')";
+				// 	}
+				// }
 
 				if (selectObj.SalesOrg !== "" || selectObj.SalesOrg !== null) {
 					filterString = filterString + " and SalesOrg eq '" + selectObj.SalesOrg + "'";
@@ -627,20 +627,25 @@ sap.ui.define([
 
 			// [+] Start Modification- STRY0017627
 			//			PO Number
-			if (selectObj.PONo !== "" && selectObj.PONo.trim() !== "") {
+			if (selectObj.PONo !== "" && selectObj.PONo !== undefined) {
 				if (filterString !== "") {
 					filterString = filterString + " and PONo eq '" + selectObj.PONo + "'";
 				} else {
 					filterString = "PONo eq '" + selectObj.PONo + "'";
 				}
 				// Material Group
-				if (selectObj.MaterialGrp !== "" && selectObj.MaterialGrp.trim() !== "") {
+				if (selectObj.MaterialGrp !== "" && selectObj.MaterialGrp !== undefined) {
 					if (filterString !== "") {
 						filterString = filterString + " and MaterialGrp eq '" + selectObj.MaterialGrp + "'";
 					} else {
 						filterString = "MaterialGrp eq '" + selectObj.MaterialGrp + "'";
 					}
+				} else {
+					var msg = this.i18nModel.getProperty("enterPOSearch");
+					sap.m.MessageToast.show(msg);
+					return false;
 				}
+				
 				//				push in date for faster filter 
 				if (selectObj.StartDate === "" || selectObj.StartDate === null) {
 					var today = new Date();
