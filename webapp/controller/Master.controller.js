@@ -37,6 +37,7 @@ sap.ui.define([
 			this.getView().setModel(uiMatGrpModel, "MatGrpVisible");
 			// End Modification STRY0017627 - Additional Filter Material Group
 		},
+		
 
 		_onObjectMatched: function (oEvent) {
 			if (oEvent.getParameter("name") === "master") {
