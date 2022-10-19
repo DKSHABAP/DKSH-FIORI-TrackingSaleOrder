@@ -450,6 +450,10 @@ sap.ui.define([
 					DistChan: "",
 					Division: "",
 					// [+] Start Modification- 	STRY0017413
+					// [+] Start Modification- STRY0017627
+					PONo: "",
+					MaterialGrp: "",
+					// [+] End Modification- STRY0017627
 					SelStatus: undefined,
 					StartDate: null,
 					EndDate: null
@@ -486,6 +490,10 @@ sap.ui.define([
 				DistChan: "",
 				Division: "",
 				// [+] Start Modification- 	STRY0017413
+				// [+] Start Modification- STRY0017627
+				PONo: "",
+				MaterialGrp: "",
+				// [+] End Modification- STRY0017627
 				SelStatus: undefined,
 				StartDate: null,
 				EndDate: null
@@ -645,7 +653,7 @@ sap.ui.define([
 					sap.m.MessageToast.show(msg);
 					return false;
 				}
-				
+
 				//				push in date for faster filter 
 				if (selectObj.StartDate === "" || selectObj.StartDate === null) {
 					var today = new Date();
