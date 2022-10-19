@@ -544,7 +544,6 @@ sap.ui.define([
 			// }, this);
 
 			// //  [+] End Modification- STRY0015013
-
 			var filterString = "";
 			var selectObj = this.searchMasterFrag.getModel().getData();
 			if (selectObj.SalesOrder !== "" && selectObj.SalesOrder.trim() !== "") {
