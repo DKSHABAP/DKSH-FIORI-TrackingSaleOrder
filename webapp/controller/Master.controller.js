@@ -452,7 +452,7 @@ sap.ui.define([
 					// [+] Start Modification- 	STRY0017413
 					// [+] Start Modification- STRY0017627
 					PONo: "",
-					MaterialGrp: "",
+					MaterialGrpF: "",
 					// [+] End Modification- STRY0017627
 					SelStatus: undefined,
 					StartDate: null,
@@ -492,7 +492,7 @@ sap.ui.define([
 				// [+] Start Modification- 	STRY0017413
 				// [+] Start Modification- STRY0017627
 				PONo: "",
-				MaterialGrp: "",
+				MaterialGrpF: "",
 				// [+] End Modification- STRY0017627
 				SelStatus: undefined,
 				StartDate: null,
@@ -641,11 +641,11 @@ sap.ui.define([
 					filterString = "PONo eq '" + selectObj.PONo + "'";
 				}
 				// Material Group
-				if (selectObj.MaterialGrp !== "" && selectObj.MaterialGrp !== undefined) {
+				if (selectObj.MaterialGrpF !== "" && selectObj.MaterialGrpF !== undefined) {
 					if (filterString !== "") {
-						filterString = filterString + " and MaterialGrp eq '" + selectObj.MaterialGrp + "'";
+						filterString = filterString + " and MaterialGrpF eq '" + selectObj.MaterialGrpF + "'";
 					} else {
-						filterString = "MaterialGrp eq '" + selectObj.MaterialGrp + "'";
+						filterString = "MaterialGrpF eq '" + selectObj.MaterialGrpF + "'";
 					}
 				} else {
 					var msg = this.i18nModel.getProperty("enterPOSearch");
@@ -747,7 +747,12 @@ sap.ui.define([
 			oEvent.getSource().setValue(oEvent.getParameters().value.trim());
 			oEvent.getSource().setTooltip(oEvent.getParameters().value.trim());
 		},
-
+		
+		onLiveChangeMaterialGrpFilter: function (oEvent) {
+			oEvent.getSource().setValue(oEvent.getParameters().value.trim());
+			oEvent.getSource().setTooltip(oEvent.getParameters().value.trim());
+		},
+		
 		onLiveChangeInvoiceNoFilter: function (oEvent) {
 			var uiStateModel = this.getView().getModel("uiState");
 			var uiStateData = uiStateModel.getData();
