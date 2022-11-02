@@ -18,27 +18,9 @@ sap.ui.define([
 	return BaseController.extend("dksh.connectclient.tracksaleorder.controller.Master", {
 		formatter: formatter,
 		onInit: function () {
-
-			// Start Modification STRY0017413 - Additional Filter Fields for Invoice Search
-			var uiStateModel = new JSONModel();
-			var uiStateData = {
-				visible: false
-			};
-			uiStateModel.setData(uiStateData);
-			this.getView().setModel(uiStateModel, "uiState");
-			
-			// End  Modification STRY0017413 - Additional Filter Fields for Invoice Search
-
-			// Start Modification STRY0017627 - Additional Filter Material Group
-			var uiMatGrpModel = new JSONModel();
-			var uiMatGrpData = {
-				visible: false
-			};
-			uiMatGrpModel.setData(uiMatGrpData);
-			this.getView().setModel(uiMatGrpModel, "MatGrpVisible");
-			// End Modification STRY0017627 - Additional Filter Material Group
+			this.getRouter().getRoute("master").attachPatternMatched(this._onObjectMatched, this);
 		},
-
+		
 		_onObjectMatched: function (oEvent) {
 			if (oEvent.getParameter("name") === "master") {
 				if (sap.ui.Device.system.phone) {
@@ -446,11 +428,6 @@ sap.ui.define([
 					DMSNo: "",
 					InvoiceNo: "",
 					// [+] End Modification- STRY0015013
-					// [+] Start Modification- 	STRY0017413
-					SalesOrg: "",
-					DistChan: "",
-					Division: "",
-					// [+] Start Modification- 	STRY0017413
 					SelStatus: undefined,
 					StartDate: null,
 					EndDate: null
@@ -482,66 +459,19 @@ sap.ui.define([
 				DMSNo: "",
 				InvoiceNo: "",
 				// [+] End Modification- STRY0015013
-				// [+] Start Modification- 	STRY0017413
-				SalesOrg: "",
-				DistChan: "",
-				Division: "",
-				// [+] Start Modification- 	STRY0017413
 				SelStatus: undefined,
 				StartDate: null,
 				EndDate: null
 			};
 			var frgModel = new sap.ui.model.json.JSONModel(objeFilter);
 			this.searchMasterFrag.setModel(frgModel);
-			
-			// STRY0017424 - DFCT0012601 (begin)
-			// Commented. When clear inputs no need to search the list and close dialog popup
-			// var tmp = JSON.stringify(objeFilter);
-			// this.tempDataFragment = JSON.parse(tmp);
-			// this.readMasterListData("", "F");
-			// STRY0017424 - DFCT0012601 (end)
+			var tmp = JSON.stringify(objeFilter);
+			this.tempDataFragment = JSON.parse(tmp);
+			this.readMasterListData("", "F");
 		},
-
-		// //[+] Start Modification- STRY0015013
-		// _validateInput: function (oInput) {
-		// 	var sValueState = "None";
-		// 	var bValidationError = false;
-		// 	var oBinding = oInput.getBinding("value");
-
-		// 	try {
-		// 		oBinding.getType().validateValue(oInput.getValue());
-		// 	} catch (oException) {
-		// 		sValueState = "Error";
-		// 		bValidationError = true;
-		// 	}
-
-		// 	oInput.setValueState(sValueState);
-
-		// 	return bValidationError;
-		// },
-		// //  [+] End Modification- STRY0015013
 
 		//on apply filter on master list
 		handleOkReadSoFilter: function () {
-
-			// // // [+] Start Modification- STRY0015013
-			// // collect input controls
-			// var oView = this.getView(),
-			// 	aInputs = [
-			// 		oView.byId("idDivision"),
-			// 		oView.byId("idSalesOrg")
-			// 		oView.byId("idDistChan")
-			// 	],
-			// 	bValidationError = false;
-
-			// // Check that inputs are not empty.
-			// // Validation does not happen during data binding as this is only triggered by user actions.
-			// aInputs.forEach(function (oInput) {
-			// 	bValidationError = this._validateInput(oInput) || bValidationError;
-			// }, this);
-
-			// //  [+] End Modification- STRY0015013
-
 			var filterString = "";
 			var selectObj = this.searchMasterFrag.getModel().getData();
 			if (selectObj.SalesOrder !== "" && selectObj.SalesOrder.trim() !== "") {
@@ -579,92 +509,25 @@ sap.ui.define([
 			}
 
 			if (selectObj.InvoiceNo !== "" && selectObj.InvoiceNo.trim() !== "") {
-
 				if (filterString !== "") {
 					filterString = filterString + " and Invno eq '" + selectObj.InvoiceNo + "'";
 				} else {
 					filterString = "Invno eq '" + selectObj.InvoiceNo + "'";
 				}
-
 				//	to push in date value for filter purpose
-				// if (selectObj.StartDate === "" || selectObj.StartDate === null) {
-				// 	var today = new Date();
-				// 	var endDate = formatter.DateConversion(new Date(today.getFullYear(), today.getMonth(), today.getDate()));
-				// 	var startDate = formatter.DateConversion(new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7));
-				// 	if (filterString !== "") {
-				// 		filterString = filterString + " and (CreatedDate le datetime'" + endDate + "' and CreatedDate ge datetime'" + startDate + "')";
-				// 	} else {
-				// 		filterString = "(CreatedDate le datetime'" + endDate + "' and CreatedDate ge datetime'" + startDate + "')";
-				// 	}
-				// }
-
-				if (selectObj.SalesOrg !== "" || selectObj.SalesOrg !== null) {
-					filterString = filterString + " and SalesOrg eq '" + selectObj.SalesOrg + "'";
-				} else {
-					filterString = "SalesOrg eq '" + selectObj.SalesOrg + "'";
-
-				}
-
-				if (selectObj.DistChan !== "" || selectObj.DistChan !== null) {
-					filterString = filterString + " and DistChan eq '" + selectObj.DistChan + "'";
-				} else {
-					filterString = "DistChan eq '" + selectObj.DistChan + "'";
-
-				}
-
-				if (selectObj.Division !== "" || selectObj.Division !== null) {
-					filterString = filterString + " and Division eq '" + selectObj.Division + "'";
-				} else {
-					filterString = "Division eq '" + selectObj.Division + "'";
-
-				}
-
-				if ((selectObj.InvoiceNo !== "") && (selectObj.SalesOrg === "" ||
-						selectObj.DistChan === "" ||
-						selectObj.Division === "")) {
-					var msg = this.i18nModel.getProperty("enterFilterSearch");
-					sap.m.MessageToast.show(msg);
-					return false;
-				}
-
-			}
-			// [+] End Modification- STRY0015013
-
-			// [+] Start Modification- STRY0017627
-			//			PO Number
-			if (selectObj.PONo !== "" && selectObj.PONo !== undefined) {
-				if (filterString !== "") {
-					filterString = filterString + " and PONo eq '" + selectObj.PONo + "'";
-				} else {
-					filterString = "PONo eq '" + selectObj.PONo + "'";
-				}
-				// Material Group
-				if (selectObj.MaterialGrp !== "" && selectObj.MaterialGrp !== undefined) {
-					if (filterString !== "") {
-						filterString = filterString + " and MaterialGrp eq '" + selectObj.MaterialGrp + "'";
-					} else {
-						filterString = "MaterialGrp eq '" + selectObj.MaterialGrp + "'";
-					}
-				} else {
-					var msg = this.i18nModel.getProperty("enterPOSearch");
-					sap.m.MessageToast.show(msg);
-					return false;
-				}
-				
-				//				push in date for faster filter 
 				if (selectObj.StartDate === "" || selectObj.StartDate === null) {
 					var today = new Date();
 					var endDate = formatter.DateConversion(new Date(today.getFullYear(), today.getMonth(), today.getDate()));
 					var startDate = formatter.DateConversion(new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7));
 					if (filterString !== "") {
-						filterString = filterString + " and (CreatedDate le datetime'" + endDate + "' and CreatedDate ge datetime'" + startDate + "')";
+						filterString = filterString + " and (CreatedDate le datetime'" + startDate + "' and CreatedDate ge datetime'" + endDate + "')";
 					} else {
 						filterString = "(CreatedDate le datetime'" + startDate + "' and CreatedDate ge datetime'" + endDate + "')";
 					}
 				}
 
 			}
-			// [+] End Modification- STRY0017627
+			// [+] End Modification- STRY0015013
 
 			//for Date Range
 			if (selectObj.StartDate !== "" && selectObj.StartDate !== null) {
@@ -731,12 +594,6 @@ sap.ui.define([
 
 		//on live Customer no live change
 		onLiveChangeCustIdFilter: function (oEvent) {
-			//	this.getView().byId("idSalesOrg").setVisible(true); 
-			oEvent.getSource().setValue(oEvent.getParameters().value.trim());
-			oEvent.getSource().setTooltip(oEvent.getParameters().value.trim());
-		},
-
-		onLiveChangeSalesOrgFilter: function (oEvent) {
 			oEvent.getSource().setValue(oEvent.getParameters().value.trim());
 			oEvent.getSource().setTooltip(oEvent.getParameters().value.trim());
 		},
@@ -747,21 +604,6 @@ sap.ui.define([
 		},
 
 		onLiveChangeInvoiceNoFilter: function (oEvent) {
-			var uiStateModel = this.getView().getModel("uiState");
-			var uiStateData = uiStateModel.getData();
-			uiStateData.visible = true;
-			uiStateModel.setData(uiStateData);
-
-			oEvent.getSource().setValue(oEvent.getParameters().value.trim());
-			oEvent.getSource().setTooltip(oEvent.getParameters().value.trim());
-		},
-
-		onLiveChangePONoFilter: function (oEvent) {
-			var uiMatGrpModel = this.getView().getModel("MatGrpVisible");
-			var uiMatGrpData = uiMatGrpModel.getData();
-			uiMatGrpData.visible = true;
-			uiMatGrpModel.setData(uiMatGrpData);
-
 			oEvent.getSource().setValue(oEvent.getParameters().value.trim());
 			oEvent.getSource().setTooltip(oEvent.getParameters().value.trim());
 		},
