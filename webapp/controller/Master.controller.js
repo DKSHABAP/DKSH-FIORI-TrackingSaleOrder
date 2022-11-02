@@ -26,8 +26,11 @@ sap.ui.define([
 			};
 			uiStateModel.setData(uiStateData);
 			this.getView().setModel(uiStateModel, "uiState");
+			
 			// End  Modification STRY0017413 - Additional Filter Fields for Invoice Search
 
+<<<<<<< HEAD
+=======
 			// Start Modification STRY0017627 - Additional Filter Material Group
 			var uiMatGrpModel = new JSONModel();
 			var uiMatGrpData = {
@@ -38,6 +41,7 @@ sap.ui.define([
 			// End Modification STRY0017627 - Additional Filter Material Group
 		},
 
+>>>>>>> refs/heads/Master
 		_onObjectMatched: function (oEvent) {
 			if (oEvent.getParameter("name") === "master") {
 				if (sap.ui.Device.system.phone) {
@@ -500,9 +504,13 @@ sap.ui.define([
 			};
 			var frgModel = new sap.ui.model.json.JSONModel(objeFilter);
 			this.searchMasterFrag.setModel(frgModel);
-			var tmp = JSON.stringify(objeFilter);
-			this.tempDataFragment = JSON.parse(tmp);
-			this.readMasterListData("", "F");
+			
+			// STRY0017424 - DFCT0012601 (begin)
+			// Commented. When clear inputs no need to search the list and close dialog popup
+			// var tmp = JSON.stringify(objeFilter);
+			// this.tempDataFragment = JSON.parse(tmp);
+			// this.readMasterListData("", "F");
+			// STRY0017424 - DFCT0012601 (end)
 		},
 
 		// //[+] Start Modification- STRY0015013
