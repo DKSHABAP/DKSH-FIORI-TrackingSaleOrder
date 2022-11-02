@@ -26,11 +26,9 @@ sap.ui.define([
 			};
 			uiStateModel.setData(uiStateData);
 			this.getView().setModel(uiStateModel, "uiState");
-			
+	
 			// End  Modification STRY0017413 - Additional Filter Fields for Invoice Search
 
-<<<<<<< HEAD
-=======
 			// Start Modification STRY0017627 - Additional Filter Material Group
 			var uiMatGrpModel = new JSONModel();
 			var uiMatGrpData = {
@@ -41,7 +39,7 @@ sap.ui.define([
 			// End Modification STRY0017627 - Additional Filter Material Group
 		},
 
->>>>>>> refs/heads/Master
+
 		_onObjectMatched: function (oEvent) {
 			if (oEvent.getParameter("name") === "master") {
 				if (sap.ui.Device.system.phone) {
