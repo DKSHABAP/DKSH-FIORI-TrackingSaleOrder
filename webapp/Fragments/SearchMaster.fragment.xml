@@ -35,7 +35,7 @@
 					<Input value="{/MaterialGrpF}" tooltip="{/MaterialGrpF}" placeholder="{i18n>enter} {i18n&gt;MaterialGrpFrag}" maxLength="13" liveChange="onLiveChangeMaterialGrpFilter" visible="{MatGrpVisible>/visible}" id="idMaterialGrpF" required="true"/>
 					
 					<Label text="{i18n>PONoFrag}" design="Bold"/>
-					<Input value="{/PONo}" tooltip="{/PONo}" placeholder="{i18n>enter} {i18n&gt;PONoFrag}" maxLength="13" liveChange="onLiveChangePONoFilter"/>
+					<Input value="{/PONo}" tooltip="{/PONo}" placeholder="{i18n>enter} {i18n&gt;PONoFrag}" maxLength="35" liveChange="onLiveChangePONoFilter"/>
 					<Label text="{i18n>statusFrag}" design="Bold"/>
 					<!--<MultiComboBox placeholder="{i18n>select} {i18n>statusFrag}" selectedKeys="{/SelStatus}">-->
 					<!--	<core:Item text="{i18n>salesOrderCreatedStatusSales}" key="O"></core:Item>-->
