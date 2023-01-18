@@ -10,9 +10,11 @@ sap.ui.define([
 	"sap/m/MessageToast",
 	"sap/ui/core/Fragment",
 	"../model/formatter",
+	"../model/models",
 	"sap/ui/core/format/DateFormat"
 ], function (BaseController, JSONModel, History, Filter, Sorter, FilterOperator, GroupHeaderListItem, Device, MessageToast, Fragment,
 	formatter,
+	models,
 	DateFormat) {
 	"use strict";
 	return BaseController.extend("dksh.connectclient.tracksaleorder.controller.Master", {
@@ -26,7 +28,7 @@ sap.ui.define([
 			};
 			uiStateModel.setData(uiStateData);
 			this.getView().setModel(uiStateModel, "uiState");
-			
+
 			// End  Modification STRY0017413 - Additional Filter Fields for Invoice Search
 
 			// Start Modification STRY0017627 - Additional Filter Material Group
@@ -37,6 +39,8 @@ sap.ui.define([
 			uiMatGrpModel.setData(uiMatGrpData);
 			this.getView().setModel(uiMatGrpModel, "MatGrpVisible");
 			// End Modification STRY0017627 - Additional Filter Material Group
+
+			this.getView().setModel(models.createFilterModel(), "filter");
 		},
 
 		_onObjectMatched: function (oEvent) {
@@ -58,9 +62,15 @@ sap.ui.define([
 		readMasterListData: function (filterData, ind) {
 			//need to remove code
 			if (filterData === "") {
-				var today = new Date();
-				var startDate = formatter.DateConversion(new Date(today.getFullYear(), today.getMonth(), today.getDate()));
-				var endDate = formatter.DateConversion(new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7));
+				// var today = new Date();
+				var oDSR = formatter.getDefaultDateRangeSelection();
+				var oModel = this.getView().getModel("filter");
+				var oFilter = oModel.getData();
+				oFilter.StartDate = oDSR.dateValue;
+				oFilter.EndDate = oDSR.secondDateValue;
+				oModel.refresh();
+				var startDate = formatter.DateConversion(oDSR.secondDateValue);
+				var endDate = formatter.DateConversion(oDSR.dateValue);
 				filterData = "$filter=CreatedDate le datetime'" + startDate + "' and CreatedDate ge datetime'" + endDate + "'";
 				// filterData = "$filter=CreatedDate le datetime'" + "2021-08-15T00:00:00" + "' and CreatedDate ge datetime'" + "2020-01-08T00:00:00" +
 				// 	"'";
@@ -69,241 +79,230 @@ sap.ui.define([
 			var that = this;
 			this.getView().byId("ID_SERCH_FLD").setValue("");
 			var busyDialog = new sap.m.BusyDialog();
-			// busyDialog.open();
-			//read user with details
-			var oUserDetailModel = new sap.ui.model.json.JSONModel();
-			oUserDetailModel.loadData("/userapi/attributes", null, true);
-			oUserDetailModel.attachRequestCompleted(function (oEvent) {
-				var logUser = oEvent.getSource().getData().userId;
-				//	var logUser = "P000024";
-				// var sUrl = "/IDPService/service/scim/Users/" + logUser;
-				// var oModel = new sap.ui.model.json.JSONModel();
-				// oModel.loadData(sUrl, true, "GET", false, false);
-				// oModel.attachRequestCompleted(function (data) {
+			busyDialog.open();
+			this.getUserAccess().then(
+				function (custAttribute) {
+					if (custAttribute) {
+						if (custAttribute.message) {
+							that.allAccess = false;
 
-				var oModel = new sap.ui.model.json.JSONModel();
-				that.getView().setModel(oModel, "oModel");
-				var busyDialog = new sap.m.BusyDialog();
-				busyDialog.open();
-				oModel.loadData("/DKSHJavaService/userDetails/findAllRightsForUserInDomain/" + logUser + "&cc", null, true);
-				oModel.attachRequestCompleted(function (data) {
+							if (custAttribute.ATR01 !== null) {
+								var salesOrg = custAttribute.ATR01;
+							}
+							if (custAttribute.ATR02 !== null) {
+								var distrChannel = custAttribute.ATR02;
+							}
+							if (custAttribute.ATR03 !== null) {
+								var division = custAttribute.ATR03;
+							}
+							if (custAttribute.ATR04 !== null) {
+								var matGrp = custAttribute.ATR04;
+							}
+							if (custAttribute.ATR05 !== null) {
+								var matGrp4 = custAttribute.ATR05;
+							}
+							if (custAttribute.ATR06 !== null) {
+								var custCode = custAttribute.ATR06;
+							}
+							if (custAttribute.ATR07 !== null) {
+								var material = custAttribute.ATR07;
+							}
+							if (ind || that.allAccess === false) {
+								MessageToast.show(that.i18nModel.getProperty("NoDataAccess"));
 
-					if (oEvent.getParameter("success")) {
-						var custAttribute = data.getSource().getData();
+							}
+							return;
+						} else {
+							if (custAttribute.ATR01 !== null) {
+								var salesOrg = custAttribute.ATR01;
+							}
+							if (custAttribute.ATR02 !== null) {
+								var distrChannel = custAttribute.ATR02;
+							}
+							if (custAttribute.ATR03 !== null) {
+								var division = custAttribute.ATR03;
+							}
+							if (custAttribute.ATR04 !== null) {
+								var matGrp = custAttribute.ATR04;
+							}
+							if (custAttribute.ATR05 !== null) {
+								var matGrp4 = custAttribute.ATR05;
+							}
+							if (custAttribute.ATR06 !== null) {
+								var custCode = custAttribute.ATR06;
+							}
+							if (custAttribute.ATR07 !== null) {
+								var material = custAttribute.ATR07;
+							}
+						}
+						// }
+						// }
+						// var matGrp4 = custAttribute.attributes[5].value;
+						// var matGrp = custAttribute.attributes[4].value;
+						// var salesOrg = custAttribute.attributes[0].value;
+						// var distrChannel = custAttribute.attributes[2].value;
+						// var division = custAttribute.attributes[3].value;
+						// var custCode = custAttribute.attributes[6].value;
 
-						if (custAttribute) {
-							if (custAttribute.message) {
-								that.allAccess = false;
+						//for item level 
+						that.ItemLevelAuthoCheck = [];
+						that.ItemLevelAuthoCheck.push(matGrp);
+						that.ItemLevelAuthoCheck.push(matGrp4);
+						that.ItemLevelAuthoCheck.push(material);
 
-								if (custAttribute.ATR01 !== null) {
-									var salesOrg = custAttribute.ATR01;
-								}
-								if (custAttribute.ATR02 !== null) {
-									var distrChannel = custAttribute.ATR02;
-								}
-								if (custAttribute.ATR03 !== null) {
-									var division = custAttribute.ATR03;
-								}
-								if (custAttribute.ATR04 !== null) {
-									var matGrp = custAttribute.ATR04;
-								}
-								if (custAttribute.ATR05 !== null) {
-									var matGrp4 = custAttribute.ATR05;
-								}
-								if (custAttribute.ATR06 !== null) {
-									var custCode = custAttribute.ATR06;
-								}
-								if (custAttribute.ATR07 !== null) {
-									var material = custAttribute.ATR07;
-								}
-								if (ind || that.allAccess === false) {
-									MessageToast.show(that.i18nModel.getProperty("NoDataAccess"));
+						//for Customer 
+						if (custCode !== undefined && custCode.trim() !== "" && custCode.trim() !== "*") {
+							if (filterData !== "") {
+								filterData = filterData + " and CustCodeAttribute eq '" + custCode + "'";
 
-								}
-								return;
 							} else {
-								if (custAttribute.ATR01 !== null) {
-									var salesOrg = custAttribute.ATR01;
-								}
-								if (custAttribute.ATR02 !== null) {
-									var distrChannel = custAttribute.ATR02;
-								}
-								if (custAttribute.ATR03 !== null) {
-									var division = custAttribute.ATR03;
-								}
-								if (custAttribute.ATR04 !== null) {
-									var matGrp = custAttribute.ATR04;
-								}
-								if (custAttribute.ATR05 !== null) {
-									var matGrp4 = custAttribute.ATR05;
-								}
-								if (custAttribute.ATR06 !== null) {
-									var custCode = custAttribute.ATR06;
-								}
-								if (custAttribute.ATR07 !== null) {
-									var material = custAttribute.ATR07;
-								}
+								filterData = "CustCodeAttribute eq '" + custCode + "'";
 							}
-							// }
-							// }
-							// var matGrp4 = custAttribute.attributes[5].value;
-							// var matGrp = custAttribute.attributes[4].value;
-							// var salesOrg = custAttribute.attributes[0].value;
-							// var distrChannel = custAttribute.attributes[2].value;
-							// var division = custAttribute.attributes[3].value;
-							// var custCode = custAttribute.attributes[6].value;
+						}
 
-							//for item level 
-							that.ItemLevelAuthoCheck = [];
-							that.ItemLevelAuthoCheck.push(matGrp);
-							that.ItemLevelAuthoCheck.push(matGrp4);
-							that.ItemLevelAuthoCheck.push(material);
+						//for Sales Organization
+						if (salesOrg !== undefined && salesOrg.trim() !== "" && salesOrg.trim() !== "*") {
+							if (filterData !== "") {
+								filterData = filterData + " and SalesOrgAttribute eq '" + salesOrg + "'";
 
-							//for Customer 
-							if (custCode !== undefined && custCode.trim() !== "" && custCode.trim() !== "*") {
-								if (filterData !== "") {
-									filterData = filterData + " and CustCodeAttribute eq '" + custCode + "'";
-
-								} else {
-									filterData = "CustCodeAttribute eq '" + custCode + "'";
-								}
+							} else {
+								filterData = "SalesOrgAttribute eq '" + salesOrg + "'";
 							}
+						}
 
-							//for Sales Organization
-							if (salesOrg !== undefined && salesOrg.trim() !== "" && salesOrg.trim() !== "*") {
-								if (filterData !== "") {
-									filterData = filterData + " and SalesOrgAttribute eq '" + salesOrg + "'";
+						//for Distribution Channel
+						if (distrChannel !== undefined && distrChannel.trim() !== "" && distrChannel.trim() !== "*") {
+							if (filterData !== "") {
+								filterData = filterData + " and DistChanlAttribute eq '" + distrChannel + "'";
 
-								} else {
-									filterData = "SalesOrgAttribute eq '" + salesOrg + "'";
-								}
+							} else {
+								filterData = "DistChanlAttribute eq '" + distrChannel + "'";
 							}
+						}
 
-							//for Distribution Channel
-							if (distrChannel !== undefined && distrChannel.trim() !== "" && distrChannel.trim() !== "*") {
-								if (filterData !== "") {
-									filterData = filterData + " and DistChanlAttribute eq '" + distrChannel + "'";
+						//for division
+						if (division !== undefined && division.trim() !== "" && division.trim() !== "*") {
+							if (filterData !== "") {
+								filterData = filterData + " and DivisionAttribution eq '" + division + "'";
 
-								} else {
-									filterData = "DistChanlAttribute eq '" + distrChannel + "'";
-								}
+							} else {
+								filterData = "DivisionAttribution eq '" + division + "'";
 							}
+						}
 
-							//for division
-							if (division !== undefined && division.trim() !== "" && division.trim() !== "*") {
-								if (filterData !== "") {
-									filterData = filterData + " and DivisionAttribution eq '" + division + "'";
+						//for materialGrp
+						if (matGrp !== undefined && matGrp.trim() !== "" && matGrp.trim() !== "*") {
+							if (filterData !== "") {
+								filterData = filterData + " and MaterialGrp eq '" + matGrp + "'";
 
-								} else {
-									filterData = "DivisionAttribution eq '" + division + "'";
-								}
+							} else {
+								filterData = "MaterialGrp eq '" + matGrp + "'";
 							}
+						}
 
-							//for materialGrp
-							if (matGrp !== undefined && matGrp.trim() !== "" && matGrp.trim() !== "*") {
-								if (filterData !== "") {
-									filterData = filterData + " and MaterialGrp eq '" + matGrp + "'";
+						//for material
+						if (material !== undefined && material.trim() !== "" && material.trim() !== "*") {
+							if (filterData !== "") {
+								filterData = filterData + " and MatCodeAttribute eq '" + material + "'";
 
-								} else {
-									filterData = "MaterialGrp eq '" + matGrp + "'";
-								}
+							} else {
+								filterData = "MatCodeAttribute eq '" + material + "'";
 							}
+						}
 
-							//for material
-							if (material !== undefined && material.trim() !== "" && material.trim() !== "*") {
-								if (filterData !== "") {
-									filterData = filterData + " and MatCodeAttribute eq '" + material + "'";
+						//for materialGrp4
+						if (matGrp4 !== undefined && matGrp4.trim() !== "" && matGrp4.trim() !== "*") {
+							if (filterData !== "") {
+								filterData = filterData + " and MaterialGrp4 eq '" + matGrp4 + "'";
 
-								} else {
-									filterData = "MatCodeAttribute eq '" + material + "'";
-								}
+							} else {
+								filterData = "MaterialGrp4 eq '" + matGrp4 + "'";
 							}
-
-							//for materialGrp4
-							if (matGrp4 !== undefined && matGrp4.trim() !== "" && matGrp4.trim() !== "*") {
-								if (filterData !== "") {
-									filterData = filterData + " and MaterialGrp4 eq '" + matGrp4 + "'";
-
-								} else {
-									filterData = "MaterialGrp4 eq '" + matGrp4 + "'";
+						}
+						var url = encodeURI("/MasterDetailsSet");
+						that.oModel.read(url, {
+							async: true,
+							urlParameters: filterData,
+							success: function (oData, oResponse) {
+								busyDialog.close();
+								if (ind === "F") {
+									that.searchMasterFrag.close();
 								}
-							}
-							var url = encodeURI("/MasterDetailsSet");
-							that.oModel.read(url, {
-								async: true,
-								urlParameters: filterData,
-								success: function (oData, oResponse) {
-									busyDialog.close();
-									if (ind === "F") {
-										that.searchMasterFrag.close();
+
+								for (var i = 0; i < oData.results.length; i++) {
+									oData.results[i].Amount = parseFloat((oData.results[i].Amount).trim() ? oData.results[i].Amount : 0).toFixed(2);
+									// var dateFormat = DateFormat.getDateInstance({
+									// 	pattern: "dd.mm.yyyy, hh:mm:ss"
+									// });
+									// oData.results[i].CreatedDateTime = dateFormat.format(new Date(oData.results[i].CreatedTime.ms));
+									var creatDate = oData.results[i].CreatedDate;
+									var creatTime = new Date(oData.results[i].CreatedTime.ms);
+									if (creatDate !== null) {
+										oData.results[i].CreatedDateTime = new Date(creatDate.getFullYear(), creatDate.getMonth(), creatDate.getDate(),
+											creatTime.getUTCHours(),
+											creatTime.getUTCMinutes(), creatTime.getUTCSeconds());
+									} else {
+										oData.results[i].CreatedDateTime = null;
 									}
+									oData.results[i].CreatedDateTime = formatter.dateTimeFormat(oData.results[i].CreatedDateTime);
+								}
+								var masterModel = new sap.ui.model.json.JSONModel({
+									results: oData.results
+								});
+								that.getView().byId("ID_MASTER_LIST").setModel(masterModel, "MasterListSet");
+								var pageTitle = that.i18nModel.getProperty("trackingDetailsMastPageTitle");
+								that.getView().byId("ID_MAST_PAGE").setTitle(pageTitle + " (" + oData.results.length + ")");
+								that.getView().byId("ID_MAST_PAGE").addStyleClass("title sapMIBar-CTX sapMTitle");
+								//for no Record found
+								if (oData.results.length === 0 && !sap.ui.Device.system.phone) {
+									var router = sap.ui.core.UIComponent.getRouterFor(that);
+									router.navTo("notFound", true);
+									return;
+								}
 
-									for (var i = 0; i < oData.results.length; i++) {
-										oData.results[i].Amount = parseFloat((oData.results[i].Amount).trim() ? oData.results[i].Amount : 0).toFixed(2);
-										// var dateFormat = DateFormat.getDateInstance({
-										// 	pattern: "dd.mm.yyyy, hh:mm:ss"
-										// });
-										// oData.results[i].CreatedDateTime = dateFormat.format(new Date(oData.results[i].CreatedTime.ms));
-										var creatDate = oData.results[i].CreatedDate;
-										var creatTime = new Date(oData.results[i].CreatedTime.ms);
-										if (creatDate !== null) {
-											oData.results[i].CreatedDateTime = new Date(creatDate.getFullYear(), creatDate.getMonth(), creatDate.getDate(),
-												creatTime.getUTCHours(),
-												creatTime.getUTCMinutes(), creatTime.getUTCSeconds());
-										} else {
-											oData.results[i].CreatedDateTime = null;
-										}
-										oData.results[i].CreatedDateTime = formatter.dateTimeFormat(oData.results[i].CreatedDateTime);
-									}
-									var masterModel = new sap.ui.model.json.JSONModel({
-										results: oData.results
-									});
-									that.getView().byId("ID_MASTER_LIST").setModel(masterModel, "MasterListSet");
-									var pageTitle = that.i18nModel.getProperty("trackingDetailsMastPageTitle");
-									that.getView().byId("ID_MAST_PAGE").setTitle(pageTitle + " (" + oData.results.length + ")");
-									that.getView().byId("ID_MAST_PAGE").addStyleClass("title sapMIBar-CTX sapMTitle");
-									//for no Record found
-									if (oData.results.length === 0 && !sap.ui.Device.system.phone) {
+								//default first record selected
+								if (!sap.ui.Device.system.phone)
+									that.handleFirstItemSetSelected();
+							},
+							error: function (error) {
+								busyDialog.close();
+								if (ind === "F") {
+									that.searchMasterFrag.close();
+								}
+								var errorMsg = "";
+								if (error.statusCode === 504) {
+									errorMsg = that.i18nModel.getProperty("connectionFailToFetchTheData");
+									that.errorMsg(errorMsg);
+								} else {
+									// errorMsg = JSON.parse(error.responseText);
+									// errorMsg = errorMsg.error.message.value;
+									// that.errorMsg(errorMsg);
+									if (!sap.ui.Device.system.phone) {
 										var router = sap.ui.core.UIComponent.getRouterFor(that);
 										router.navTo("notFound", true);
 										return;
 									}
-
-									//default first record selected
-									if (!sap.ui.Device.system.phone)
-										that.handleFirstItemSetSelected();
-								},
-								error: function (error) {
-									busyDialog.close();
-									var errorMsg = "";
-									if (error.statusCode === 504) {
-										errorMsg = that.i18nModel.getProperty("connectionFailToFetchTheData");
-										that.errorMsg(errorMsg);
-									} else {
-										errorMsg = JSON.parse(error.responseText);
-										errorMsg = errorMsg.error.message.value;
-										that.errorMsg(errorMsg);
-									}
 								}
-							});
+								var masterModel = new sap.ui.model.json.JSONModel({
+									results: []
+								});
+								that.getView().byId("ID_MASTER_LIST").setModel(masterModel, "MasterListSet");
+								var pageTitle = that.i18nModel.getProperty("trackingDetailsMastPageTitle");
+								that.getView().byId("ID_MAST_PAGE").setTitle(pageTitle + " (" + 0 + ")");
+								that.getView().byId("ID_MAST_PAGE").addStyleClass("title sapMIBar-CTX sapMTitle");
+							}
+						});
 
-						} else {
-							busyDialog.close();
-						}
 					} else {
-						MessageToast.show(that.i18nModel.getProperty("NoDataAccess"));
+						busyDialog.close();
 					}
-				});
-				oModel.attachRequestFailed(function (error) {
+				},
+				function (errorMsg) {
 					busyDialog.close();
-					// that.errorMsg(that.i18nModel.getProperty("errorInRetrievingAllUsersDetails"));
-					// that.handleBack();
-				});
-
-			});
-			oUserDetailModel.attachRequestFailed(function (oEvent) {
-				// busyDialog.close();
-				sap.m.MessageBox.error(oEvent.getSource().getData().message);
+					sap.m.MessageBox.error(errorMsg);
+				}
+			).catch(function () {
+				busyDialog.close();
 			});
 		},
 
@@ -360,21 +359,46 @@ sap.ui.define([
 		onSearchMasterList: function (oEvent) {
 			var that = this;
 			if (oEvent.getParameters().refreshButtonPressed) {
-				var objeFilter = {
-					SalesOrder: "",
-					CustomerNo: "",
-					SelStatus: undefined,
-					StartDate: null,
-					EndDate: null
-				};
-
-				if (this.searchMasterFrag) {
-					var frgModel = new sap.ui.model.json.JSONModel(objeFilter);
-					this.searchMasterFrag.setModel(frgModel);
-				}
-				var tmp = JSON.stringify(objeFilter);
-				this.tempDataFragment = JSON.parse(tmp);
-				this.readMasterListData("", "");
+				// var objeFilter = {
+				// 	SalesOrder: "",
+				// 	CustomerNo: "",
+				// 	SelStatus: undefined,
+				// 	StartDate: null,
+				// 	EndDate: null
+				// };
+				var oModel = this.getView().getModel("filter");
+				var oFilter = oModel.getData();
+				var oDSR = formatter.getDefaultDateRangeSelection();
+				var busyDialog = new sap.m.BusyDialog();
+				busyDialog.open();
+				this.getUserAccess().then(
+					function (custAttribute) {
+						if (custAttribute) {
+							oFilter.StartDate = oDSR.dateValue;
+							oFilter.EndDate = oDSR.secondDateValue;
+							oFilter.SalesOrg = custAttribute.ATR01 ? custAttribute.ATR01 : "";
+							oFilter.DistChan = custAttribute.ATR02 ? custAttribute.ATR02 : "";
+							oFilter.Division = custAttribute.ATR03 ? custAttribute.ATR03 : "";
+							oFilter.MaterialGrp = custAttribute.ATR04 ? custAttribute.ATR04 : "";
+						}
+						oModel.refresh();
+						busyDialog.close();
+						this.readMasterListData("", "");
+					}.bind(this),
+					function (errorMsg) {
+						oFilter.StartDate = oDSR.dateValue;
+						oFilter.EndDate = oDSR.secondDateValue;
+						oModel.refresh();
+						busyDialog.close();
+						this.readMasterListData("", "");
+					}.bind(this)
+				);
+				// if (this.searchMasterFrag) {
+				// 	var frgModel = new sap.ui.model.json.JSONModel(objeFilter);
+				// 	this.searchMasterFrag.setModel(frgModel);
+				// }
+				// var tmp = JSON.stringify(objeFilter);
+				// this.tempDataFragment = JSON.parse(tmp);
 			} else {
 				var value = oEvent.getParameters().query;
 				var filters = [];
@@ -435,35 +459,59 @@ sap.ui.define([
 		//filter for View Table
 		handlefilter: function (oEvent) {
 			var that = this;
-			var dataTemp = "";
+			// var dataTemp = "";
 			if (!this.searchMasterFrag) {
 				this.searchMasterFrag = sap.ui.xmlfragment("dksh.connectclient.tracksaleorder.Fragments.SearchMaster", that);
 				this.getView().addDependent(this.searchMasterFrag);
-				var objeFilter = {
-					SalesOrder: "",
-					CustomerNo: "",
-					// [+] Start Modification- STRY0015013
-					DMSNo: "",
-					InvoiceNo: "",
-					// [+] End Modification- STRY0015013
-					// [+] Start Modification- 	STRY0017413
-					SalesOrg: "",
-					DistChan: "",
-					Division: "",
-					// [+] Start Modification- 	STRY0017413
-					SelStatus: undefined,
-					StartDate: null,
-					EndDate: null
-				};
-				dataTemp = objeFilter;
-
+				// var objeFilter = {
+				// 	SalesOrder: "",
+				// 	CustomerNo: "",
+				// 	// [+] Start Modification- STRY0015013
+				// 	DMSNo: "",
+				// 	InvoiceNo: "",
+				// 	// [+] End Modification- STRY0015013
+				// 	// [+] Start Modification- 	STRY0017413
+				// 	SalesOrg: "",
+				// 	DistChan: "",
+				// 	Division: "",
+				// 	// [+] Start Modification- 	STRY0017413
+				// 	SelStatus: undefined,
+				// 	StartDate: null,
+				// 	EndDate: null
+				// };
+				// dataTemp = objeFilter;
+				var oModel = this.getView().getModel("filter");
+				var oFilter = oModel.getData();
+				var oDSR = formatter.getDefaultDateRangeSelection();
+				var busyDialog = new sap.m.BusyDialog();
+				busyDialog.open();
+				this.getUserAccess().then(
+					function (custAttribute) {
+						if (custAttribute) {
+							oFilter.StartDate = oDSR.dateValue;
+							oFilter.EndDate = oDSR.secondDateValue;
+							oFilter.SalesOrg = custAttribute.ATR01 ? custAttribute.ATR01 : "";
+							oFilter.DistChan = custAttribute.ATR02 ? custAttribute.ATR02 : "";
+							oFilter.Division = custAttribute.ATR03 ? custAttribute.ATR03 : "";
+							oFilter.MaterialGrp = custAttribute.ATR04 ? custAttribute.ATR04 : "";
+						}
+						oModel.refresh();
+						busyDialog.close();
+					}.bind(this),
+					function (errorMsg) {
+						oFilter.StartDate = oDSR.dateValue;
+						oFilter.EndDate = oDSR.secondDateValue;
+						oModel.refresh();
+						busyDialog.close();
+					}.bind(this)
+				);
 			} else {
-				dataTemp = this.searchMasterFrag.getModel().getData();
+				// dataTemp = this.searchMasterFrag.getModel().getData();
 			}
-			var frgModel = new sap.ui.model.json.JSONModel(dataTemp);
-			this.searchMasterFrag.setModel(frgModel);
-			var tmp = JSON.stringify(dataTemp);
-			this.tempDataFragment = JSON.parse(tmp);
+			// var frgModel = new sap.ui.model.json.JSONModel(dataTemp);
+			// this.searchMasterFrag.setModel(frgModel);
+			// var tmp = JSON.stringify(dataTemp);
+			// this.tempDataFragment = JSON.parse(tmp);
 
 			if (sap.ui.Device.system.desktop) {
 				this.searchMasterFrag.setContentWidth("50%");
@@ -475,25 +523,49 @@ sap.ui.define([
 
 		//read all master data 
 		handleReadAllSOIntial: function () {
-			var objeFilter = {
-				SalesOrder: "",
-				CustomerNo: "",
-				// [+] Start Modification- STRY0015013
-				DMSNo: "",
-				InvoiceNo: "",
-				// [+] End Modification- STRY0015013
-				// [+] Start Modification- 	STRY0017413
-				SalesOrg: "",
-				DistChan: "",
-				Division: "",
-				// [+] Start Modification- 	STRY0017413
-				SelStatus: undefined,
-				StartDate: null,
-				EndDate: null
-			};
-			var frgModel = new sap.ui.model.json.JSONModel(objeFilter);
-			this.searchMasterFrag.setModel(frgModel);
-			
+			// var objeFilter = {
+			// 	SalesOrder: "",
+			// 	CustomerNo: "",
+			// 	// [+] Start Modification- STRY0015013
+			// 	DMSNo: "",
+			// 	InvoiceNo: "",
+			// 	// [+] End Modification- STRY0015013
+			// 	// [+] Start Modification- 	STRY0017413
+			// 	SalesOrg: "",
+			// 	DistChan: "",
+			// 	Division: "",
+			// 	// [+] Start Modification- 	STRY0017413
+			// 	SelStatus: undefined,
+			// 	StartDate: null,
+			// 	EndDate: null
+			// };
+			// var frgModel = new sap.ui.model.json.JSONModel(objeFilter);
+			// this.searchMasterFrag.setModel(frgModel);
+			var oModel = this.getView().getModel("filter");
+			var oFilter = oModel.getData();
+			var oDSR = formatter.getDefaultDateRangeSelection();
+			var busyDialog = new sap.m.BusyDialog();
+			busyDialog.open();
+			this.getUserAccess().then(
+				function (custAttribute) {
+					if (custAttribute) {
+						oFilter.StartDate = oDSR.dateValue;
+						oFilter.EndDate = oDSR.secondDateValue;
+						oFilter.SalesOrg = custAttribute.ATR01 ? custAttribute.ATR01 : "";
+						oFilter.DistChan = custAttribute.ATR02 ? custAttribute.ATR02 : "";
+						oFilter.Division = custAttribute.ATR03 ? custAttribute.ATR03 : "";
+						oFilter.MaterialGrp = custAttribute.ATR04 ? custAttribute.ATR04 : "";
+					}
+					oModel.refresh();
+					busyDialog.close();
+				}.bind(this),
+				function (errorMsg) {
+					oFilter.StartDate = oDSR.dateValue;
+					oFilter.EndDate = oDSR.secondDateValue;
+					oModel.refresh();
+					busyDialog.close();
+				}.bind(this)
+			);
 			// STRY0017424 - DFCT0012601 (begin)
 			// Commented. When clear inputs no need to search the list and close dialog popup
 			// var tmp = JSON.stringify(objeFilter);
@@ -543,7 +615,7 @@ sap.ui.define([
 			// //  [+] End Modification- STRY0015013
 
 			var filterString = "";
-			var selectObj = this.searchMasterFrag.getModel().getData();
+			var selectObj = this.searchMasterFrag.getModel("filter").getData();
 			if (selectObj.SalesOrder !== "" && selectObj.SalesOrder.trim() !== "") {
 				filterString = "SalesNo eq '" + selectObj.SalesOrder + "'";
 			}
@@ -566,13 +638,15 @@ sap.ui.define([
 				}
 
 				if (selectObj.StartDate === "" || selectObj.StartDate === null) {
-					var today = new Date();
-					var endDate = formatter.DateConversion(new Date(today.getFullYear(), today.getMonth(), today.getDate()));
-					var startDate = formatter.DateConversion(new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7));
+					// var today = new Date();
+					// var endDate = formatter.DateConversion(new Date(today.getFullYear(), today.getMonth(), today.getDate()));
+					// var startDate = formatter.DateConversion(new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7));
+					var oDSR = formatter.getDefaultDateRangeSelection();
 					if (filterString !== "") {
-						filterString = filterString + " and (CreatedDate le datetime'" + endDate + "' and CreatedDate ge datetime'" + startDate + "')";
+						filterString = filterString + " and (CreatedDate le datetime'" + oDSR.secondDateValue + "' and CreatedDate ge datetime'" + oDSR.dateValue +
+							"')";
 					} else {
-						filterString = "(CreatedDate le datetime'" + endDate + "' and CreatedDate ge datetime'" + startDate + "')";
+						filterString = "(CreatedDate le datetime'" + oDSR.secondDateValue + "' and CreatedDate ge datetime'" + oDSR.dateValue + "')";
 					}
 				}
 
@@ -650,16 +724,18 @@ sap.ui.define([
 					sap.m.MessageToast.show(msg);
 					return false;
 				}
-				
+
 				//				push in date for faster filter 
 				if (selectObj.StartDate === "" || selectObj.StartDate === null) {
-					var today = new Date();
-					var endDate = formatter.DateConversion(new Date(today.getFullYear(), today.getMonth(), today.getDate()));
-					var startDate = formatter.DateConversion(new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7));
+					// var today = new Date();
+					// var endDate = formatter.DateConversion(new Date(today.getFullYear(), today.getMonth(), today.getDate()));
+					// var startDate = formatter.DateConversion(new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7));
+					var oDSR = formatter.getDefaultDateRangeSelection();
 					if (filterString !== "") {
-						filterString = filterString + " and (CreatedDate le datetime'" + endDate + "' and CreatedDate ge datetime'" + startDate + "')";
+						filterString = filterString + " and (CreatedDate le datetime'" + oDSR.secondDateValue + "' and CreatedDate ge datetime'" + oDSR.dateValue +
+							"')";
 					} else {
-						filterString = "(CreatedDate le datetime'" + startDate + "' and CreatedDate ge datetime'" + endDate + "')";
+						filterString = "(CreatedDate le datetime'" + oDSR.secondDateValue + "' and CreatedDate ge datetime'" + oDSR.dateValue + "')";
 					}
 				}
 
@@ -709,10 +785,10 @@ sap.ui.define([
 
 		//on cancel filter
 		handleCancelMasterSearch: function () {
-			this.tempDataFragment.StartDate = this.tempDataFragment.StartDate ? new Date(this.tempDataFragment.StartDate) : null;
-			this.tempDataFragment.EndDate = this.tempDataFragment.EndDate ? new Date(this.tempDataFragment.EndDate) : null;
-			var frgModel = new sap.ui.model.json.JSONModel(this.tempDataFragment);
-			this.searchMasterFrag.setModel(frgModel);
+			// this.tempDataFragment.StartDate = this.tempDataFragment.StartDate ? new Date(this.tempDataFragment.StartDate) : null;
+			// this.tempDataFragment.EndDate = this.tempDataFragment.EndDate ? new Date(this.tempDataFragment.EndDate) : null;
+			// var frgModel = new sap.ui.model.json.JSONModel(this.tempDataFragment);
+			// this.searchMasterFrag.setModel(frgModel);
 			this.searchMasterFrag.close();
 		},
 
@@ -749,7 +825,7 @@ sap.ui.define([
 		onLiveChangeInvoiceNoFilter: function (oEvent) {
 			var uiStateModel = this.getView().getModel("uiState");
 			var uiStateData = uiStateModel.getData();
-			uiStateData.visible = true;
+			uiStateData.visible = oEvent.getParameters().value.trim() ? true : false;
 			uiStateModel.setData(uiStateData);
 
 			oEvent.getSource().setValue(oEvent.getParameters().value.trim());
@@ -759,7 +835,7 @@ sap.ui.define([
 		onLiveChangePONoFilter: function (oEvent) {
 			var uiMatGrpModel = this.getView().getModel("MatGrpVisible");
 			var uiMatGrpData = uiMatGrpModel.getData();
-			uiMatGrpData.visible = true;
+			uiMatGrpData.visible = oEvent.getParameters().value.trim() ? true : false;
 			uiMatGrpModel.setData(uiMatGrpData);
 
 			oEvent.getSource().setValue(oEvent.getParameters().value.trim());
@@ -788,6 +864,38 @@ sap.ui.define([
 				var msg = this.i18nModel.getProperty("enterValidDateRange");
 				sap.m.MessageToast.show(msg);
 			}
+		},
+
+		/** 
+		 * Get user access
+		 * @returns Promise asynchronous completion
+		 */
+		getUserAccess: function () {
+			var that = this;
+			//read user with details
+			if (!this.oUserDetails) {
+				this.oUserDetails = new Promise(function (fnResolve, fnReject) {
+					var oUserDetailModel = new sap.ui.model.json.JSONModel();
+					oUserDetailModel.loadData("/userapi/attributes", null, true);
+					oUserDetailModel.attachRequestCompleted(function (oEvent) {
+						var logUser = oEvent.getSource().getData().userId;
+						var oModel = new sap.ui.model.json.JSONModel();
+						that.getView().setModel(oModel, "oModel");
+						oModel.loadData("/DKSHJavaService/userDetails/findAllRightsForUserInDomain/" + logUser + "&cc", null, true);
+						oModel.attachRequestCompleted(function (data) {
+							var custAttribute = data.getSource().getData();
+							fnResolve(custAttribute);
+						});
+						oModel.attachRequestFailed(function (errorMsg) {
+							fnReject(errorMsg);
+						});
+					});
+					oUserDetailModel.attachRequestFailed(function (errorMsg) {
+						fnReject(errorMsg);
+					});
+				});
+			}
+			return this.oUserDetails;
 		}
 
 	});
