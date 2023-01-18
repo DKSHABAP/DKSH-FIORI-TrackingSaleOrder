@@ -280,7 +280,6 @@ sap.ui.define([
 									if (!sap.ui.Device.system.phone) {
 										var router = sap.ui.core.UIComponent.getRouterFor(that);
 										router.navTo("notFound", true);
-										return;
 									}
 								}
 								var masterModel = new sap.ui.model.json.JSONModel({
