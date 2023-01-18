@@ -368,13 +368,18 @@ sap.ui.define([
 				var oModel = this.getView().getModel("filter");
 				var oFilter = oModel.getData();
 				var oDSR = formatter.getDefaultDateRangeSelection();
+				oFilter.StartDate = oDSR.dateValue;
+				oFilter.EndDate = oDSR.secondDateValue;
+				oFilter.SalesOrder = "";
+				oFilter.CustomerNo = "";
+				oFilter.DMSNo = "";
+				oFilter.InvoiceNo = "";
+				oFilter.SelStatus = undefined;
 				var busyDialog = new sap.m.BusyDialog();
 				busyDialog.open();
 				this.getUserAccess().then(
 					function (custAttribute) {
 						if (custAttribute) {
-							oFilter.StartDate = oDSR.dateValue;
-							oFilter.EndDate = oDSR.secondDateValue;
 							oFilter.SalesOrg = custAttribute.ATR01 ? custAttribute.ATR01 : "";
 							oFilter.DistChan = custAttribute.ATR02 ? custAttribute.ATR02 : "";
 							oFilter.Division = custAttribute.ATR03 ? custAttribute.ATR03 : "";
@@ -385,8 +390,6 @@ sap.ui.define([
 						this.readMasterListData("", "");
 					}.bind(this),
 					function (errorMsg) {
-						oFilter.StartDate = oDSR.dateValue;
-						oFilter.EndDate = oDSR.secondDateValue;
 						oModel.refresh();
 						busyDialog.close();
 						this.readMasterListData("", "");
@@ -543,13 +546,18 @@ sap.ui.define([
 			var oModel = this.getView().getModel("filter");
 			var oFilter = oModel.getData();
 			var oDSR = formatter.getDefaultDateRangeSelection();
+			oFilter.StartDate = oDSR.dateValue;
+			oFilter.EndDate = oDSR.secondDateValue;
+			oFilter.SalesOrder = "";
+			oFilter.CustomerNo = "";
+			oFilter.DMSNo = "";
+			oFilter.InvoiceNo = "";
+			oFilter.SelStatus = undefined;
 			var busyDialog = new sap.m.BusyDialog();
 			busyDialog.open();
 			this.getUserAccess().then(
 				function (custAttribute) {
 					if (custAttribute) {
-						oFilter.StartDate = oDSR.dateValue;
-						oFilter.EndDate = oDSR.secondDateValue;
 						oFilter.SalesOrg = custAttribute.ATR01 ? custAttribute.ATR01 : "";
 						oFilter.DistChan = custAttribute.ATR02 ? custAttribute.ATR02 : "";
 						oFilter.Division = custAttribute.ATR03 ? custAttribute.ATR03 : "";
@@ -559,8 +567,6 @@ sap.ui.define([
 					busyDialog.close();
 				}.bind(this),
 				function (errorMsg) {
-					oFilter.StartDate = oDSR.dateValue;
-					oFilter.EndDate = oDSR.secondDateValue;
 					oModel.refresh();
 					busyDialog.close();
 				}.bind(this)
