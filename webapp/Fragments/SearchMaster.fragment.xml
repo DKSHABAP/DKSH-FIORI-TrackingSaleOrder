@@ -14,28 +14,28 @@
 				<f:content>
 					<core:Title/>
 					<Label text="{i18n>salesOrderFrag}" design="Bold"/>
-					<Input tooltip="{/SalesOrder}" value="{/SalesOrder}" placeholder="{i18n>enter} {i18n&gt;salesOrderFrag}" maxLength="10" liveChange="onLiveChangeSalesOrderFilter"/>
+					<Input tooltip="{filter>/SalesOrder}" value="{filter>/SalesOrder}" placeholder="{i18n>enter} {i18n&gt;salesOrderFrag}" maxLength="10" liveChange="onLiveChangeSalesOrderFilter"/>
 					<Label text="{i18n>customerIdFrag}" design="Bold"/>
-					<Input value="{/CustomerNo}" tooltip="{/CustomerNo}" placeholder="{i18n>enter} {i18n&gt;customerIdFrag}" maxLength="10" liveChange="onLiveChangeCustIdFilter"/>
+					<Input value="{filter>/CustomerNo}" tooltip="{filter>/CustomerNo}" placeholder="{i18n>enter} {i18n&gt;customerIdFrag}" maxLength="10" liveChange="onLiveChangeCustIdFilter"/>
 					<!--[+] Start Modification STRY0017413 - Additional Filter Fields for DMS-->
 					<Label text="{i18n>salesOrgFrag}" design="Bold"/>
-					<Input value="{/SalesOrg}" tooltip="{/SalesOrg}" placeholder="{i18n>enter} {i18n&gt;salesOrgFrag} {i18n>invoiceFilter}" maxLength="10" liveChange="onLiveChangeSalesOrgFilter" visible="{uiState>/visible}" id="idSalesOrg" required="true"/>
+					<Input value="{filter>/SalesOrg}" tooltip="{filter>/SalesOrg}" placeholder="{i18n>enter} {i18n&gt;salesOrgFrag} {i18n>invoiceFilter}" maxLength="10" liveChange="onLiveChangeSalesOrgFilter" visible="{uiState>/visible}" id="idSalesOrg" required="true"/>
 					<Label text="{i18n>distChanFrag}" design="Bold"/>
-					<Input value="{/DistChan}" tooltip="{/DistCha}" placeholder="{i18n>enter} {i18n&gt;distChanFrag} {i18n>invoiceFilter}" maxLength="10" liveChange="onLiveChangeDistChanFilter" visible="{uiState>/visible}" id="idDistChan" required="true"/>
+					<Input value="{filter>/DistChan}" tooltip="{filter>/DistChan}" placeholder="{i18n>enter} {i18n&gt;distChanFrag} {i18n>invoiceFilter}" maxLength="10" liveChange="onLiveChangeDistChanFilter" visible="{uiState>/visible}" id="idDistChan" required="true"/>
 					<Label text="{i18n>divIdFrag}" design="Bold"/>
-					<Input value="{/Division}" tooltip="{/Division}" placeholder="{i18n>enter} {i18n&gt;divIdFrag} {i18n>invoiceFilter}" maxLength="10" liveChange="onLiveChangeDivisionFilter" visible="{uiState>/visible}" id="idDivision" required="true"/>
+					<Input value="{filter>/Division}" tooltip="{filter>/Division}" placeholder="{i18n>enter} {i18n&gt;divIdFrag} {i18n>invoiceFilter}" maxLength="10" liveChange="onLiveChangeDivisionFilter" visible="{uiState>/visible}" id="idDivision" required="true"/>
 					<!--[+] End Modification STRY0017413 - Additional Filter Fields for DMS-->
 					<!--[+] Start Modification STRY0015012 - DMS No-->
 					<Label text="{i18n>DMSNoFrag}" design="Bold"/>
-					<Input value="{/DMSNo}" tooltip="{/DMSNo}" placeholder="{i18n>enter} {i18n&gt;DMSNoFrag}" maxLength="35" liveChange="onLiveChangeDMSNoFilter"/>
+					<Input value="{filter>/DMSNo}" tooltip="{filter>/DMSNo}" placeholder="{i18n>enter} {i18n&gt;DMSNoFrag}" maxLength="35" liveChange="onLiveChangeDMSNoFilter"/>
 					<Label text="{i18n>InvoiceNoFrag}" design="Bold"/>
-					<Input value="{/InvoiceNo}" tooltip="{/InvoiceNo}" placeholder="{i18n>enter} {i18n&gt;InvoiceNoFrag}" maxLength="13" liveChange="onLiveChangeInvoiceNoFilter"/>
+					<Input value="{filter>/InvoiceNo}" tooltip="{filter>/InvoiceNo}" placeholder="{i18n>enter} {i18n&gt;InvoiceNoFrag}" maxLength="13" liveChange="onLiveChangeInvoiceNoFilter"/>
 					<!--[+] End Modification STRY0015012 - DMS No-->
 					<Label text="{i18n>MaterialGrpFrag}" design="Bold"/>
-					<Input value="{/MaterialGrpF}" tooltip="{/MaterialGrpF}" placeholder="{i18n>enter} {i18n&gt;MaterialGrpFrag}" maxLength="13" liveChange="onLiveChangeMaterialGrpFilter" visible="{MatGrpVisible>/visible}" id="idMaterialGrpF" required="true"/>
+					<Input value="{filter>/MaterialGrp}" tooltip="{filter>/MaterialGrp}" placeholder="{i18n>enter} {i18n&gt;MaterialGrpFrag}" maxLength="13" liveChange="onLiveChangeMaterialGrpFilter" visible="{MatGrpVisible>/visible}" id="idMaterialGrp" required="true"/>
 					
 					<Label text="{i18n>PONoFrag}" design="Bold"/>
-					<Input value="{/PONo}" tooltip="{/PONo}" placeholder="{i18n>enter} {i18n&gt;PONoFrag}" maxLength="35" liveChange="onLiveChangePONoFilter"/>
+					<Input value="{filter>/PONo}" tooltip="{filter>/PONo}" placeholder="{i18n>enter} {i18n&gt;PONoFrag}" maxLength="13" liveChange="onLiveChangePONoFilter"/>
 					<Label text="{i18n>statusFrag}" design="Bold"/>
 					<!--<MultiComboBox placeholder="{i18n>select} {i18n>statusFrag}" selectedKeys="{/SelStatus}">-->
 					<!--	<core:Item text="{i18n>salesOrderCreatedStatusSales}" key="O"></core:Item>-->
@@ -49,11 +49,11 @@
 					<!--	<core:Item text="{i18n>customerConfirmRejectionStatusSales}" key="R"/>-->
 					<!--	<core:Item text="{i18n>customerConfirmReceipRejectionStatusSales}" key="M"/>-->
 					<!--</MultiComboBox>-->
-					<MultiComboBox items="{path: 'TrackingODataModel>/getStatusSet'}" placeholder="{i18n>select} {i18n&gt;statusFrag}" selectedKeys="{/SelStatus}">
+					<MultiComboBox items="{path: 'TrackingODataModel>/getStatusSet'}" placeholder="{i18n>select} {i18n&gt;statusFrag}" selectedKeys="{filter>/SelStatus}">
 						<core:Item text="{TrackingODataModel>status}" key="{TrackingODataModel>key}"/>
 					</MultiComboBox>
 					<Label text="{i18n>dateRangeFrag}" design="Bold"/>
-					<DateRangeSelection displayFormat="dd.MM.yyyy" dateValue="{/StartDate}" secondDateValue="{/EndDate}" change="onChangeDateRange"/>
+					<DateRangeSelection displayFormat="dd.MM.yyyy" dateValue="{filter>/StartDate}" secondDateValue="{filter>/EndDate}" change="onChangeDateRange"/>
 				</f:content>
 			</f:SimpleForm>
 		</content>

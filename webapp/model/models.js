@@ -6,13 +6,13 @@ sap.ui.define([
 	"use strict";
 
 	return {
-		createDeviceModel : function () {
+		createDeviceModel: function () {
 			var oModel = new JSONModel(Device);
 			oModel.setDefaultBindingMode("OneWay");
 			return oModel;
 		},
 
-		createFLPModel : function () {
+		createFLPModel: function () {
 			var fnGetuser = ObjectPath.get("sap.ushell.Container.getUser"),
 				bIsShareInJamActive = fnGetuser ? fnGetuser().isJamActive() : false,
 				oModel = new JSONModel({
@@ -20,6 +20,26 @@ sap.ui.define([
 				});
 			oModel.setDefaultBindingMode("OneWay");
 			return oModel;
+		},
+
+		/** 
+		 * Create search master fragment model
+		 * @returns Object filter data model
+		 */
+		createFilterModel: function () {
+			var oFilter = {
+				SalesOrder: "",
+				CustomerNo: "",
+				DMSNo: "",
+				InvoiceNo: "",
+				SalesOrg: "",
+				DistChan: "",
+				Division: "",
+				SelStatus: undefined,
+				StartDate: null,
+				EndDate: null
+			};
+			return new JSONModel(oFilter);
 		}
 	};
 });

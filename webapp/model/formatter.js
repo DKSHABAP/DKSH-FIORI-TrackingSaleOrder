@@ -509,6 +509,18 @@ sap.ui.define([], function () {
 			} else {
 				return null;
 			}
+		},
+		
+		/** 
+		 * Get default date range selection date values
+		 * @returns Object DateRangeSelection date values
+		 */
+		getDefaultDateRangeSelection: function(){
+			var oDRS = {};
+			var today = new Date();
+			oDRS.secondDateValue = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+			oDRS.dateValue = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+			return oDRS;
 		}
 	};
 });
