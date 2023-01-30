@@ -19,11 +19,11 @@
 					<Input value="{filter>/CustomerNo}" tooltip="{filter>/CustomerNo}" placeholder="{i18n>enter} {i18n&gt;customerIdFrag}" maxLength="10" liveChange="onLiveChangeCustIdFilter"/>
 					<!--[+] Start Modification STRY0017413 - Additional Filter Fields for DMS-->
 					<Label text="{i18n>salesOrgFrag}" design="Bold"/>
-					<Input value="{filter>/SalesOrg}" tooltip="{filter>/SalesOrg}" placeholder="{i18n>enter} {i18n&gt;salesOrgFrag} {i18n>invoiceFilter}" maxLength="10" liveChange="onLiveChangeSalesOrgFilter" visible="{uiState>/visible}" id="idSalesOrg" required="true"/>
+					<Input value="{filter>/SalesOrg}" tooltip="{filter>/SalesOrg}" placeholder="{i18n>enter} {i18n&gt;salesOrgFrag} {i18n>invoiceFilter}" liveChange="onLiveChangeSalesOrgFilter" visible="{uiState>/visible}" id="idSalesOrg" required="true"/>
 					<Label text="{i18n>distChanFrag}" design="Bold"/>
-					<Input value="{filter>/DistChan}" tooltip="{filter>/DistChan}" placeholder="{i18n>enter} {i18n&gt;distChanFrag} {i18n>invoiceFilter}" maxLength="10" liveChange="onLiveChangeDistChanFilter" visible="{uiState>/visible}" id="idDistChan" required="true"/>
+					<Input value="{filter>/DistChan}" tooltip="{filter>/DistChan}" placeholder="{i18n>enter} {i18n&gt;distChanFrag} {i18n>invoiceFilter}" liveChange="onLiveChangeDistChanFilter" visible="{uiState>/visible}" id="idDistChan" required="true"/>
 					<Label text="{i18n>divIdFrag}" design="Bold"/>
-					<Input value="{filter>/Division}" tooltip="{filter>/Division}" placeholder="{i18n>enter} {i18n&gt;divIdFrag} {i18n>invoiceFilter}" maxLength="10" liveChange="onLiveChangeDivisionFilter" visible="{uiState>/visible}" id="idDivision" required="true"/>
+					<Input value="{filter>/Division}" tooltip="{filter>/Division}" placeholder="{i18n>enter} {i18n&gt;divIdFrag} {i18n>invoiceFilter}" liveChange="onLiveChangeDivisionFilter" visible="{uiState>/visible}" id="idDivision" required="true"/>
 					<!--[+] End Modification STRY0017413 - Additional Filter Fields for DMS-->
 					<!--[+] Start Modification STRY0015012 - DMS No-->
 					<Label text="{i18n>DMSNoFrag}" design="Bold"/>
@@ -32,7 +32,7 @@
 					<Input value="{filter>/InvoiceNo}" tooltip="{filter>/InvoiceNo}" placeholder="{i18n>enter} {i18n&gt;InvoiceNoFrag}" maxLength="13" liveChange="onLiveChangeInvoiceNoFilter"/>
 					<!--[+] End Modification STRY0015012 - DMS No-->
 					<Label text="{i18n>MaterialGrpFrag}" design="Bold"/>
-					<Input value="{filter>/MaterialGrp}" tooltip="{filter>/MaterialGrp}" placeholder="{i18n>enter} {i18n&gt;MaterialGrpFrag}" maxLength="13" liveChange="onLiveChangeMaterialGrpFilter" visible="{MatGrpVisible>/visible}" id="idMaterialGrp" required="true"/>
+					<Input value="{filter>/MaterialGrp}" tooltip="{filter>/MaterialGrp}" placeholder="{i18n>enter} {i18n&gt;MaterialGrpFrag}" liveChange="onLiveChangeMaterialGrpFilter" visible="{MatGrpVisible>/visible}" id="idMaterialGrp" required="true"/>
 					
 					<Label text="{i18n>PONoFrag}" design="Bold"/>
 					<Input value="{filter>/PONo}" tooltip="{filter>/PONo}" placeholder="{i18n>enter} {i18n&gt;PONoFrag}" maxLength="13" liveChange="onLiveChangePONoFilter"/>
