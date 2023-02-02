@@ -718,11 +718,11 @@ sap.ui.define([
 					filterString = "PONo eq '" + selectObj.PONo + "'";
 				}
 				// Material Group
-				if (selectObj.MaterialGrpF !== "" && selectObj.MaterialGrpF !== undefined) {
+				if (selectObj.MaterialGrp !== "" && selectObj.MaterialGrp !== undefined) {
 					if (filterString !== "") {
-						filterString = filterString + " and MaterialGrpF eq '" + selectObj.MaterialGrpF + "'";
+						filterString = filterString + " and MaterialGrp eq '" + selectObj.MaterialGrp + "'";
 					} else {
-						filterString = "MaterialGrpF eq '" + selectObj.MaterialGrpF + "'";
+						filterString = "MaterialGrp eq '" + selectObj.MaterialGrp + "'";
 					}
 				} else {
 					var msg = this.i18nModel.getProperty("enterPOSearch");
