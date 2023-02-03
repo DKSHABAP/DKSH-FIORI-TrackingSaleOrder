@@ -35,6 +35,7 @@ sap.ui.define([
 				SalesOrg: "",
 				DistChan: "",
 				Division: "",
+				PONo: "",
 				SelStatus: undefined,
 				StartDate: null,
 				EndDate: null
