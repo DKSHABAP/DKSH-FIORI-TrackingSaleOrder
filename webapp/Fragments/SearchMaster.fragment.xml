@@ -32,7 +32,7 @@
 					<Input value="{filter>/InvoiceNo}" tooltip="{filter>/InvoiceNo}" placeholder="{i18n>enter} {i18n&gt;InvoiceNoFrag}" maxLength="13" liveChange="onLiveChangeInvoiceNoFilter"/>
 					<!--[+] End Modification STRY0015012 - DMS No-->
 					<Label text="{i18n>MaterialGrpFrag}" design="Bold"/>
-					<Input value="{filter>/MaterialGrp}" tooltip="{filter>/MaterialGrp}" placeholder="{i18n>enter} {i18n&gt;MaterialGrpFrag}" liveChange="onLiveChangeMaterialGrpFilter" visible="{MatGrpVisible>/visible}" id="idMaterialGrp" required="true"/>
+					<Input value="{filter>/MaterialGrpF}" tooltip="{filter>/MaterialGrpF}" placeholder="{i18n>enter} {i18n&gt;MaterialGrpFrag}" liveChange="onLiveChangeMaterialGrpFilter" visible="{MatGrpVisible>/visible}" id="idMaterialGrp" required="true"/>
 					
 					<Label text="{i18n>PONoFrag}" design="Bold"/>
 					<Input value="{filter>/PONo}" tooltip="{filter>/PONo}" placeholder="{i18n>enter} {i18n&gt;PONoFrag}" maxLength="13" liveChange="onLiveChangePONoFilter"/>

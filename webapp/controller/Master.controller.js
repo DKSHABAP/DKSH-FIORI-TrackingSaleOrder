@@ -375,6 +375,7 @@ sap.ui.define([
 				oFilter.CustomerNo = "";
 				oFilter.DMSNo = "";
 				oFilter.InvoiceNo = "";
+				oFilter.PONo = "";
 				oFilter.SelStatus = undefined;
 				var busyDialog = new sap.m.BusyDialog();
 				busyDialog.open();
@@ -384,7 +385,7 @@ sap.ui.define([
 							oFilter.SalesOrg = custAttribute.ATR01 ? custAttribute.ATR01 : "";
 							oFilter.DistChan = custAttribute.ATR02 ? custAttribute.ATR02 : "";
 							oFilter.Division = custAttribute.ATR03 ? custAttribute.ATR03 : "";
-							oFilter.MaterialGrp = custAttribute.ATR04 ? custAttribute.ATR04 : "";
+							oFilter.MaterialGrpF = custAttribute.ATR04 ? custAttribute.ATR04 : "";
 						}
 						oModel.refresh();
 						busyDialog.close();
@@ -496,7 +497,7 @@ sap.ui.define([
 							oFilter.SalesOrg = custAttribute.ATR01 ? custAttribute.ATR01 : "";
 							oFilter.DistChan = custAttribute.ATR02 ? custAttribute.ATR02 : "";
 							oFilter.Division = custAttribute.ATR03 ? custAttribute.ATR03 : "";
-							oFilter.MaterialGrp = custAttribute.ATR04 ? custAttribute.ATR04 : "";
+							oFilter.MaterialGrpF = custAttribute.ATR04 ? custAttribute.ATR04 : "";
 						}
 						oModel.refresh();
 						busyDialog.close();
@@ -553,6 +554,7 @@ sap.ui.define([
 			oFilter.CustomerNo = "";
 			oFilter.DMSNo = "";
 			oFilter.InvoiceNo = "";
+			oFilter.PONo = "";
 			oFilter.SelStatus = undefined;
 			var busyDialog = new sap.m.BusyDialog();
 			busyDialog.open();
@@ -562,7 +564,7 @@ sap.ui.define([
 						oFilter.SalesOrg = custAttribute.ATR01 ? custAttribute.ATR01 : "";
 						oFilter.DistChan = custAttribute.ATR02 ? custAttribute.ATR02 : "";
 						oFilter.Division = custAttribute.ATR03 ? custAttribute.ATR03 : "";
-						oFilter.MaterialGrp = custAttribute.ATR04 ? custAttribute.ATR04 : "";
+						oFilter.MaterialGrpF = custAttribute.ATR04 ? custAttribute.ATR04 : "";
 					}
 					oModel.refresh();
 					busyDialog.close();
@@ -572,6 +574,15 @@ sap.ui.define([
 					busyDialog.close();
 				}.bind(this)
 			);
+			var uiStateModel = this.getView().getModel("uiState");
+			var uiStateData = uiStateModel.getData();
+			uiStateData.visible = false;
+			uiStateModel.refresh();
+			
+			var uiMatGrpModel = this.getView().getModel("MatGrpVisible");
+			var uiMatGrpData = uiMatGrpModel.getData();
+			uiMatGrpData.visible = false;
+			uiMatGrpModel.refresh();
 			// STRY0017424 - DFCT0012601 (begin)
 			// Commented. When clear inputs no need to search the list and close dialog popup
 			// var tmp = JSON.stringify(objeFilter);
@@ -718,11 +729,11 @@ sap.ui.define([
 					filterString = "PONo eq '" + selectObj.PONo + "'";
 				}
 				// Material Group
-				if (selectObj.MaterialGrp !== "" && selectObj.MaterialGrp !== undefined) {
+				if (selectObj.MaterialGrpF !== "" && selectObj.MaterialGrpF !== undefined) {
 					if (filterString !== "") {
-						filterString = filterString + " and MaterialGrp eq '" + selectObj.MaterialGrp + "'";
+						filterString = filterString + " and MaterialGrpF eq '" + selectObj.MaterialGrpF + "'";
 					} else {
-						filterString = "MaterialGrp eq '" + selectObj.MaterialGrp + "'";
+						filterString = "MaterialGrpF eq '" + selectObj.MaterialGrpF + "'";
 					}
 				} else {
 					var msg = this.i18nModel.getProperty("enterPOSearch");
