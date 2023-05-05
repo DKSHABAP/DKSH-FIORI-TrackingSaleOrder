@@ -489,15 +489,17 @@ sap.ui.define([], function () {
 				return false;
 			}
 		},
-
-		blurNValue: function (e) {
-			if (e !== "B") {
-				return true;
-			} else {
+	
+	// add by bayu - STRY0015849
+		hideBlur: function (e) {
+			if (e === "B") {
 				return false;
+			} else {
+				return true;
 			}
 		},
-
+	// end add by bayu - STRY0015849
+	
 		//date convert sent ECC
 		DateConversion: function (oDate) {
 			if (oDate) {

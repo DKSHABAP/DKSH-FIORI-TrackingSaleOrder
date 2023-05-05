@@ -20,10 +20,16 @@
 									<Label text="{MasterListSet>SalesNo} " design="Bold"/>
 								<!-- [+]  Deleted - modification block STRY0012251: Blur Out Summary <Text text="({MasterListSet>Currency} {parts:[{path:'MasterListSet>Amount'},{path:''}],formatter:'.formatter.addCommas'}) "  class="sapUiTinyMarginBegin"/>-->
 								<!--[+]  Start - modification block STRY0012251: Blur Out Summary--> 
+								<!-- [+] Delete Modification block STRY0015849
+									<Text text="({MasterListSet>Currency} {parts:[{path:'MasterListSet>Amount'},{path:''}],formatter:'.formatter.addCommas'}) " 
+									class="sapUiTinyMarginBegin" visible="{path:'MasterListSet>Blur',formatter:'.formatter.blurNValue'}"/>
+									<Label xmlns="sap.m" text="1234.56(789)" design="Bold" class="blurText" visible="{path:'MasterListSet>Blur',formatter:'.formatter.blurValue'}"/> 
+								--> <!--[+]  End - modification block STRY0012251: Blur Out Summary--> 
+								<!--[+] End = Modification Block STRY0015849 -->
+								<!-- Modified by bayu - STRY0015849 -->
 								<Text text="({MasterListSet>Currency} {parts:[{path:'MasterListSet>Amount'},{path:''}],formatter:'.formatter.addCommas'}) " 
-								class="sapUiTinyMarginBegin" visible="{path:'MasterListSet>Blur',formatter:'.formatter.blurNValue'}"/>
-								<Label xmlns="sap.m" text="1234.56(789)" design="Bold" class="blurText" visible="{path:'MasterListSet>Blur',formatter:'.formatter.blurValue'}"/> 
-								<!--[+]  End - modification block STRY0012251: Blur Out Summary--> 
+								class="sapUiTinyMarginBegin" visible="{path:'MasterListSet>Blur',formatter:'.formatter.hideBlur'}"/>
+								<!-- End Modified by bayu - STRY0015849 -->
 								</HBox>
 								<Text text="{i18n>poNumberMasterList} {MasterListSet&gt;PONo}"/>
 								<Text text="{MasterListSet>CustId} - {MasterListSet>CustName}" tooltip="{MasterListSet>CustId} - {MasterListSet>CustName}"/>

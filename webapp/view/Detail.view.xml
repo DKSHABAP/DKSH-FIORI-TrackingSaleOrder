@@ -102,18 +102,25 @@
 					<!--for order list item-->
 					<IconTabFilter key="OrderListKey" text="{i18n>orderItemsIconTab}" tooltip="{i18n>orderItemsIconTab}">
 						<OverflowToolbar>
+							<!-- [+] delete by bayu saputra - STRY0015849
 							<Label
 								text="{i18n>subTotalOrdList} {parts:[{path:'hdrOrdListSet>/SubTotal'},{path:'hdrOrdListSet>/Currency'}],formatter:'.formatter.addCommas'}"
-								design="Bold"></Label>
+								design="Bold"   ></Label> 
+							--> <!-- end of delete by bayu saputra - STRY0015849 -->
+							<!-- add by bayu saputra -  STRY0015849 -->
+							<Label text="{i18n>subTotalOrdList} {parts:[{path:'hdrOrdListSet>/SubTotal'},{path:'hdrOrdListSet>/Currency'}],formatter:'.formatter.addCommas'}"
+								design="Bold" visible="{path:'hdrOrdListSet>/Blur', formatter:'.formatter.hideBlur'}" />
+							<!-- end add by bayu saputra - STRY0015849 -->	
 							<ToolbarSpacer></ToolbarSpacer>
 							<ObjectStatus text="{i18n>totalItemsOrdList} {hdrOrdListSet>/TotalItms}" state="Success"></ObjectStatus>
 						</OverflowToolbar>
 						<VBox class="sapUiSizeCompact" items="{OrderListSet>/results}" id="ID_VBOX_ORD_LIST">
 							<Panel expandable="true" class="sapUiSizeCompact" expanded="{OrderListSet>Expanded}" expand="onExpand">
+							<!-- [+] modified by bayu saputra - STRY0015849	
 								<customData>
-									<!--<core:CustomData key="blurItemLevel" value="{OrderListSet>Blur}" writeToDom="true"></core:CustomData>-->
 									<core:CustomData key="blurItemLevel" value="{OrderListSet>Blur}" writeToDom="true"></core:CustomData>
 								</customData>
+							--> <!-- [+] end of add by bayu saputra -STRY0015849 --> 	
 								<headerToolbar>
 									<Toolbar>
 										<Label text="{path:'OrderListSet>ItemDesc',formatter:'.formatter.sameValueReturn'}" wrapping="true"></Label>
@@ -123,8 +130,15 @@
 									labelSpanS="4" emptySpanL="1" emptySpanM="1" emptySpanS="1" columnsL="2" columnsM="2">
 									<f:content>
 										<core:Title/>
-										<Label text="{OrderListSet>Currency}" design="Bold"/>
+										<!-- [+] delete by bayu saputra - STRY0015849
+										<Label text="{OrderListSet>Currency}" design="Bold" />
 										<Text text="{parts:[{path:'OrderListSet>UnitPrice'},{path:''}],formatter:'.formatter.addCommas'}"/>
+										--> <!-- end delete by bayu saputra - STRY0015849 -->
+										<!-- add by bayu saputra - STRY0015849 -->
+										<Label text="{OrderListSet>Currency}" design="Bold" visible="{path:'OrderListSet>Blur', formatter:'.formatter.hideBlur'}"  />
+										<Text text="{parts:[{path:'OrderListSet>UnitPrice'},{path:''}],formatter:'.formatter.addCommas'}" 
+											 visible="{path:'OrderListSet>Blur', formatter:'.formatter.hideBlur'}"	/>
+										<!-- end add by bayu saputra - STRY0015849 -->
 										<Label text="{i18n>SKUOrdList}" design="Bold"/>
 										<Text text="{OrderListSet>Material}"/>
 										<Label text="{i18n>UOMOrdList}" tooltip="{i18n>uomTooltip}" design="Bold"/>
@@ -134,18 +148,42 @@
 										<Label text="{i18n>reason}" design="Bold"/>
 										<Text text="{parts:[{path:'OrderListSet>RejDesc'},{path:'OrderListSet>RejCode'}],formatter:'.formatter.f4ValueBind'}"></Text>
 										<core:Title/>
+										<!-- [+] delete by bayu saputra - STRY001584
 										<Label text="{i18n>grossOrdList}" design="Bold"/>
 										<Text text="{parts:[{path:'OrderListSet>SOGross'},{path:''}],formatter:'.formatter.addCommas'}"/>
 										<Label text="{i18n>discountOrdList}" design="Bold"/>
 										<Text text="{parts:[{path:'OrderListSet>Discount'},{path:''}],formatter:'.formatter.addCommas'}"/>
 										<Label text="{i18n>taxOrdList}" design="Bold"/>
 										<Text text="{parts:[{path:'OrderListSet>TaxAmount'},{path:''}],formatter:'.formatter.addCommas'}"/>
+										--><!-- end delete by bayu saputra - STRY001584 -->
+										
+										<!-- add by bayu saputra - STRY001584 -->
+										<Label text="{i18n>grossOrdList}" design="Bold" visible="{path:'OrderListSet>Blur', formatter:'.formatter.hideBlur'}" />
+										<Text text="{parts:[{path:'OrderListSet>SOGross'},{path:''}],formatter:'.formatter.addCommas'}" 
+											visible="{path:'OrderListSet>Blur', formatter:'.formatter.hideBlur'}" />
+										<Label text="{i18n>discountOrdList}" design="Bold"  visible="{path:'OrderListSet>Blur', formatter:'.formatter.hideBlur'}" />
+										<Text text="{parts:[{path:'OrderListSet>Discount'},{path:''}],formatter:'.formatter.addCommas'}" 
+											 visible="{path:'OrderListSet>Blur', formatter:'.formatter.hideBlur'}" />
+										<Label text="{i18n>taxOrdList}" design="Bold" visible="{path:'OrderListSet>Blur', formatter:'.formatter.hideBlur'}" />
+										<Text text="{parts:[{path:'OrderListSet>TaxAmount'},{path:''}],formatter:'.formatter.addCommas'}" 
+											visible="{path:'OrderListSet>Blur', formatter:'.formatter.hideBlur'}" />
+										<!-- end add by bayu saputra - STRY001584 -->
+										
 										<Label text="{i18n>quantity}" design="Bold"/>
 										<Text text="{parts:[{path:'OrderListSet>OrderQty'},{path:''}],formatter:'.formatter.addCommas'}"
 											tooltip="{parts:[{path:'OrderListSet>OrderQty'},{path:''}],formatter:'.formatter.addCommas'}"/>
+										
+										<!-- [+] delete by bayu saputra -STRY001584 	
 										<Label text="{i18n>amtAfterDeduction}" design="Bold"/>
 										<Text text="{parts:[{path:'OrderListSet>SONv2'},{path:''}],formatter:'.formatter.addCommas'}"
 											tooltip="{parts:[{path:'OrderListSet>SONv2'},{path:''}],formatter:'.formatter.addCommas'}"/>
+										--><!-- end delete by bayu saputra - STRY001584 -->
+										<!-- add by bayu saputra - STRY001584 -->
+										<Label text="{i18n>amtAfterDeduction}" design="Bold" visible="{path:'OrderListSet>Blur', formatter:'.formatter.hideBlur'}" />
+										<Text text="{parts:[{path:'OrderListSet>SONv2'},{path:''}],formatter:'.formatter.addCommas'}"
+											tooltip="{parts:[{path:'OrderListSet>SONv2'},{path:''}],formatter:'.formatter.addCommas'}" 
+											visible="{path:'OrderListSet>Blur', formatter:'.formatter.hideBlur'}" />
+										<!-- end add by bayu saputra - STRY001584 -->
 									</f:content>
 								</f:SimpleForm>
 							</Panel>
@@ -163,9 +201,9 @@
 								<Text text="{parts:[{path:'/PayTermDesc'},{path:'/PayTerm'}],formatter:'.formatter.f4ValueBind'}"/>
 								<Label text="{i18n>TxnNoSumm}" tooltip="{i18n>txnNoTooltip}" design="Bold"/>
 								<Text text="{/SalesNo}"/>
-								<Label text="{i18n>totalOrderQtySumm}" tooltip="{i18n>totalOrderQtyTooltip}" design="Bold"/>
+							<!-- [+] Delete by bayu saputra - STRY0015849 -->
 								<!-- [+] Start - modification block STRY0012251: Blur Out Summary-->
-								<HBox>
+							<!--	<HBox>
 									<Text text="{parts:[{path:'/OrderQty'},{path:'/CurrencyRmv'}],formatter:'.formatter.addCommas'}"
 										visible="{path:'/Blur',formatter:'.formatter.blurNValue'}"/>
 									<Label text="1234.56(789)" design="Bold" class="blurText" visible="{path:'/Blur',formatter:'.formatter.blurValue'}"/>
@@ -205,8 +243,57 @@
 									<Text text="{parts:[{path:'/OrderTotal'},{path:'/Currency'}],formatter:'.formatter.addCommas'}"
 										visible="{path:'/Blur',formatter:'.formatter.blurNValue'}"/>
 									<Label text="1234.56(789)" design="Bold" class="blurText" visible="{path:'/Blur',formatter:'.formatter.blurValue'}"/>
-								</HBox>
+								</HBox> 
+							-->	
 								<!--[+] End - modification block STRY0012251: Blur Out Summary-->
+							<!-- [+] end delete by bayu saputra - STRY0015849 -->
+							
+							<!-- [+] start modification hide field by bayu saputra - STRY0015849 -->
+								<Label text="{i18n>totalOrderQtySumm}" tooltip="{i18n>totalOrderQtyTooltip}" design="Bold"
+									visible="{path:'/Blur',formatter:'.formatter.hideBlur'}" />
+								<HBox>
+									<Text text="{parts:[{path:'/OrderQty'},{path:'/CurrencyRmv'}],formatter:'.formatter.addCommas'}"
+										visible="{path:'/Blur',formatter:'.formatter.hideBlur'}"/>
+								</HBox>
+								<Label text="{i18n>totalFOCQty}" tooltip="{i18n>totalFOCQtyTooltip}" design="Bold"
+									visible="{path:'/Blur',formatter:'.formatter.hideBlur'}" />
+								<HBox>
+									<Text text="{parts:[{path:'/TotalFOCQty'},{path:'/CurrencyRmv'}],formatter:'.formatter.addCommas'}"
+										visible="{path:'/Blur',formatter:'.formatter.hideBlur'}"/>
+								</HBox>
+								<Label text="{i18n>totalAmountSumm}" design="Bold"
+									visible="{path:'/Blur',formatter:'.formatter.hideBlur'}" />
+								<HBox>
+									<Text text="{parts:[{path:'/SOGross'},{path:'/Currency'}],formatter:'.formatter.addCommas'}"
+										visible="{path:'/Blur',formatter:'.formatter.hideBlur'}"/>
+								</HBox>
+								<Label text="{i18n>totalDiscountDiDoSumm}" design="Bold"
+									visible="{path:'/Blur',formatter:'.formatter.hideBlur'}" />
+								<HBox>
+									<Text text="{parts:[{path:'/TotDiscount'},{path:'/Currency'}],formatter:'.formatter.addCommas'}"
+										visible="{path:'/Blur',formatter:'.formatter.hideBlur'}"/>
+								</HBox>
+								<Label text="{i18n>netAmountSumm}" design="Bold"
+									visible="{path:'/Blur',formatter:'.formatter.hideBlur'}" />
+								<HBox>
+									<Text text="{parts:[{path:'/NetAmt'},{path:'/Currency'}],formatter:'.formatter.addCommas'}"
+										visible="{path:'/Blur',formatter:'.formatter.hideBlur'}"/>
+								</HBox>
+								<Label text="{i18n>taxAmountSumm}" design="Bold"
+									visible="{path:'/Blur',formatter:'.formatter.hideBlur'}" />
+								<HBox>
+									<Text text="{parts:[{path:'/TaxAmount'},{path:'/Currency'}],formatter:'.formatter.addCommas'}"
+										visible="{path:'/Blur',formatter:'.formatter.hideBlur'}"/>
+								</HBox>
+								<Label text="{i18n>orderTotalSumm}" design="Bold"
+									visible="{path:'/Blur',formatter:'.formatter.hideBlur'}" />
+								<HBox>
+									<Text text="{parts:[{path:'/OrderTotal'},{path:'/Currency'}],formatter:'.formatter.addCommas'}"
+										visible="{path:'/Blur',formatter:'.formatter.hideBlur'}"/>
+								</HBox>
+							<!-- [+] end modification hide field by bayu saputra - STRY0015849 -->
+								
+								
 								<!--[+] Start - modification block STRY0015012: DMS No-->
 								<Label text="{i18n>DMSNo}" tooltip="{i18n>dmsNotooltip}" design="Bold"></Label>
 								<Text text="{/DMSNo}"/>

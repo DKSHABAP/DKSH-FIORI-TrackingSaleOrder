@@ -54,6 +54,9 @@ sap.ui.define([
 			}
 			// selectedObj["MatCodeAttribute"] = this.ItemLevelAuthoCheck[2];
 			url = url + "&$expand=NAV_MASTTOHEADER,NAV_MASTTOITEM";
+			// add by bayu saputra - STRY0015849
+			this._masterModel = masterModel;
+			// end add of bayu saputra - STRY0015849
 			var that = this;
 			var busyDialog = new sap.m.BusyDialog();
 			busyDialog.open();
@@ -360,7 +363,10 @@ sap.ui.define([
 					var hdrOrdList = new sap.ui.model.json.JSONModel({
 						"SubTotal": SONv2.toFixed(2),
 						"Currency": Currency,
-						"TotalItms": lengthOfTotalItems
+						"TotalItms": lengthOfTotalItems,
+					// add by bayu saputra - STRY0015849	
+						"Blur": that._masterModel.Blur
+					// end of add by bayu saputra - STRY0015849
 					});
 					that.getView().setModel(hdrOrdList, "hdrOrdListSet");
 
